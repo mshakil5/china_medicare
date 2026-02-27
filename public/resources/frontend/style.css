@@ -1,0 +1,526 @@
+/* --- Global Variables --- */
+:root {
+    --primary-teal: #D8202A;
+    --dark-navy: #0f172a;
+    --accent-yellow: #d9f99d;
+    --teal: #D8202A;
+    --blue: #3b82f6;
+    --orange: #f59e0b;
+    --purple: #a855f7;
+    --red: #ef4444;
+}
+
+body { font-family: 'Inter', sans-serif; }
+
+.text-teal { color: var(--primary-teal); }
+.bg-light-teal { background: rgba(20, 184, 166, 0.1); }
+.bg-light-yellow { background: rgba(255, 193, 7, 0.1); }
+
+/* --- Navbar Adjustments --- */
+.btn-teal-solid {
+    background: var(--primary-teal);
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
+.btn-teal-solid:hover { background: #24B24B; color: white; }
+
+/* --- Hero Section Responsive --- */
+.hero-section {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    padding: 60px 0;
+}
+
+.text-accent { color: var(--accent-yellow); }
+.text-light-gray { color: #94a3b8; }
+
+.bg-dark-teal {
+    background: rgba(20, 184, 166, 0.15);
+    border: 1px solid rgba(20, 184, 166, 0.3);
+}
+
+.hero-title { font-size: calc(1.8rem + 1.5vw); }
+
+/* Hero Image & Floating Cards */
+.hero-img-wrapper { max-width: 500px; }
+
+.main-hero-img {
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.floating-info-card {
+    position: absolute;
+    background: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    color: #333;
+    z-index: 2;
+    min-width: 200px;
+}
+
+.icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jci-position { top: 15%; left: -40px; }
+.support-position { bottom: 15%; right: -30px; }
+
+.x-small { font-size: 0.75rem; }
+
+/* --- Mobile Specific Fixes --- */
+@media (max-width: 768px) {
+    .hero-section { text-align: center; }
+    .jci-position, .support-position {
+        position: relative;
+        left: 0;
+        right: 0;
+        margin: 15px auto;
+        max-width: 250px;
+    }
+    .main-hero-img { height: 300px; }
+    .stats-row { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+}
+
+/* --- Hospital Card Section --- */
+.hospital-card {
+    transition: 0.3s;
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+.hospital-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+}
+.hospital-card img { height: 180px; object-fit: cover; }
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- Medical Package Section --- */
+
+.max-w-600 {
+    max-width: 600px;
+}
+
+.package-card {
+    border-radius: 20px !important;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.package-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+.package-card .card-img-top {
+    height: 220px;
+    object-fit: cover;
+}
+
+/* Badges and Category Pills */
+.bg-teal-soft {
+    background-color: rgba(20, 184, 166, 0.9);
+    backdrop-filter: blur(4px);
+    color: white !important;
+    font-weight: 500;
+}
+
+.bg-warning-soft {
+    background-color: rgba(255, 193, 7, 0.9);
+    backdrop-filter: blur(4px);
+    color: #333 !important;
+    font-weight: 500;
+}
+
+.category-pill {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4b5563;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Feature List Styling */
+.package-features li {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.package-features li i {
+    font-size: 1.1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .package-card .card-img-top {
+        height: 200px;
+    }
+    .display-6 {
+        font-size: 1.8rem;
+    }
+}
+
+/* --- End Medical Package Section --- */
+
+
+
+
+
+
+
+
+
+.text-teal { color: var(--teal); }
+.bg-teal { background-color: var(--teal); }
+.x-small { font-size: 0.85rem; }
+
+/* --- Service Section Styles --- */
+.service-card-new {
+    border-radius: 20px !important;
+    transition: transform 0.3s;
+}
+
+.service-card-new:hover {
+    transform: scale(1.02);
+}
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+/* Specific Icon Colors from Image */
+.bg-teal-light { background: rgba(20, 184, 166, 0.1); }
+.bg-blue-light { background: rgba(59, 130, 246, 0.1); }
+.bg-orange-light { background: rgba(245, 158, 11, 0.1); }
+.text-blue { color: var(--blue); }
+.text-orange { color: var(--orange); }
+
+.service-bullets li {
+    position: relative;
+    padding-left: 15px;
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 4px;
+}
+
+.service-bullets li::before {
+    content: "•";
+    color: var(--teal);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .service-card-new { text-align: center; }
+    .icon-circle { margin: 0 auto 1.5rem; }
+    .service-bullets { display: inline-block; text-align: left; }
+}
+
+
+
+
+
+
+
+
+/* --- Why Choose Us Custom Styling --- */
+
+.why-choose-section {
+    background-color: #0f172a; /* Matches your Hero section Navy */
+    position: relative;
+}
+
+.why-card {
+    background: rgba(30, 41, 59, 0.5); /* Semi-transparent navy */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.why-card:hover {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: var(--primary-teal);
+    transform: translateY(-5px);
+}
+
+.why-icon-box {
+    width: 48px;
+    height: 48px;
+    background: rgba(20, 184, 166, 0.1);
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-teal);
+    font-size: 1.25rem;
+}
+
+.text-light-gray {
+    color: #94a3b8; /* Soft blue-gray for readability on dark bg */
+}
+
+/* --- Mobile Fixes --- */
+@media (max-width: 768px) {
+    .why-choose-section {
+        text-align: center;
+    }
+    .why-icon-box {
+        margin: 0 auto 1rem auto;
+    }
+}
+
+/* --- End Why Choose Us --- */
+
+
+
+
+
+
+/* --- CTA Section --- */
+.cta-section {
+    background-color: var(--primary-teal);
+}
+
+.opacity-90 { opacity: 0.9; }
+
+/* --- Footer Section --- */
+.footer-main {
+    background-color: #0f172a; /* Same Dark Navy used in Hero and Why Choose Us */
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-teal);
+}
+
+.footer-contact li {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.footer-contact i {
+    color: var(--primary-teal);
+    margin-top: 3px;
+}
+
+/* --- Mobile Fixes --- */
+@media (max-width: 768px) {
+    .cta-section h2 { font-size: 1.8rem; }
+    .trust-bar span { font-size: 1rem; }
+    .footer-main { text-align: center; }
+    .footer-contact li { justify-content: center; }
+    .footer-contact i { margin-right: 10px !important; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* service page css  */
+
+/* --- Services Breadcrumb Section --- */
+.services-header-bg {
+    background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
+                url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600');
+    background-size: cover;
+    background-position: center;
+}
+
+.max-w-700 { max-width: 700px; }
+.bg-white-50 { background-color: rgba(255, 255, 255, 0.5); }
+.border-end-light { border-right: 1px solid #f0f0f0; }
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #94a3b8;
+    content: "›";
+}
+
+/* --- Service Long Cards --- */
+.service-long-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-long-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+}
+
+.icon-box-rounded {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-teal-light { background: rgba(20, 184, 166, 0.1); }
+.bg-blue-light { background: rgba(13, 110, 253, 0.1); }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 767.98px) {
+    .border-end-light { 
+        border-right: none; 
+        border-bottom: 1px solid #f0f0f0; 
+    }
+    .services-header-bg h1 { font-size: 2rem; }
+    .service-long-card { text-align: center; }
+    .icon-box-rounded { margin: 0 auto 1rem; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- Contact Specific Styles --- */
+.contact-hero {
+    background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
+                url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600');
+    background-size: cover;
+    background-position: center;
+}
+
+.border-teal-thin { border: 1px solid rgba(20, 184, 166, 0.3); }
+
+.contact-info-card {
+    transition: transform 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.contact-info-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--teal);
+}
+
+.map-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+}
+
+.upload-dropzone {
+    border: 2px dashed #e2e8f0;
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.upload-dropzone:hover {
+    background-color: #f1f5f9;
+    border-color: var(--teal);
+}
+
+.form-control {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+    border-color: var(--teal);
+}
+
+/* --- Mobile Fixes --- */
+@media (max-width: 991.98px) {
+    .contact-hero h1 { font-size: 2.2rem; }
+    .display-5 { font-size: 2rem; }
+}
+.ratio-16x9 {
+    --bs-aspect-ratio: 56.25%; /* Standard widescreen ratio */
+    min-height: 300px; /* Ensures it doesn't get too small on mobile */
+}
+
+/* Keeps the overlay text visible over the live map */
+.map-overlay {
+    z-index: 2;
+    pointer-events: none; /* Allows users to still interact with the map underneath */
+    background: linear-gradient(transparent, rgba(15, 23, 42, 0.85));
+}
+
+
+

@@ -1,0 +1,211 @@
+@extends('frontend.layouts.master')
+
+@section('content')
+
+
+    <style>
+        /* --- R&D Hero Header --- */
+        .rd-hero {
+            background-color: #00a651;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .innovation-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* --- R&D Status Counters --- */
+        .rd-counters {
+            background: white;
+            padding: 40px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .counter-item h2 {
+            color: #00a651;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        /* --- Project Cards & Timelines --- */
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .project-img {
+            height: 100%;
+            min-height: 400px;
+            object-fit: cover;
+        }
+
+        .status-label {
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-in-progress { background: #fff4e6; color: #d97706; }
+        .status-testing { background: #f3e8ff; color: #7c3aed; }
+        .status-planning { background: #e0f2fe; color: #0284c7; }
+
+        /* Vertical Timeline */
+        .rd-timeline {
+            list-style: none;
+            padding-left: 25px;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .rd-timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background: #e5e7eb;
+        }
+
+        .timeline-point {
+            position: relative;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .timeline-point::after {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+            border: 2px solid white;
+        }
+
+        .timeline-point.done::after {
+            background: #00a651;
+        }
+
+        .timeline-point.done {
+            color: #333;
+            font-weight: 500;
+        }
+    </style>
+
+
+@if($research)
+<section class="rd-hero" style="background-image: url('{{ asset('uploads/master/' . $research->feature_image) }}');">
+    <div class="container">
+        <span class="innovation-badge">{{ $research->getTranslation(app()->getLocale(), 'name') }}</span>
+        <h1 class="fw-bold display-4">{{ $research->getTranslation(app()->getLocale(), 'short_title') }}</h1>
+        <p class="opacity-75 mx-auto" style="max-width: 700px;">
+            {{ $research->getTranslation(app()->getLocale(), 'long_title') }}
+        </p>
+    </div>
+</section>
+
+<section class="rd-counters">
+    <div class="container">
+        <div class="row text-center">
+            @php
+                $locale   = app()->getLocale();
+                $trans    = $research->translations[$locale] ?? [];
+                $counters = !empty($trans['counters'])
+                    ? $trans['counters']
+                    : (json_decode($research->extra1, true) ?? []);
+            @endphp
+
+            @forelse($counters as $counter)
+                <div class="col-md-3 col-6 counter-item mb-3">
+                    <h2>{{ $counter['count'] }}</h2>
+                    <p class="small text-muted mb-0">{{ $counter['subtitle'] }}</p>
+                </div>
+            @empty
+                <div class="col-12"><p class="text-muted">{{ __('rnd.no_stats') }}</p></div>
+            @endforelse
+        </div>
+    </div>
+</section>
+@endif
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <p class="text-success fw-bold small mb-1">{{ __('rnd.our_projects') }}</p>
+            <h2 class="fw-bold">{{ __('rnd.current_initiatives') }}</h2>
+            <p class="text-muted">{{ __('rnd.initiatives_description') }}</p>
+        </div>
+
+        @forelse($data as $project)
+        <div class="project-card mb-4">
+            <div class="row g-0">
+                <div class="col-lg-5">
+                    <img src="{{ $project->feature_image ? asset($project->feature_image) : asset('images/placeholder.webp') }}"
+                         class="project-img w-100 h-100" style="object-fit: cover;"
+                         alt="{{ $project->getTranslation(app()->getLocale(), 'title') }}">
+                </div>
+                <div class="col-lg-7 p-4 p-md-5">
+                    <div class="mb-3">
+                        <span class="status-label status-in-progress">
+                            {{ $project->status == 1 ? __('rnd.in_progress') : __('rnd.completed') }}
+                        </span>
+                        <span class="ms-3 text-muted small">
+                            <i class="far fa-calendar"></i>
+                            {{ __('rnd.started') }} {{ \Carbon\Carbon::parse($project->date)->format('M Y') }}
+                        </span>
+                    </div>
+
+                    <h3 class="fw-bold text-success mb-3">{{ $project->getTranslation(app()->getLocale(), 'title') }}</h3>
+                    <p class="text-muted small">{{ $project->getTranslation(app()->getLocale(), 'short_description') }}</p>
+
+                    <h6 class="fw-bold small mt-4">{{ __('rnd.project_details') }}</h6>
+                    <div class="project-long-desc mb-3">
+                        {!! Str::limit($project->getTranslation(app()->getLocale(), 'long_description'), 200) !!}
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top">
+                        <span class="text-muted small">{{ __('rnd.target_completion') }} </span>
+                        <span class="text-success fw-bold">
+                            {{ \Carbon\Carbon::parse($project->deadline)->format('F Y') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @empty
+            <div class="text-center p-5">
+                <p class="text-muted">{{ __('rnd.no_projects') }}</p>
+            </div>
+        @endforelse
+
+        <div class="text-center mt-5 pt-5">
+            <h2 class="fw-bold mb-3 text-success">{{ __('rnd.have_idea') }}</h2>
+            <p class="text-muted mx-auto mb-4" style="max-width: 600px;">{{ __('rnd.idea_description') }}</p>
+            <a href="{{ url('/contact') }}" class="btn btn-success btn-lg px-5 py-3 shadow">{{ __('rnd.share_ideas') }}</a>
+        </div>
+    </div>
+</section>
+
+
+
+@endsection
+
+@section('script')
+
+
+@endsection
