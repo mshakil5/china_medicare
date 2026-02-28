@@ -35,6 +35,13 @@ class FrontendController extends Controller
         return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems'));
     }
 
+    public function packages()
+    {
+        $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
+        $packages = MedicalPackage::with('translations')->get();
+        return view('frontend.packages', compact('company','packages'));
+    }
+
 
     public function storeContact(Request $request)
     {

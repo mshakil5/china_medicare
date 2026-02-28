@@ -16,7 +16,7 @@
                     <ul class="list-unstyled footer-links">
                         <li><a href="{{ route('home')}}">Home</a></li>
                         <li><a href="{{ route('home')}}">Hospitals</a></li>
-                        <li><a href="{{ route('home')}}">Packages</a></li>
+                        <li><a href="{{ route('packages')}}">Packages</a></li>
                         <li><a href="{{ route('home')}}">Services</a></li>
                         <li><a href="{{ route('home')}}">Contact</a></li>
                     </ul>

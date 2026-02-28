@@ -141,7 +141,7 @@
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">Home</a></li>
                     <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">Hospitals</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="{{ route('packages')}}">Packages</a></li>
                     <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">Services</a></li>
                 </ul>
                 <div class="d-lg-flex align-items-center">
