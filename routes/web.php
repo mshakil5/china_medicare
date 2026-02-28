@@ -5,6 +5,8 @@ use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 // cache clear
 Route::get('/clear', function() {
@@ -22,6 +24,15 @@ Route::get('/clear', function() {
 });
 
 require __DIR__.'/admin.php';
+
+
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'bn'])) {
+        Session::put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 
 Auth::routes();
 

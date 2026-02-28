@@ -92,7 +92,7 @@
                     );
                 @endphp
 
-                <li class="nav-item">
+                <li class="nav-item d-none">
                     <a class="nav-link menu-link {{ $productActive ? 'active' : '' }}" 
                       href="#sidebarAllProducts" data-bs-toggle="collapse" role="button"
                       aria-expanded="{{ $productActive ? 'true' : 'false' }}" 
@@ -108,6 +108,31 @@
                             </li>
                         </ul>
                     </div>
+                </li>
+
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.medical_package') }}" class="nav-link {{ Route::is('admin.medical_package') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Packages</span>
+                    </a>
+                </li>
+
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.medical_services') }}" class="nav-link {{ Route::is('admin.medical_services') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Services</span>
+                    </a>
+                </li>
+
+                
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.why_choose') }}" class="nav-link {{ Route::is('admin.why_choose') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Why Choose Us</span>
+                    </a>
                 </li>
 
                 <li class="nav-item d-none">
@@ -191,8 +216,8 @@
                                   class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}">FAQ</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('allslider') }}" 
-                                  class="nav-link {{ Route::is('allslider') ? 'active' : '' }}">Sliders
+                                <a href="{{ route('admin.hero_sections') }}" 
+                                  class="nav-link {{ Route::is('admin.hero_sections') ? 'active' : '' }}">Hero Section
                                 </a>
                             </li>
                         </ul>
