@@ -148,7 +148,7 @@
                     <a href="tel:+864001234567" class="nav-link me-lg-3 mb-3 mb-lg-0 small">
                         <i class="fas fa-phone-alt me-2 text-teal"></i>+880 1333 218519
                     </a>
-                    <a href="{{ route('home')}}" class="btn btn-teal-solid w-lg-auto px-4">Free Consultation</a>
+                    <a href="{{ route('contact')}}" class="btn btn-teal-solid w-lg-auto px-4">Free Consultation</a>
                 </div>
             </div>
         </div>

@@ -30,7 +30,8 @@ Route::get('/services', [FrontendController::class, 'services'])->name('services
 Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
 Route::get('/packages-details/{slug}', [FrontendController::class, 'packages'])->name('package.details');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
-Route::post('/contact', [FrontendController::class, 'storeContact'])->name('contact.store');
+Route::post('/contact/store', [FrontendController::class, 'contactStore'])->name('contact.store');
+
 Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('aboutUs');
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');

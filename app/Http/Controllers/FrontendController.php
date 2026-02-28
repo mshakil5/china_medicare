@@ -19,6 +19,7 @@ use App\Models\HeroSection;
 use App\Models\MedicalPackage;
 use App\Models\MedicalService;
 use App\Models\WhyChoose;
+    use Illuminate\Support\Str;
 
 class FrontendController extends Controller
 {
@@ -50,55 +51,59 @@ class FrontendController extends Controller
         return view('frontend.services', compact('company','services'));
     }
 
-
-    public function storeContact(Request $request)
+    public function contact()
     {
-        try {
-            // 1. Validation matching translated form fields
-            $request->validate([
-                'full_name'   => 'required|string|min:2|max:100',
-                'email'       => 'required|email|max:100',
-                'phone'       => 'nullable|string|max:20',
-                'subject'     => 'nullable|string',
-                'category_id' => 'nullable|exists:categories,id',
-                'message'     => 'required|string|min:10|max:3000',
-            ], [
-                'full_name.required' => __('Full Name is required'),
-                'full_name.min'      => __('Full Name must be at least :min characters'),
-                'email.required'     => __('Email Address is required'),
-                'email.email'        => __('Enter a valid Email Address'),
-                'message.required'   => __('Your Message is required'),
-                'message.min'        => __('Your Message must be at least :min characters'),
-            ]);
+        $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
+        $services = MedicalService::with('translations')->where('status',1)->orderBy('order')->get();
+        return view('frontend.contact', compact('company','services'));
+    }
 
-            // 2. Save contact
-            $contact = new Contact();
-            $names = explode(' ', $request->input('full_name'), 2);
-            $contact->first_name = $names[0];
-            $contact->last_name  = $names[1] ?? '';
 
-            $contact->full_name   = $request->input('full_name');
-            $contact->email       = $request->input('email');
-            $contact->phone       = $request->input('phone');
-            $contact->subject     = $request->input('subject');
-            $contact->category_id = $request->input('category_id');
-            $contact->message     = $request->input('message');
 
-            $contact->save();
+    public function contactStore(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email'     => 'required|email|max:255',
+            'phone'     => 'nullable|string|max:50',
+            'country'   => 'nullable|string|max:100',
+            'message'   => 'nullable|string',
+            'file'      => 'nullable|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240'
+        ]);
 
-            // 3. Email Notification
-            $contactEmails = ContactMail::where('status', 1)->pluck('email');
-            foreach ($contactEmails as $email) {
-                Mail::to($email)->send(new ContactMail($contact));
+        $filePath = null;
+
+        if ($request->hasFile('file')) {
+
+            $file = $request->file('file');
+
+            $fileName = time().'_'.Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+                        .'.'.$file->getClientOriginalExtension();
+
+            $destinationPath = public_path('uploads/contact');
+
+            // Create folder if not exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
             }
 
-            return redirect()->back()->with('success', __('Your message has been sent successfully!'));
+            $file->move($destinationPath, $fileName);
 
-        } catch (ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput();
+            $filePath = 'uploads/contact/'.$fileName;
         }
+
+        Contact::create([
+            'full_name' => $request->full_name,
+            'email'     => $request->email,
+            'phone'     => $request->phone,
+            'country'   => $request->country,
+            'message'   => $request->message,
+            'file'      => $filePath,
+            'status'    => 0
+        ]);
+
+        return back()->with('success', 'Inquiry submitted successfully!');
     }
+
 
 }
