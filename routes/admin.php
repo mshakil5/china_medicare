@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\MedicalServiceController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WhyChooseController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -107,5 +108,15 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/medical-services/{id}/edit', [MedicalServiceController::class, 'edit']);
     Route::post('/medical-services-update', [MedicalServiceController::class, 'update'])->name('admin.medical_services.update');
     Route::delete('/medical-services/{id}', [MedicalServiceController::class, 'destroy'])->name('admin.medical_services.destroy');
+
+
+
+    Route::get('/why-choose', [WhyChooseController::class, 'index'])->name('admin.why_choose');
+    Route::post('/why-choose', [WhyChooseController::class, 'store'])->name('admin.why_choose.store');
+    Route::get('/why-choose/{id}/edit', [WhyChooseController::class, 'edit']);
+    Route::post('/why-choose-update', [WhyChooseController::class, 'update'])->name('admin.why_choose.update');
+    Route::delete('/why-choose/{id}', [WhyChooseController::class, 'destroy'])->name('admin.why_choose.destroy');
+
+
 
 });

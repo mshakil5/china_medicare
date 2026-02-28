@@ -303,74 +303,48 @@
     <section class="why-choose-section py-5">
         <div class="container py-lg-5">
             <div class="text-center mb-5">
-                <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">Why Choose Us</h6>
-                <h2 class="display-6 fw-bold text-white mb-3">Your Trusted Partner in <span class="text-teal">Medical Tourism</span></h2>
-                <p class="text-light-gray mx-auto" style="max-width: 650px;">We've helped thousands of international patients receive world-class healthcare in China.</p>
+                <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">
+                    {{ __('Why Choose Us') }}
+                </h6>
+                <h2 class="display-6 fw-bold text-white mb-3">
+                    {{ __('Your Trusted Partner in') }} 
+                    <span class="text-teal">{{ __('Medical Tourism') }}</span>
+                </h2>
             </div>
 
             <div class="row g-4">
-                <div class="col-md-6 col-lg-4">
-                    <div class="why-card p-4 h-100">
-                        <div class="why-icon-box mb-4">
-                            <i class="fas fa-hospital-alt"></i>
-                        </div>
-                        <h5 class="text-white fw-bold mb-3">Top-Tier Hospitals</h5>
-                        <p class="text-light-gray small mb-0">All partner hospitals are JCI accredited or hold equivalent international certifications.</p>
-                    </div>
-                </div>
+                @foreach($whyChooseItems as $item)
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="why-card p-4 h-100">
-                        <div class="why-icon-box mb-4">
-                            <i class="fas fa-wallet"></i>
-                        </div>
-                        <h5 class="text-white fw-bold mb-3">Transparent Pricing</h5>
-                        <p class="text-light-gray small mb-0">No hidden fees. Get detailed cost breakdowns before making any decisions.</p>
-                    </div>
-                </div>
+                    @php
+                        $translation = $item->translations
+                            ->where('locale', app()->getLocale())
+                            ->first();
+                    @endphp
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="why-card p-4 h-100">
-                        <div class="why-icon-box mb-4">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h5 class="text-white fw-bold mb-3">Fast Processing</h5>
-                        <p class="text-light-gray small mb-0">Expedited visa processing and appointment scheduling within 48 hours.</p>
-                    </div>
-                </div>
+                    @if($translation)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="why-card p-4 h-100">
+                                <div class="why-icon-box mb-4">
+                                    {{-- If icon column stores class name like: fas fa-hospital-alt --}}
+                                    <i class="{{ $item->icon }}"></i>
+                                </div>
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="why-card p-4 h-100">
-                        <div class="why-icon-box mb-4">
-                            <i class="fas fa-user-md"></i>
-                        </div>
-                        <h5 class="text-white fw-bold mb-3">Expert Team</h5>
-                        <p class="text-light-gray small mb-0">Medical coordinators with healthcare backgrounds assist you throughout.</p>
-                    </div>
-                </div>
+                                <h5 class="text-white fw-bold mb-3">
+                                    {{ $translation->title }}
+                                </h5>
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="why-card p-4 h-100">
-                        <div class="why-icon-box mb-4">
-                            <i class="fas fa-shield-alt"></i>
+                                <p class="text-light-gray small mb-0">
+                                    {{ $translation->description }}
+                                </p>
+                            </div>
                         </div>
-                        <h5 class="text-white fw-bold mb-3">Quality Guaranteed</h5>
-                        <p class="text-light-gray small mb-0">We stand behind our service with comprehensive satisfaction guarantees.</p>
-                    </div>
-                </div>
+                    @endif
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="why-card p-4 h-100">
-                        <div class="why-icon-box mb-4">
-                            <i class="fas fa-headset"></i>
-                        </div>
-                        <h5 class="text-white fw-bold mb-3">24/7 Support</h5>
-                        <p class="text-light-gray small mb-0">Round-the-clock assistance in multiple languages whenever you need help.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
+
 
 
 
