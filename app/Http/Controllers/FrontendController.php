@@ -42,6 +42,14 @@ class FrontendController extends Controller
         return view('frontend.packages', compact('company','packages'));
     }
 
+    
+    public function services()
+    {
+        $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
+        $services = MedicalService::with('translations')->where('status',1)->orderBy('order')->get();
+        return view('frontend.services', compact('company','services'));
+    }
+
 
     public function storeContact(Request $request)
     {

@@ -142,7 +142,7 @@
                     <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">Home</a></li>
                     <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">Hospitals</a></li>
                     <li class="nav-item"><a class="nav-link px-3" href="{{ route('packages')}}">Packages</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">Services</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="{{ route('services')}}">Services</a></li>
                 </ul>
                 <div class="d-lg-flex align-items-center">
                     <a href="tel:+864001234567" class="nav-link me-lg-3 mb-3 mb-lg-0 small">

@@ -26,6 +26,7 @@ require __DIR__.'/admin.php';
 Auth::routes();
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/services', [FrontendController::class, 'services'])->name('services');
 Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
 Route::get('/packages-details/{slug}', [FrontendController::class, 'packages'])->name('package.details');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
