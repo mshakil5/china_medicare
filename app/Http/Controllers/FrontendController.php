@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
 use App\Models\HeroSection;
+use App\Models\MedicalPackage;
 
 class FrontendController extends Controller
 {
@@ -24,7 +25,8 @@ class FrontendController extends Controller
         $categories = Category::with('products')->where('status', 1)->get();
         $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
         $hero = HeroSection::with('translations')->latest()->first();
-        return view('frontend.index', compact('categories','company','hero'));
+        $packages = MedicalPackage::with('translations')->take(3)->get();
+        return view('frontend.index', compact('categories','company','hero','packages'));
     }
 
 

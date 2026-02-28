@@ -152,99 +152,97 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 shadow-sm package-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600" class="card-img-top" alt="Orthopedic">
-                            <div class="card-badges p-3 position-absolute top-0 start-0 w-100 d-flex gap-2">
-                                <span class="badge bg-teal-soft text-teal"><i class="fas fa-chart-line me-1"></i> Popular</span>
-                            </div>
-                            <span class="category-pill">Surgery</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-1">Orthopedic Joint Replacement</h5>
-                            <p class="text-muted small mb-3">骨科关节置换套餐</p>
-                            <p class="card-text text-muted small mb-4">Complete knee or hip replacement package with pre-operative planning, surgery, and post-operative care.</p>
-                            
-                            <ul class="list-unstyled mb-4 package-features">
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> Pre-operative consultation</li>
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> Joint replacement surgery</li>
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> High-quality prosthetic implants</li>
-                                <li class="text-muted ps-4 small">+7 more services</li>
-                            </ul>
+                @foreach($packages as $package)
+                    @php
+                        $translation = $package->translations->where('locale', app()->getLocale())->first();
+                        $features = is_array($package->features) ? $package->features : json_decode($package->features, true);
+                    @endphp
 
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
-                                <span class="small text-muted"><i class="far fa-calendar-alt me-2"></i> 18 days</span>
-                                <span class="small text-muted"><i class="fas fa-map-marker-alt me-2"></i> 4 cities</span>
+                    <div class="col-lg-4 col-md-6 {{ $loop->last ? 'mx-auto' : '' }}">
+                        <div class="card h-100 border-0 shadow-sm package-card">
+                            
+                            <div class="position-relative">
+                                <img 
+                                    src="{{ $package->image ? asset($package->image) : 'https://via.placeholder.com/600x400' }}" 
+                                    class="card-img-top"
+                                    alt="{{ $translation->title ?? '' }}"
+                                >
+
+                                <div class="card-badges p-3 position-absolute top-0 start-0 w-100 d-flex gap-2">
+
+                                    @if($package->is_featured)
+                                        <span class="badge bg-warning-soft text-warning">
+                                            <i class="fas fa-star me-1"></i> Featured
+                                        </span>
+                                    @endif
+
+                                    @if($package->is_popular)
+                                        <span class="badge bg-teal-soft text-teal">
+                                            <i class="fas fa-chart-line me-1"></i> Popular
+                                        </span>
+                                    @endif
+
+                                </div>
+
+                                <span class="category-pill">{{ $package->category }}</span>
                             </div>
-                            <h4 class="fw-bold text-teal mb-3">$18,000 - $30,000</h4>
-                            <a href="#" class="btn btn-teal-solid w-100 py-2">View Details</a>
+
+                            <div class="card-body p-4">
+
+                                <h5 class="fw-bold mb-1">
+                                    {{ $translation->title ?? '' }}
+                                </h5>
+
+                                <p class="text-muted small mb-3">
+                                    {{ $translation->subtitle ?? '' }}
+                                </p>
+
+                                <p class="card-text text-muted small mb-4">
+                                    {{ $translation->description ?? '' }}
+                                </p>
+
+                                {{-- Features --}}
+                                <ul class="list-unstyled mb-4 package-features">
+                                    @if($features)
+                                        @foreach(array_slice($features, 0, 3) as $feature)
+                                            <li>
+                                                <i class="fas fa-check-circle text-teal me-2"></i>
+                                                {{ $feature }}
+                                            </li>
+                                        @endforeach
+
+                                        @if(count($features) > 3)
+                                            <li class="text-muted ps-4 small">
+                                                +{{ count($features) - 3 }} more services
+                                            </li>
+                                        @endif
+                                    @endif
+                                </ul>
+
+                                <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
+                                    <span class="small text-muted">
+                                        <i class="far fa-calendar-alt me-2"></i> 
+                                        {{ $package->duration }}
+                                    </span>
+                                    <span class="small text-muted">
+                                        <i class="fas fa-map-marker-alt me-2"></i> 
+                                        {{ $package->cities_count }} cities
+                                    </span>
+                                </div>
+
+                                <h4 class="fw-bold text-teal mb-3">
+                                    {{ $package->price_range }}
+                                </h4>
+
+                                <a href="#" class="btn btn-teal-solid w-100 py-2">
+                                    View Details
+                                </a>
+
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 shadow-sm package-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=600" class="card-img-top" alt="IVF">
-                            <div class="card-badges p-3 position-absolute top-0 start-0 w-100 d-flex gap-2">
-                                <span class="badge bg-teal-soft text-teal"><i class="fas fa-chart-line me-1"></i> Popular</span>
-                            </div>
-                            <span class="category-pill">Treatment</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-1">IVF Fertility Treatment</h5>
-                            <p class="text-muted small mb-3">试管婴儿生育治疗</p>
-                            <p class="card-text text-muted small mb-4">Comprehensive fertility treatment package including IVF, medical consultations, and support services.</p>
-                            
-                            <ul class="list-unstyled mb-4 package-features">
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> Fertility consultation</li>
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> Hormone therapy & monitoring</li>
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> Egg retrieval procedure</li>
-                                <li class="text-muted ps-4 small">+7 more services</li>
-                            </ul>
-
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
-                                <span class="small text-muted"><i class="far fa-calendar-alt me-2"></i> 25 days</span>
-                                <span class="small text-muted"><i class="fas fa-map-marker-alt me-2"></i> 3 cities</span>
-                            </div>
-                            <h4 class="fw-bold text-teal mb-3">$12,000 - $20,000</h4>
-                            <a href="#" class="btn btn-teal-solid w-100 py-2">View Details</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mx-auto">
-                    <div class="card h-100 border-0 shadow-sm package-card">
-                        <div class="position-relative">
-                            <img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=600" class="card-img-top" alt="Cancer">
-                            <div class="card-badges p-3 position-absolute top-0 start-0 w-100 d-flex gap-2">
-                                <span class="badge bg-warning-soft text-warning"><i class="fas fa-star me-1"></i> Featured</span>
-                                <span class="badge bg-teal-soft text-teal"><i class="fas fa-chart-line me-1"></i> Popular</span>
-                            </div>
-                            <span class="category-pill">Treatment</span>
-                        </div>
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-1">Comprehensive Cancer Treatment</h5>
-                            <p class="text-muted small mb-3">综合癌症治疗套餐</p>
-                            <p class="card-text text-muted small mb-4">Advanced oncology treatment package with access to cutting-edge therapies and experienced specialists.</p>
-                            
-                            <ul class="list-unstyled mb-4 package-features">
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> Complete oncology assessment</li>
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> PET-CT and advanced imaging</li>
-                                <li><i class="fas fa-check-circle text-teal me-2"></i> Chemotherapy or therapy</li>
-                                <li class="text-muted ps-4 small">+7 more services</li>
-                            </ul>
-
-                            <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
-                                <span class="small text-muted"><i class="far fa-calendar-alt me-2"></i> 30 days</span>
-                                <span class="small text-muted"><i class="fas fa-map-marker-alt me-2"></i> 3 cities</span>
-                            </div>
-                            <h4 class="fw-bold text-teal mb-3">$35,000 - $80,000</h4>
-                            <a href="#" class="btn btn-teal-solid w-100 py-2">View Details</a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <div class="text-center d-md-none mt-4">
