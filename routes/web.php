@@ -26,6 +26,9 @@ require __DIR__.'/admin.php';
 Auth::routes();
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
+Route::post('/contact', [FrontendController::class, 'storeContact'])->name('contact.store');
+Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('aboutUs');
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 

@@ -140,7 +140,7 @@
                     );
                 @endphp
 
-                <li class="nav-item d-none">
+                <li class="nav-item">
                     <a class="nav-link menu-link {{ $settingsRoute ? 'active' : '' }}" 
                       href="#sidebarSettings" data-bs-toggle="collapse" role="button" 
                       aria-expanded="{{ $settingsRoute ? 'true' : 'false' }}" 

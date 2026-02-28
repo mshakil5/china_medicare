@@ -14,11 +14,11 @@
                 <div class="col-6 col-md-3 col-lg-2">
                     <h6 class="text-white fw-bold mb-4">Quick Links</h6>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Hospitals</a></li>
-                        <li><a href="#">Packages</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ route('home')}}">Home</a></li>
+                        <li><a href="{{ route('home')}}">Hospitals</a></li>
+                        <li><a href="{{ route('home')}}">Packages</a></li>
+                        <li><a href="{{ route('home')}}">Services</a></li>
+                        <li><a href="{{ route('home')}}">Contact</a></li>
                     </ul>
                 </div>
 

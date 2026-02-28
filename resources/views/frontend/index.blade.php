@@ -3,6 +3,66 @@
 @section('content')
 
 
+
+
+    <section class="hero-section text-white overflow-hidden">
+        <div class="container py-5">
+            <div class="row gy-5 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <span class="badge rounded-pill bg-dark-teal mb-3 py-2 px-3">
+                        <i class="fas fa-circle text-teal me-2 small"></i> Your Gateway to World-Class Healthcare
+                    </span>
+                    <h1 class="display-5 fw-bold mb-3 hero-title">Experience Premier <br><span class="text-accent">Medical Care</span> in China</h1>
+                    <p class="text-light-gray mb-4 lead">Discover China's finest hospitals with our comprehensive one-stop medical tourism service. From consultation to recovery.</p>
+                    
+                    <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3 mb-5">
+                        <button class="btn btn-teal-solid btn-lg px-4">Explore Hospitals <i class="fas fa-arrow-right ms-2"></i></button>
+                        <button class="btn btn-outline-light btn-lg px-4">Watch Video</button>
+                    </div>
+
+                    <div class="row g-3 stats-row">
+                        <div class="col-4 col-sm-4">
+                            <h3 class="fw-bold mb-0">50+</h3>
+                            <p class="small text-light-gray">Partners</p>
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <h3 class="fw-bold mb-0">10K+</h3>
+                            <p class="small text-light-gray">Patients</p>
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <h3 class="fw-bold mb-0">98%</h3>
+                            <p class="small text-light-gray">Satisfied</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="hero-img-wrapper position-relative mx-auto">
+                        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800" class="img-fluid rounded-4 main-hero-img" alt="Clinic">
+                        
+                        <div class="floating-info-card jci-position d-none d-sm-flex">
+                            <div class="icon-box bg-light-teal text-teal"><i class="fas fa-shield-alt"></i></div>
+                            <div>
+                                <p class="fw-bold mb-0">JCI Accredited</p>
+                                <p class="x-small text-muted mb-0">International Standards</p>
+                            </div>
+                        </div>
+
+                        <div class="floating-info-card support-position d-none d-sm-flex">
+                            <div class="icon-box bg-light-yellow text-warning"><i class="fas fa-globe"></i></div>
+                            <div>
+                                <p class="fw-bold mb-0">24/7 Support</p>
+                                <p class="x-small text-muted mb-0">Multilingual Team</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
     <section class="py-5 bg-white">
         <div class="container py-lg-4">
             <div class="row align-items-end mb-5 text-center text-md-start">
