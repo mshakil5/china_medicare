@@ -5,54 +5,62 @@
 
 
 
+    @if($hero)
     <section class="hero-section text-white overflow-hidden">
         <div class="container py-5">
             <div class="row gy-5 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
                     <span class="badge rounded-pill bg-dark-teal mb-3 py-2 px-3">
-                        <i class="fas fa-circle text-teal me-2 small"></i> Your Gateway to World-Class Healthcare
+                        <i class="fas fa-circle text-teal me-2 small"></i> {{ $hero->badge }}
                     </span>
-                    <h1 class="display-5 fw-bold mb-3 hero-title">Experience Premier <br><span class="text-accent">Medical Care</span> in China</h1>
-                    <p class="text-light-gray mb-4 lead">Discover China's finest hospitals with our comprehensive one-stop medical tourism service. From consultation to recovery.</p>
+
+                    <h1 class="display-5 fw-bold mb-3 hero-title">
+                        {!! $hero->title !!}
+                    </h1>
+
+                    <p class="text-light-gray mb-4 lead">{{ $hero->description }}</p>
                     
                     <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3 mb-5">
-                        <button class="btn btn-teal-solid btn-lg px-4">Explore Hospitals <i class="fas fa-arrow-right ms-2"></i></button>
-                        <button class="btn btn-outline-light btn-lg px-4">Watch Video</button>
+                        @if($hero->btn1_url)
+                        <a href="{{ $hero->btn1_url }}" class="btn btn-teal-solid btn-lg px-4">
+                            {{ $hero->btn1_text }} <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        @endif
+
+                        @if($hero->video_url)
+                        <a href="{{ $hero->video_url }}" class="btn btn-outline-light btn-lg px-4">Watch Video</a>
+                        @endif
                     </div>
 
                     <div class="row g-3 stats-row">
-                        <div class="col-4 col-sm-4">
-                            <h3 class="fw-bold mb-0">50+</h3>
-                            <p class="small text-light-gray">Partners</p>
-                        </div>
-                        <div class="col-4 col-sm-4">
-                            <h3 class="fw-bold mb-0">10K+</h3>
-                            <p class="small text-light-gray">Patients</p>
-                        </div>
-                        <div class="col-4 col-sm-4">
-                            <h3 class="fw-bold mb-0">98%</h3>
-                            <p class="small text-light-gray">Satisfied</p>
-                        </div>
+                        @if($hero->stats)
+                            @foreach($hero->stats as $stat)
+                                <div class="col-4 col-sm-4">
+                                    <h3 class="fw-bold mb-0">{{ $stat['value'] ?? '' }}</h3>
+                                    <p class="small text-light-gray">{{ $stat['label'] ?? '' }}</p>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="hero-img-wrapper position-relative mx-auto">
-                        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800" class="img-fluid rounded-4 main-hero-img" alt="Clinic">
+                        <img src="{{ asset($hero->image) }}" class="img-fluid rounded-4 main-hero-img" alt="Hero Image">
                         
                         <div class="floating-info-card jci-position d-none d-sm-flex">
                             <div class="icon-box bg-light-teal text-teal"><i class="fas fa-shield-alt"></i></div>
                             <div>
-                                <p class="fw-bold mb-0">JCI Accredited</p>
-                                <p class="x-small text-muted mb-0">International Standards</p>
+                                <p class="fw-bold mb-0">{{ $hero->info_cards[0]['title'] ?? 'JCI Accredited' }}</p>
+                                <p class="x-small text-muted mb-0">{{ $hero->info_cards[0]['sub'] ?? 'International Standards' }}</p>
                             </div>
                         </div>
 
                         <div class="floating-info-card support-position d-none d-sm-flex">
                             <div class="icon-box bg-light-yellow text-warning"><i class="fas fa-globe"></i></div>
                             <div>
-                                <p class="fw-bold mb-0">24/7 Support</p>
-                                <p class="x-small text-muted mb-0">Multilingual Team</p>
+                                <p class="fw-bold mb-0">{{ $hero->info_cards[1]['title'] ?? '24/7 Support' }}</p>
+                                <p class="x-small text-muted mb-0">{{ $hero->info_cards[1]['sub'] ?? 'Multilingual Team' }}</p>
                             </div>
                         </div>
                     </div>
@@ -60,6 +68,7 @@
             </div>
         </div>
     </section>
+    @endif
 
 
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CompanyDetailsController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\FAQController;
+use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SliderController;
@@ -85,5 +86,11 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::post('/category-update', [CategoryController::class, 'update']);
     Route::delete('/category/{id}', [CategoryController::class, 'delete'])->name('category.delete');
     Route::post('/category-status', [CategoryController::class, 'toggleStatus']);
+
+    Route::get('/hero-sections', [HeroSectionController::class, 'index'])->name('admin.hero_sections');
+    Route::post('/hero-sections', [HeroSectionController::class, 'store']);
+    Route::get('/hero-sections/{id}/edit', [HeroSectionController::class, 'edit']);
+    Route::post('/hero-sections-update', [HeroSectionController::class, 'update']);
+    Route::delete('/hero-sections/{id}', [HeroSectionController::class, 'destroy'])->name('hero_sections.destroy');
 
 });

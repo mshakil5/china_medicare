@@ -15,16 +15,16 @@ use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Mail;
+use App\Models\HeroSection;
 
 class FrontendController extends Controller
 {
     public function index()
     {
-        $slider = Slider::orderby('id')->first();
         $categories = Category::with('products')->where('status', 1)->get();
         $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
-
-        return view('frontend.index', compact('slider','categories','company'));
+        $hero = HeroSection::with('translations')->latest()->first();
+        return view('frontend.index', compact('categories','company','hero'));
     }
 
 
