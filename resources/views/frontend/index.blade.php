@@ -263,43 +263,38 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-xl-3 col-lg-4 col-sm-6">
-                    <div class="service-card-new p-4 h-100 bg-white shadow-sm border-0">
-                        <div class="icon-circle bg-teal-light mb-4"><i class="fas fa-stethoscope text-teal"></i></div>
-                        <h6 class="fw-bold">Medical Consultation</h6>
-                        <p class="x-small text-muted mb-3">Connect with top specialists for personalized treatment plans.</p>
-                        <ul class="service-bullets list-unstyled mb-0">
-                            <li>Expert recommendations</li>
-                            <li>Treatment planning</li>
-                            <li>Cost estimates</li>
-                        </ul>
+                @foreach($services as $service)
+                    @php
+                        $trans = $service->translate();
+                        $features = $trans->features ?? [];
+                    @endphp
+
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="service-card-new p-4 h-100 bg-white shadow-sm border-0">
+
+                            <div class="icon-circle bg-{{ $service->color }}-light mb-4">
+                                <i class="fas {{ $service->icon }} text-{{ $service->color }}"></i>
+                            </div>
+
+                            <h6 class="fw-bold">{{ $trans->title }}</h6>
+
+                            <p class="x-small text-muted mb-3">
+                                {{ $trans->description }}
+                            </p>
+
+                            <ul class="service-bullets list-unstyled mb-0">
+                                @foreach(array_slice($features, 0, 3) as $feature)
+                                    <li>{{ $feature }}</li>
+                                @endforeach
+                            </ul>
+
+                        </div>
                     </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-sm-6">
-                    <div class="service-card-new p-4 h-100 bg-white shadow-sm border-0">
-                        <div class="icon-circle bg-blue-light mb-4"><i class="fas fa-plane text-blue"></i></div>
-                        <h6 class="fw-bold">Visa Assistance</h6>
-                        <p class="x-small text-muted mb-3">Complete support for medical visa applications with expedited processing.</p>
-                        <ul class="service-bullets list-unstyled mb-0">
-                            <li>Document preparation</li>
-                            <li>Embassy coordination</li>
-                            <li>Express processing</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4 col-sm-6">
-                    <div class="service-card-new p-4 h-100 bg-white shadow-sm border-0">
-                        <div class="icon-circle bg-orange-light mb-4"><i class="fas fa-hotel text-orange"></i></div>
-                        <h6 class="fw-bold">Accommodation</h6>
-                        <p class="x-small text-muted mb-3">Premium hotels and recovery apartments near partner hospitals.</p>
-                        <ul class="service-bullets list-unstyled mb-0">
-                            <li>Hospital proximity</li>
-                            <li>Long-stay discounts</li>
-                            <li>Accessible rooms</li>
-                        </ul>
-                    </div>
-                </div>
-                </div>
+                @endforeach
+            </div>
+
+
+
         </div>
     </section>
 

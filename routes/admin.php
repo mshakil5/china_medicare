@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\FAQController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\MedicalPackageController;
+use App\Http\Controllers\Admin\MedicalServiceController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\UserController;
@@ -100,5 +101,11 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/medical-package/{id}/edit', [MedicalPackageController::class, 'edit']);
     Route::post('/medical-package-update', [MedicalPackageController::class, 'update'])->name('admin.medical_sections.update');
     Route::delete('/medical-package/{id}', [MedicalPackageController::class, 'destroy'])->name('medical-packages.destroy');
+
+    Route::get('/medical-services', [MedicalServiceController::class, 'index'])->name('admin.medical_services');
+    Route::post('/medical-services', [MedicalServiceController::class, 'store'])->name('admin.medical_services.store');
+    Route::get('/medical-services/{id}/edit', [MedicalServiceController::class, 'edit']);
+    Route::post('/medical-services-update', [MedicalServiceController::class, 'update'])->name('admin.medical_services.update');
+    Route::delete('/medical-services/{id}', [MedicalServiceController::class, 'destroy'])->name('admin.medical_services.destroy');
 
 });
