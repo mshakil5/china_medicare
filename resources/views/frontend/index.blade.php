@@ -81,55 +81,29 @@
                     <p class="text-muted">World-class medical facilities with expert specialists.</p>
                 </div>
                 <div class="col-md-4 text-md-end d-none d-md-block">
-                    <button class="btn btn-outline-dark rounded-pill px-4">View All Hospitals</button>
+                    <a href="/all-hospitals" class="btn btn-outline-dark rounded-pill px-4">View All Hospitals</a>
                 </div>
             </div>
 
             <div class="row g-4">
+                @foreach($hospitals as $hospital)
                 <div class="col-sm-6 col-lg-3">
                     <div class="card h-100 border-0 shadow-sm hospital-card">
-                        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce2?auto=format&fit=crop&w=400" class="card-img-top" alt="Beijing">
+                        <img src="{{ asset($hospital->image) }}" class="card-img-top" alt="{{ $hospital->name }}" style="height: 200px; object-fit: cover;">
                         <div class="card-body p-4">
-                            <h5 class="fw-bold">Beijing United</h5>
-                            <p class="text-muted small">Cardiology & Oncology</p>
-                            <a href="#" class="text-teal fw-bold text-decoration-none small">View Details <i class="fas fa-arrow-right ms-1"></i></a>
+                            <h5 class="fw-bold">{{ $hospital->name }}</h5>
+                            <p class="text-muted small">{{ $hospital->specialty }}</p>
+                            <a href="{{ url('hospitals/'.$hospital->slug) }}" class="text-teal fw-bold text-decoration-none small">
+                                View Details <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card h-100 border-0 shadow-sm hospital-card">
-                        <img src="https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&w=400" class="card-img-top" alt="Shanghai">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold">Shanghai Jiahui</h5>
-                            <p class="text-muted small">Orthopedics</p>
-                            <a href="#" class="text-teal fw-bold text-decoration-none small">View Details <i class="fas fa-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card h-100 border-0 shadow-sm hospital-card">
-                        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400" class="card-img-top" alt="Guangzhou">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold">Guangzhou Union</h5>
-                            <p class="text-muted small">Neurology Center</p>
-                            <a href="#" class="text-teal fw-bold text-decoration-none small">View Details <i class="fas fa-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card h-100 border-0 shadow-sm hospital-card">
-                        <img src="https://images.unsplash.com/photo-1632833239869-a37e3a5806d2?auto=format&fit=crop&w=400" class="card-img-top" alt="Huashan">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold">Huashan Hospital</h5>
-                            <p class="text-muted small">General Surgery</p>
-                            <a href="#" class="text-teal fw-bold text-decoration-none small">View Details <i class="fas fa-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
             
             <div class="text-center d-md-none mt-4">
-                 <button class="btn btn-outline-dark rounded-pill px-4">View All Hospitals</button>
+                <a href="/all-hospitals" class="btn btn-outline-dark rounded-pill px-4">View All Hospitals</a>
             </div>
         </div>
     </section>

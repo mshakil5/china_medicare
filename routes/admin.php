@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CompanyDetailsController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\FAQController;
 use App\Http\Controllers\Admin\HeroSectionController;
+use App\Http\Controllers\Admin\HospitalController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\MedicalPackageController;
 use App\Http\Controllers\Admin\MedicalServiceController;
@@ -26,7 +27,7 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::post('/user-status', [UserController::class, 'toggleStatus'])->name('user.toggleStatus');
 
     // Slider
-    Route::get('/slider', [SliderController::class, 'getSlider'])->name('allslider');
+    Route::get('/slider', [SliderController::class, 'getSlider'])->name('allslider'); 
     Route::post('/slider', [SliderController::class, 'sliderStore']);
     Route::get('/slider/{id}/edit', [SliderController::class, 'sliderEdit']);
     Route::post('/slider-update', [SliderController::class, 'sliderUpdate']);
@@ -116,6 +117,12 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/why-choose/{id}/edit', [WhyChooseController::class, 'edit']);
     Route::post('/why-choose-update', [WhyChooseController::class, 'update'])->name('admin.why_choose.update');
     Route::delete('/why-choose/{id}', [WhyChooseController::class, 'destroy'])->name('admin.why_choose.destroy');
+
+    Route::get('/hospitals', [HospitalController::class, 'index'])->name('admin.hospitals');
+    Route::post('/hospitals', [HospitalController::class, 'store']);
+    Route::get('/hospitals/{id}/edit', [HospitalController::class, 'edit']);
+    Route::post('/hospitals-update', [HospitalController::class, 'update']);
+    Route::delete('/hospitals/{id}', [HospitalController::class, 'destroy'])->name('hospitals.destroy');
 
 
 
