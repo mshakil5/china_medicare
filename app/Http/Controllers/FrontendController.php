@@ -38,7 +38,16 @@ class FrontendController extends Controller
         $hospitals = Hospital::latest()->take(8)->get();
         $partners = Partner::orderBy('sort_order', 'asc')->get();
 
-        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners'));
+        $blogs = Blog::query()
+                ->with(['translations' => function ($query) {
+                    // Only select columns needed for the card view
+                    $query->select('id', 'blog_id', 'locale', 'title', 'summary');
+                }])
+                ->where('status', 1)
+                ->latest()
+                ->get(['id', 'image', 'slug', 'read_time', 'created_at']); 
+
+        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners','blogs'));
     }
 
     public function packages()
@@ -63,6 +72,21 @@ class FrontendController extends Controller
         return view('frontend.contact', compact('company','services'));
     }
 
+
+    public function blogDetails($slug)
+    {
+        // Fetch specific blog by slug
+        $blog = Blog::with('translations')->where('slug', $slug)->firstOrFail();
+        
+        // Fetch trending blogs (last 2-3 blogs excluding current one)
+        $trending = Blog::with('translations')
+                    ->where('id', '!=', $blog->id)
+                    ->latest()
+                    ->take(3)
+                    ->get();
+
+        return view('frontend.blog_details', compact('blog', 'trending'));
+    }
 
 
     public function contactStore(Request $request)

@@ -320,9 +320,239 @@
     </section>
 
 
+    
+    <!-- blog section -->
+    <section class="py-5 bg-light med-blog-section">
+        <div class="container py-lg-4">
+            <div class="row align-items-end mb-5 text-center text-md-start">
+                <div class="col-md-8">
+                    <h2 class="fw-bold display-6">Latest <span class="text-teal">Medical News</span></h2>
+                </div>
+                <div class="col-md-4 text-md-end d-none d-md-block">
+                    <a href="{{ route('front.blog') }}" class="btn btn-outline-teal rounded-pill px-4">View All Articles</a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                @foreach($blogs as $blog)
+                    @php $info = $blog->translation(); @endphp
+                    <div class="col-md-6 col-lg-4">
+                        <article class="card h-100 border-0 shadow-sm med-blog-card">
+                            <div class="med-blog-img-wrapper">
+                                <img src="{{ asset($blog->image) }}" class="card-img-top" alt="{{ $info->title }}">
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center mb-3 small text-muted">
+                                    <span><i class="far fa-calendar-alt me-2"></i>{{ $blog->created_at->format('M d, Y') }}</span>
+                                    <span class="mx-2">•</span>
+                                    <span>{{ $blog->read_time }}</span>
+                                </div>
+                                <h5 class="fw-bold mb-3 med-blog-title">
+                                    <a href="{{ route('front.blog.details', $blog->slug) }}" class="text-dark text-decoration-none">
+                                        {{ $info->title }}
+                                    </a>
+                                </h5>
+                                <p class="text-muted small mb-4">{{ Str::limit($info->summary, 120) }}</p>
+                                <a href="{{ route('front.blog.details', $blog->slug) }}" class="text-teal fw-bold text-decoration-none small">
+                                    Read Full Article <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- blog section -->
 
 
-    <section class="cta-section py-5 text-white text-center">
+    <!-- our team section -->
+
+    <style>
+        /* --- Team Section Unique Styles --- */
+        :root {
+            --med-teal: #14b8a6;
+            --med-teal-soft: rgba(20, 184, 166, 0.1);
+        }
+
+        .med-team-card {
+            background: transparent;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            padding: 10px;
+            border-radius: 20px;
+        }
+
+        .med-team-img-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/5; /* Maintains professional portrait look */
+        }
+
+        .med-team-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Social Overlay */
+        .med-team-socials {
+            position: absolute;
+            bottom: -50px; /* Hidden initially */
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(20, 184, 166, 0.8), transparent);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            transition: bottom 0.4s ease;
+        }
+
+        .med-team-socials a {
+            width: 35px;
+            height: 35px;
+            background: white;
+            color: var(--med-teal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .med-team-socials a:hover {
+            background: var(--med-teal);
+            color: white;
+        }
+
+        /* Hover Effects */
+        .med-team-card:hover .med-team-img-wrapper img {
+            transform: scale(1.1);
+        }
+
+        .med-team-card:hover .med-team-socials {
+            bottom: 0;
+        }
+
+        .med-team-card:hover {
+            background: #ffffff;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+
+        /* Typography & Badges */
+        .bg-teal-soft {
+            background-color: var(--med-teal-soft);
+            color: var(--med-teal);
+        }
+
+        .btn-outline-teal {
+            border: 1px solid var(--med-teal);
+            color: var(--med-teal);
+            transition: 0.3s;
+        }
+
+        .btn-outline-teal:hover {
+            background-color: var(--med-teal);
+            color: white;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .med-team-img-wrapper {
+                aspect-ratio: 1/1; /* Square on small mobile for better fit */
+            }
+        }
+    </style>
+
+
+    <section class="py-5 bg-white med-team-section">
+        <div class="container py-lg-4">
+            <div class="row mb-5 text-center">
+                <div class="col-lg-7 mx-auto">
+                    <h2 class="display-6 fw-bold mb-3">Meet Our <span class="text-teal">Team</span></h2>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="med-team-card text-center">
+                        <div class="med-team-img-wrapper mb-3">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71f153678e?auto=format&fit=crop&w=500" alt="Dr. Sarah Johnson" class="img-fluid">
+                            <div class="med-team-socials">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="med-team-info">
+                            <h5 class="fw-bold mb-1">Dr. Sarah Johnson</h5>
+                            <p class="text-muted small mb-3">MD, Harvard Medical School</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-6">
+                    <div class="med-team-card text-center">
+                        <div class="med-team-img-wrapper mb-3">
+                            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500" alt="Dr. Chen Wei" class="img-fluid">
+                            <div class="med-team-socials">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="med-team-info">
+                            <h5 class="fw-bold mb-1">Dr. Chen Wei</h5>
+                            <p class="text-muted small mb-3">Senior Surgeon, 15+ Yrs Exp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-6">
+                    <div class="med-team-card text-center">
+                        <div class="med-team-img-wrapper mb-3">
+                            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=500" alt="Dr. Elena Rodriguez" class="img-fluid">
+                            <div class="med-team-socials">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="med-team-info">
+                            <h5 class="fw-bold mb-1">Dr. Elena Rodriguez</h5>
+                            <p class="text-muted small mb-3">Specialist, MD (Barcelona)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-6">
+                    <div class="med-team-card text-center">
+                        <div class="med-team-img-wrapper mb-3">
+                            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=500" alt="Dr. James Smith" class="img-fluid">
+                            <div class="med-team-socials">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="med-team-info">
+                            <span class="badge bg-teal-soft text-teal mb-2">Neurology</span>
+                            <h5 class="fw-bold mb-1">Dr. James Smith</h5>
+                            <p class="text-muted small mb-3">Ph.D. Neurosciences</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    <!-- our team section -->
+
+
+
+
+    <section class="cta-section py-5 text-white text-center d-none">
         <div class="container py-4">
             <h2 class="display-5 fw-bold mb-3">Ready to Start Your Medical Journey?</h2>
             <p class="mb-5 opacity-90">Get a free consultation with our medical tourism experts and discover the <br class="d-none d-md-block"> best treatment options for you.</p>

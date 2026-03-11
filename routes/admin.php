@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CompanyDetailsController;
 use App\Http\Controllers\Admin\ContactController;
@@ -131,6 +132,12 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/partners/{id}/edit', [PartnerController::class, 'edit']);
     Route::post('/partners-update', [PartnerController::class, 'update']);
     Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->name('partners.destroy');
+
+    Route::get('/blogs', [BlogController::class, 'index'])->name('admin.blogs');
+    Route::post('/blogs', [BlogController::class, 'store']);
+    Route::get('/blogs/{id}/edit', [BlogController::class, 'edit']);
+    Route::post('/blogs-update', [BlogController::class, 'update']);
+    Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy');
 
 
 
