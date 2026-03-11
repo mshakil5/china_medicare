@@ -51,6 +51,7 @@ class FrontendController extends Controller
                 ->latest()
                 ->get(['id', 'image', 'slug', 'read_time', 'created_at']); 
 
+
         return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners','blogs','teams'));
     }
 

@@ -3,8 +3,10 @@
             <div class="row gy-4">
                 <div class="col-lg-4">
                     <div class="d-flex align-items-center mb-3">
-                        <i class="fas fa-heartbeat text-teal me-2 fs-3"></i>
-                        <h4 class="fw-bold text-white mb-0">China <span class="text-teal">Medicare</span></h4>
+
+                        <a class="navbar-brand d-flex align-items-center" href="{{ route('home')}}">
+                            <img src="{{ asset('uploads/company/' . $company->footer_logo) }}" alt="Company Logo" height="90">
+                        </a>
                     </div>
                     <p class="text-light-gray small pe-lg-5">
                         Your trusted partner for medical tourism in China. We connect international patients with world-class healthcare facilities.
@@ -22,18 +24,8 @@
                     </ul>
                 </div>
 
-                <div class="col-6 col-md-3 col-lg-2">
-                    <h6 class="text-white fw-bold mb-4">Services</h6>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="#">Medical Consultation</a></li>
-                        <li><a href="#">Visa Assistance</a></li>
-                        <li><a href="#">Accommodation</a></li>
-                        <li><a href="#">Translation Services</a></li>
-                        <li><a href="#">Transportation</a></li>
-                    </ul>
-                </div>
 
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-6">
                     <h6 class="text-white fw-bold mb-4">Contact Us</h6>
                     <ul class="list-unstyled footer-contact">
                         <li><i class="fas fa-phone-alt me-3"></i>+880 1333 218519</li>

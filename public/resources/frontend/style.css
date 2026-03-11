@@ -141,7 +141,7 @@ body { font-family: 'Inter', sans-serif; }
 .bg-teal-soft {
     background-color: rgba(20, 184, 166, 0.9);
     backdrop-filter: blur(4px);
-    color: white !important;
+    color: rgb(0, 0, 0) !important;
     font-weight: 500;
 }
 
