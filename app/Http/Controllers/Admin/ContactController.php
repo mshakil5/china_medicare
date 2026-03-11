@@ -13,12 +13,12 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $contacts = Contact::select(['id','first_name','last_name','email','subject','message','status','created_at'])
+            $contacts = Contact::select(['id','full_name','email','country','message','status','created_at'])
                 ->orderBy('status','asc')->orderByDesc('id');
 
             return DataTables::of($contacts)
                 ->addIndexColumn()
-                ->addColumn('full_name', fn($row) => $row->first_name.' '.$row->last_name)
+                ->addColumn('full_name', fn($row) => $row->full_name)
                 ->addColumn('date', fn($row) => Carbon::parse($row->created_at)->format('d-m-Y'))
                 ->addColumn('status', function($row){
                     $checked = $row->status ? 'checked' : '';

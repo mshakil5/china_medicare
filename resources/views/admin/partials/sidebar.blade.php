@@ -127,6 +127,40 @@
                 </li>
 
                 
+                <li class="nav-item">
+                    <a href="{{ route('admin.hospitals') }}" class="nav-link {{ Route::is('admin.hospitals') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Hospital</span>
+                    </a>
+                </li>
+
+                
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.partners') }}" class="nav-link {{ Route::is('admin.partners') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Our Partners</span>
+                    </a>
+                </li>
+
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.blogs') }}" class="nav-link {{ Route::is('admin.blogs') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Blog</span>
+                    </a>
+                </li>
+
+                
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.team') }}" class="nav-link {{ Route::is('admin.team') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Our Team</span>
+                    </a>
+                </li>
+                
+                
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.why_choose') }}" class="nav-link {{ Route::is('admin.why_choose') ? 'active' : '' }}">
@@ -135,7 +169,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item d-none">
+                <li class="nav-item">
                     <a href="{{ route('contacts.index') }}" class="nav-link {{ Route::is('contacts.index') ? 'active' : '' }}">
                         <i class="ri-mail-open-line"></i>
                         <span>Contact Messages</span>

@@ -15,7 +15,7 @@
                             <th>Date</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Subject</th>
+                            <th>Country</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -81,8 +81,8 @@
                         name: 'email'
                     },
                     {
-                        data: 'subject',
-                        name: 'subject'
+                        data: 'country',
+                        name: 'country'
                     },
                     {
                         data: 'status',
