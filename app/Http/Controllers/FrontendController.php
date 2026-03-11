@@ -20,6 +20,7 @@ use App\Models\Hospital;
 use App\Models\MedicalPackage;
 use App\Models\MedicalService;
 use App\Models\Partner;
+use App\Models\Team;
 use App\Models\WhyChoose;
     use Illuminate\Support\Str;
 
@@ -38,6 +39,10 @@ class FrontendController extends Controller
         $hospitals = Hospital::latest()->take(8)->get();
         $partners = Partner::orderBy('sort_order', 'asc')->get();
 
+        
+        $teams = Team::orderBy('order', 'asc')->get();
+
+
         $blogs = Blog::query()
                 ->with(['translations' => function ($query) {
                     $query->select('id', 'blog_id', 'locale', 'title', 'summary');
@@ -46,7 +51,7 @@ class FrontendController extends Controller
                 ->latest()
                 ->get(['id', 'image', 'slug', 'read_time', 'created_at']); 
 
-        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners','blogs'));
+        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners','blogs','teams'));
     }
 
     public function packages()

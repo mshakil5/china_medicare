@@ -476,70 +476,40 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="med-team-card text-center">
-                        <div class="med-team-img-wrapper mb-3">
-                            <img src="https://images.unsplash.com/photo-1559839734-2b71f153678e?auto=format&fit=crop&w=500" alt="Dr. Sarah Johnson" class="img-fluid">
-                            <div class="med-team-socials">
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
+                @foreach($teams as $member)
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="med-team-card text-center">
+                            <div class="med-team-img-wrapper mb-3">
+                                {{-- Dynamic Image with Fallback --}}
+                                <img src="{{ $member->image ? asset($member->image) : 'https://via.placeholder.com/500x500?text=No+Image' }}" 
+                                    alt="{{ $member->name }}" 
+                                    class="img-fluid">
+                                
+                                <div class="med-team-socials">
+                                    {{-- Show LinkedIn only if exists --}}
+                                    @if($member->linkedin)
+                                        <a href="{{ $member->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    @endif
+                                    
+                                    {{-- Show Email only if exists --}}
+                                    @if($member->email)
+                                        <a href="mailto:{{ $member->email }}"><i class="fas fa-envelope"></i></a>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="med-team-info">
-                            <h5 class="fw-bold mb-1">Dr. Sarah Johnson</h5>
-                            <p class="text-muted small mb-3">MD, Harvard Medical School</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-3 col-sm-6">
-                    <div class="med-team-card text-center">
-                        <div class="med-team-img-wrapper mb-3">
-                            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500" alt="Dr. Chen Wei" class="img-fluid">
-                            <div class="med-team-socials">
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="med-team-info">
-                            <h5 class="fw-bold mb-1">Dr. Chen Wei</h5>
-                            <p class="text-muted small mb-3">Senior Surgeon, 15+ Yrs Exp</p>
-                        </div>
-                    </div>
-                </div>
+                            <div class="med-team-info">
+                                {{-- Show Specialty Badge only if exists --}}
+                                @if($member->specialty)
+                                    <span class="badge bg-teal-soft text-teal mb-2">{{ $member->specialty }}</span>
+                                @endif
 
-                <div class="col-lg-3 col-sm-6">
-                    <div class="med-team-card text-center">
-                        <div class="med-team-img-wrapper mb-3">
-                            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=500" alt="Dr. Elena Rodriguez" class="img-fluid">
-                            <div class="med-team-socials">
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
+                                <h5 class="fw-bold mb-1">{{ $member->name }}</h5>
+                                <p class="text-muted small mb-3">{{ $member->designation }}</p>
                             </div>
                         </div>
-                        <div class="med-team-info">
-                            <h5 class="fw-bold mb-1">Dr. Elena Rodriguez</h5>
-                            <p class="text-muted small mb-3">Specialist, MD (Barcelona)</p>
-                        </div>
                     </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-6">
-                    <div class="med-team-card text-center">
-                        <div class="med-team-img-wrapper mb-3">
-                            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=500" alt="Dr. James Smith" class="img-fluid">
-                            <div class="med-team-socials">
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="med-team-info">
-                            <span class="badge bg-teal-soft text-teal mb-2">Neurology</span>
-                            <h5 class="fw-bold mb-1">Dr. James Smith</h5>
-                            <p class="text-muted small mb-3">Ph.D. Neurosciences</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
             
         </div>

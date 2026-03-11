@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\MedicalServiceController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WhyChooseController;
 use App\Http\Controllers\HomeController;
@@ -138,6 +139,13 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/blogs/{id}/edit', [BlogController::class, 'edit']);
     Route::post('/blogs-update', [BlogController::class, 'update']);
     Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+    
+    Route::get('/team', [TeamController::class, 'index'])->name('admin.team');
+    Route::post('/team', [TeamController::class, 'store']);
+    Route::get('/team/{id}/edit', [TeamController::class, 'edit']);
+    Route::post('/team-update', [TeamController::class, 'update']);
+    Route::delete('/team/{id}', [TeamController::class, 'destroy'])->name('team.destroy');
 
 
 
