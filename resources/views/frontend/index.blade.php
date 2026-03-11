@@ -72,7 +72,8 @@
 
 
 
-    <section class="py-5 bg-white">
+    @if ($hospitals->count() > 0)
+          <section class="py-5 bg-white">
         <div class="container py-lg-4">
             <div class="row align-items-end mb-5 text-center text-md-start">
                 <div class="col-md-8">
@@ -106,7 +107,9 @@
                 <a href="/all-hospitals" class="btn btn-outline-dark rounded-pill px-4">View All Hospitals</a>
             </div>
         </div>
-    </section>
+    </section>  
+    @endif
+
 
 
 
