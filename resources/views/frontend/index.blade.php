@@ -208,7 +208,7 @@
                                     {{ $package->price_range }}
                                 </h4>
 
-                                <a href="#" class="btn btn-teal-solid w-100 py-2">
+                                <a href="{{route('package.details', $package->id)}}" class="btn btn-teal-solid w-100 py-2">
                                     View Details
                                 </a>
 
@@ -219,9 +219,6 @@
                 @endforeach
             </div>
 
-            <div class="text-center d-md-none mt-4">
-                <button class="btn btn-outline-dark rounded-pill px-4">View All Packages</button>
-            </div>
         </div>
     </section>
 

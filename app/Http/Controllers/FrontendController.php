@@ -40,7 +40,6 @@ class FrontendController extends Controller
 
         $blogs = Blog::query()
                 ->with(['translations' => function ($query) {
-                    // Only select columns needed for the card view
                     $query->select('id', 'blog_id', 'locale', 'title', 'summary');
                 }])
                 ->where('status', 1)
@@ -69,7 +68,7 @@ class FrontendController extends Controller
                 ->where('status', 1)
                 ->latest()
                 ->get(['id', 'image', 'slug', 'read_time', 'created_at']); 
-                
+
         return view('frontend.blog-list', compact('company','blogs'));
     }
 
@@ -102,6 +101,20 @@ class FrontendController extends Controller
                     ->get();
 
         return view('frontend.blog_details', compact('blog', 'trending'));
+    }
+
+    public function packagesDetails($id)
+    {
+        // Fetch the package with translations
+        $package = MedicalPackage::with('translations')->findOrFail($id);
+        
+        // Get translation for current locale
+        $translation = $package->translate(app()->getLocale());
+        
+        // Decode features (handled by $casts in your model, but we ensure it's an array)
+        $features = $package->features ?? [];
+
+        return view('frontend.package_details', compact('package', 'translation', 'features'));
     }
 
 
