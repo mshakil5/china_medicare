@@ -57,6 +57,22 @@ class FrontendController extends Controller
         return view('frontend.packages', compact('company','packages'));
     }
 
+    public function blogList()
+    {
+        $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
+        
+        $blogs = Blog::query()
+                ->with(['translations' => function ($query) {
+                    // Only select columns needed for the card view
+                    $query->select('id', 'blog_id', 'locale', 'title', 'summary');
+                }])
+                ->where('status', 1)
+                ->latest()
+                ->get(['id', 'image', 'slug', 'read_time', 'created_at']); 
+                
+        return view('frontend.blog-list', compact('company','blogs'));
+    }
+
     
     public function services()
     {

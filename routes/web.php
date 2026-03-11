@@ -41,7 +41,7 @@ Route::get('/services', [FrontendController::class, 'services'])->name('services
 Route::get('/packages', [FrontendController::class, 'packages'])->name('packages');
 Route::get('/packages-details/{slug}', [FrontendController::class, 'packages'])->name('package.details');
 Route::get('/blog-details/{slug}', [FrontendController::class, 'blogDetails'])->name('front.blog.details');
-Route::get('/blog-list', [FrontendController::class, 'blogDetails'])->name('front.blog');
+Route::get('/blog-list', [FrontendController::class, 'blogList'])->name('front.blog');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact/store', [FrontendController::class, 'contactStore'])->name('contact.store');
 
