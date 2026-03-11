@@ -19,6 +19,7 @@ use App\Models\HeroSection;
 use App\Models\Hospital;
 use App\Models\MedicalPackage;
 use App\Models\MedicalService;
+use App\Models\Partner;
 use App\Models\WhyChoose;
     use Illuminate\Support\Str;
 
@@ -35,8 +36,9 @@ class FrontendController extends Controller
         $whyChooseItems = WhyChoose::with('translations')->where('status', 1)->orderBy('serial')->get();
 
         $hospitals = Hospital::latest()->take(8)->get();
+        $partners = Partner::orderBy('sort_order', 'asc')->get();
 
-        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals'));
+        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners'));
     }
 
     public function packages()

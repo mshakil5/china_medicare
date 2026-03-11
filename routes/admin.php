@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\HospitalController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\MedicalPackageController;
 use App\Http\Controllers\Admin\MedicalServiceController;
+use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\UserController;
@@ -123,6 +124,13 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/hospitals/{id}/edit', [HospitalController::class, 'edit']);
     Route::post('/hospitals-update', [HospitalController::class, 'update']);
     Route::delete('/hospitals/{id}', [HospitalController::class, 'destroy'])->name('hospitals.destroy');
+
+    // Partner Routes
+    Route::get('/partners', [PartnerController::class, 'index'])->name('admin.partners');
+    Route::post('/partners', [PartnerController::class, 'store']);
+    Route::get('/partners/{id}/edit', [PartnerController::class, 'edit']);
+    Route::post('/partners-update', [PartnerController::class, 'update']);
+    Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->name('partners.destroy');
 
 
 

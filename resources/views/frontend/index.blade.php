@@ -335,15 +335,96 @@
         </div>
     </section>
 
-    <div class="trust-bar py-4 border-bottom">
+    <style>
+        .partners-scroll-section {
+            background: #fff;
+        }
+
+        .partners-scroll-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .partners-scroll-track {
+            display: flex;
+            width: max-content;
+            animation: partnersScroll 25s linear infinite;
+        }
+
+        .partner-logo {
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .partner-logo img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+            filter: grayscale(100%);
+            transition: 0.3s;
+        }
+
+        .partner-logo img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        /* pause animation on hover */
+        .partners-scroll-wrapper:hover .partners-scroll-track {
+            animation-play-state: paused;
+        }
+
+        /* animation */
+        @keyframes partnersScroll {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+
+            .partner-logo {
+                padding: 10px 20px;
+            }
+
+            .partner-logo img {
+                height: 40px;
+            }
+
+            .partners-scroll-track {
+                animation: partnersScroll 18s linear infinite;
+            }
+
+        }
+
+    </style>
+
+    <div class="partners-scroll-section py-5 border-bottom">
         <div class="container text-center">
-            <p class="small text-muted mb-4">Trusted by International Patients Worldwide</p>
-            <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 gap-md-5 opacity-50">
-                <span class="fw-bold h5 mb-0">JCI Accredited</span>
-                <span class="fw-bold h5 mb-0">WHO Recognized</span>
-                <span class="fw-bold h5 mb-0">MTQUA Certified</span>
-                <span class="fw-bold h5 mb-0">ISO 9001</span>
-                <span class="fw-bold h5 mb-0">Global Healthcare</span>
+            <h3 class="mb-4 fw-bold">Our Partners</h3>
+            <div class="partners-scroll-wrapper">
+                <div class="partners-scroll-track">
+                    {{-- First set of logos --}}
+                    @foreach($partners as $partner)
+                        <div class="partner-logo">
+                            <img src="{{ asset($partner->image) }}" alt="Partner">
+                        </div>
+                    @endforeach
+
+                    {{-- Duplicate set for smooth infinite scroll --}}
+                    @foreach($partners as $partner)
+                        <div class="partner-logo">
+                            <img src="{{ asset($partner->image) }}" alt="Partner">
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
