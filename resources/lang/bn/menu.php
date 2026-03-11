@@ -1,4 +1,5 @@
 <?php
+// bn folder
 return [
     'home' => 'হোম',
     'hospitals' => 'হাসপাতালসমূহ',

@@ -1,4 +1,5 @@
 <?php
+// en folder
 return [
     'home' => 'Home',
     'hospitals' => 'Hospitals',
