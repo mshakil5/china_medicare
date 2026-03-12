@@ -76,7 +76,7 @@
                         </div>
                         
                         <div class="d-grid gap-3">
-                            <button class="btn btn-teal-solid py-3 fw-bold rounded-pill">Book This Package</button>
+                            <a class="btn btn-teal-solid py-3 fw-bold rounded-pill" href="{{ route('contact')}}">Book This Package</a>
                         </div>
                         <hr class="my-4">
                         <div class="text-center">

@@ -121,11 +121,11 @@
                     <h2 class="display-6 fw-bold mb-3">Popular <span class="text-teal">Medical Packages</span></h2>
                     <p class="text-muted max-w-600">Comprehensive treatment packages with transparent pricing and full support throughout your medical journey.</p>
                 </div>
-                <div class="col-md-4 text-md-end d-none d-md-block">
+                {{-- <div class="col-md-4 text-md-end d-none d-md-block">
                     <button class="btn btn-outline-dark rounded-pill px-4 py-2">
                         <i class="fas fa-box-open me-2"></i> View All Packages <i class="fas fa-arrow-right ms-2 small"></i>
                     </button>
-                </div>
+                </div> --}}
             </div>
 
             <div class="row g-4">
