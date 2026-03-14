@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+  namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+  use Illuminate\Support\Facades\Auth;
+  use Spatie\Activitylog\Models\Activity;
+  use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -21,10 +23,20 @@ class HomeController extends Controller
     }
   }
 
-  public function adminHome()
-  {
-    return view('admin.pages.dashboard');
-  }
+    public function adminHome()
+    {
+
+        $totalVisits = Activity::where('log_name', 'visitor-log')->count();
+
+        // Count unique visitors today (by IP address stored in properties)
+        $todaysUniqueVisitors = Activity::where('log_name', 'visitor-log')
+            ->whereDate('created_at', Carbon::today())
+            ->get()
+            ->unique('properties.ip')
+            ->count();
+            
+        return view('admin.pages.dashboard', compact('totalVisits', 'todaysUniqueVisitors' ));
+    }
 
   public function userHome()
   {
