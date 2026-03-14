@@ -23,9 +23,17 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label>Icon (FontAwesome class)</label>
-                        <input type="text" name="icon" id="icon"
-                               class="form-control"
-                               placeholder="fas fa-hospital-alt">
+                        <select name="icon" id="icon" class="form-control">
+                            <option value="">Select Icon</option>
+                            <option value="fas fa-hospital-alt">Hospital</option>
+                            <option value="fas fa-user-md">Doctor</option>
+                            <option value="fas fa-ambulance">Ambulance</option>
+                            <option value="fas fa-heartbeat">Heartbeat</option>
+                            <option value="fas fa-stethoscope">Stethoscope</option>
+                            <option value="fas fa-pills">Pills</option>
+                            <option value="fas fa-notes-medical">Medical Notes</option>
+                            <!-- Add more options as needed -->
+                        </select>
                     </div>
 
                     <div class="col-md-3 mb-3">

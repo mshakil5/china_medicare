@@ -23,11 +23,41 @@
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label>Icon (FontAwesome class)</label>
-                        <input type="text" name="icon" id="icon" class="form-control"
-                               placeholder="fa-stethoscope">
+                        <select name="icon" id="icon" class="form-control">
+                            <option value="">Select Icon</option>
+                            <option value="fas fa-hospital-alt">Hospital</option>
+                            <option value="fas fa-user-md">Doctor</option>
+                            <option value="fas fa-ambulance">Ambulance</option>
+                            <option value="fas fa-heartbeat">Heartbeat</option>
+                            <option value="fas fa-stethoscope">Stethoscope</option>
+                            <option value="fas fa-pills">Pills</option>
+                            <option value="fas fa-notes-medical">Medical Notes</option>
+                            <!-- Add more options as needed -->
+                            <option value="fas fa-syringe">Syringe</option>
+                            <option value="fas fa-x-ray">X-Ray</option>
+                            <option value="fas fa-procedures">Procedures</option>
+                            <option value="fas fa-wheelchair">Wheelchair</option>
+                            <option value="fas fa-band-aid">Band Aid</option>
+                            <option value="fas fa-dna">DNA</option>
+                            <option value="fas fa-briefcase-medical">Medical Briefcase</option>
+                            <option value="fas fa-user-nurse">Nurse</option>
+                            <option value="fas fa-capsules">Capsules</option>
+                            <option value="fas fa-microscope">Microscope</option>
+                            <option value="fas fa-lungs">Lungs</option>
+                            <option value="fas fa-allergies">Allergies</option>
+                            <option value="fas fa-vials">Vials</option>
+                            <option value="fas fa-prescription-bottle-alt">Prescription Bottle</option>
+                            <option value="fas fa-first-aid">First Aid</option>
+                            <option value="fas fa-hospital-user">Hospital User</option>
+                            <option value="fas fa-biohazard">Biohazard</option>
+                            <option value="fas fa-thermometer">Thermometer</option>
+                            <option value="fas fa-tooth">Tooth</option>
+                            <option value="fas fa-brain">Brain</option>
+                        </select>
                         <small class="text-muted">Example: fa-plane, fa-hotel</small>
                     </div>
 
+                
                     <div class="col-md-4 mb-3">
                         <label>Color</label>
                         <select name="color" id="color" class="form-control">
