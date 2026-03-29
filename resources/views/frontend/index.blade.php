@@ -112,6 +112,8 @@
 
 
 
+    
+    @if ($packages->count() > 0)
 
     <section class="py-5 bg-white">
         <div class="container py-lg-4">
@@ -225,6 +227,9 @@
         </div>
     </section>
 
+    @endif
+
+
 
 
 
@@ -274,6 +279,10 @@
 
 
 
+   
+    @if ($whyChooseItems->count() > 0)
+        
+
     <section class="why-choose-section py-5">
         <div class="container py-lg-5">
             <div class="text-center mb-5">
@@ -319,8 +328,10 @@
         </div>
     </section>
 
+    @endif
 
     
+    @if ($blogs->count() > 0)
     <!-- blog section -->
     <section class="py-5 bg-light med-blog-section">
         <div class="container py-lg-4">
@@ -365,10 +376,12 @@
     </section>
 
     <!-- blog section -->
+    @endif
+
+
 
 
     <!-- our team section -->
-
     <style>
         /* --- Team Section Unique Styles --- */
         :root {
@@ -470,6 +483,7 @@
     </style>
 
 
+    @if ($teams->count() > 0)
     <section class="py-5 bg-white med-team-section">
         <div class="container py-lg-4">
             <div class="row mb-5 text-center">
@@ -517,6 +531,9 @@
             
         </div>
     </section>
+    @endif
+
+
     <!-- our team section -->
 
 
@@ -606,6 +623,8 @@
 
     </style>
 
+    @if ($partners->count() > 0)
+        
     <div class="partners-scroll-section py-5 border-bottom">
         <div class="container text-center">
             <h3 class="mb-4 fw-bold">Our Partners</h3>
@@ -628,6 +647,9 @@
             </div>
         </div>
     </div>
+
+    @endif
+
 
 
 
