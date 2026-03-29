@@ -112,10 +112,59 @@
 
 
 
+    <style>
+        /* Scroll Reveal Animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Optional: Stagger delay for child cards */
+        .scroll-reveal .card,
+        .scroll-reveal .service-card-new {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-reveal.revealed .card,
+        .scroll-reveal.revealed .service-card-new {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger animation delays for each card */
+        .scroll-reveal.revealed .col-lg-4:nth-child(1) .card,
+        .scroll-reveal.revealed .col-xl-3:nth-child(1) .service-card-new { transition-delay: 0.1s; }
+
+        .scroll-reveal.revealed .col-lg-4:nth-child(2) .card,
+        .scroll-reveal.revealed .col-xl-3:nth-child(2) .service-card-new { transition-delay: 0.2s; }
+
+        .scroll-reveal.revealed .col-lg-4:nth-child(3) .card,
+        .scroll-reveal.revealed .col-xl-3:nth-child(3) .service-card-new { transition-delay: 0.3s; }
+
+        .scroll-reveal.revealed .col-lg-4:nth-child(4) .card,
+        .scroll-reveal.revealed .col-xl-3:nth-child(4) .service-card-new { transition-delay: 0.4s; }
+
+        .scroll-reveal.revealed .col-lg-4:nth-child(5) .card,
+        .scroll-reveal.revealed .col-xl-3:nth-child(5) .service-card-new { transition-delay: 0.5s; }
+
+        .scroll-reveal.revealed .col-lg-4:nth-child(6) .card,
+        .scroll-reveal.revealed .col-xl-3:nth-child(6) .service-card-new { transition-delay: 0.6s; }
+
+
+    </style>
+
+
     
     @if ($packages->count() > 0)
-
-    <section class="py-5 bg-white">
+    <section class="py-5 bg-white scroll-reveal">
         <div class="container py-lg-4">
             <div class="row align-items-end mb-5">
                 <div class="col-md-8 text-center text-md-start">
@@ -123,11 +172,6 @@
                     <h2 class="display-6 fw-bold mb-3">Popular <span class="text-teal">Medical Packages</span></h2>
                     <p class="text-muted max-w-600">Comprehensive treatment packages with transparent pricing and full support throughout your medical journey.</p>
                 </div>
-                {{-- <div class="col-md-4 text-md-end d-none d-md-block">
-                    <button class="btn btn-outline-dark rounded-pill px-4 py-2">
-                        <i class="fas fa-box-open me-2"></i> View All Packages <i class="fas fa-arrow-right ms-2 small"></i>
-                    </button>
-                </div> --}}
             </div>
 
             <div class="row g-4">
@@ -148,7 +192,6 @@
                                 >
 
                                 <div class="card-badges p-3 position-absolute top-0 start-0 w-100 d-flex gap-2">
-
                                     @if($package->is_featured)
                                         <span class="badge bg-warning-soft text-warning">
                                             <i class="fas fa-star me-1"></i> Featured
@@ -160,14 +203,12 @@
                                             <i class="fas fa-chart-line me-1"></i> Popular
                                         </span>
                                     @endif
-
                                 </div>
 
                                 <span class="category-pill">{{ $package->category }}</span>
                             </div>
 
                             <div class="card-body p-4">
-
                                 <h5 class="fw-bold mb-1">
                                     {{ $translation->title ?? '' }}
                                 </h5>
@@ -180,7 +221,6 @@
                                     {{ $translation->description ?? '' }}
                                 </p>
 
-                                {{-- Features --}}
                                 <ul class="list-unstyled mb-4 package-features">
                                     @if($features)
                                         @foreach(array_slice($features, 0, 3) as $feature)
@@ -216,24 +256,78 @@
                                 <a href="{{route('package.details', $package->id)}}" class="btn btn-teal-solid w-100 py-2">
                                     View Details
                                 </a>
-
                             </div>
                         </div>
                     </div>
-
                 @endforeach
             </div>
-
         </div>
     </section>
-
     @endif
+    
+    <style>
+        /* Hidden features - initially collapsed */
+.features-hidden {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+}
+
+.features-hidden.expanded {
+    max-height: 500px; /* Adjust based on max possible features */
+    opacity: 1;
+    transition: max-height 0.5s ease-in, opacity 0.4s ease-in;
+}
+
+/* Toggle button styling */
+.feature-toggle {
+    cursor: pointer;
+    padding: 4px 0 !important;
+    transition: color 0.2s ease;
+}
+
+.feature-toggle:hover .toggle-text {
+    color: var(--bs-teal, #0d9488);
+}
+
+.feature-toggle .toggle-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* When expanded, change icon and text */
+.feature-toggle.is-expanded .toggle-text::after {
+    content: 'Show less';
+}
+
+.feature-toggle.is-expanded .toggle-text i {
+    transform: rotate(45deg);
+}
 
 
+/* Hide the default text node, we use ::after instead */
+.feature-toggle .toggle-text {
+    font-size: 0;
+}
 
+.feature-toggle .toggle-text::after {
+    font-size: 0.75rem;
+}
 
+.feature-toggle .toggle-text i {
+    font-size: 0.75rem;
+    margin-right: 4px;
+    transition: transform 0.3s ease;
+}
+    </style>
 
-    <section class="py-5 bg-white">
+    @if ($services->count() > 0)
+    <section class="py-5 bg-white scroll-reveal">
         <div class="container">
             <div class="text-center mb-5">
                 <h6 class="text-teal text-uppercase fw-bold small">Comprehensive Care</h6>
@@ -246,11 +340,15 @@
                     @php
                         $trans = $service->translate();
                         $features = $trans->features ?? [];
+                        $visibleFeatures = array_slice($features, 0, 3);
+                        $hiddenFeatures = array_slice($features, 3);
+                        $hiddenCount = count($hiddenFeatures);
+                        $uniqueId = 'service-' . $service->id;
                     @endphp
 
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="service-card-new p-4 h-100 bg-white shadow-sm border-0">
-
+                            
                             <div class="icon-circle bg-{{ $service->color }}-light mb-4">
                                 <i class="fas {{ $service->icon }} text-{{ $service->color }}"></i>
                             </div>
@@ -262,24 +360,35 @@
                             </p>
 
                             <ul class="service-bullets list-unstyled mb-0">
-                                @foreach(array_slice($features, 0, 3) as $feature)
+                                @foreach($visibleFeatures as $feature)
                                     <li>{{ $feature }}</li>
                                 @endforeach
+
+                                @if($hiddenCount > 0)
+                                    <div id="{{ $uniqueId }}-hidden" class="features-hidden">
+                                        @foreach($hiddenFeatures as $feature)
+                                            <li>{{ $feature }}</li>
+                                        @endforeach
+                                    </div>
+
+                                    <li class="feature-toggle mt-1" onclick="toggleFeatures('{{ $uniqueId }}', this)">
+                                        <span class="toggle-text">
+                                            <i class="fas fa-plus-circle me-1 text-teal"></i>
+                                            +{{ $hiddenCount }} more
+                                        </span>
+                                    </li>
+                                @endif
                             </ul>
 
                         </div>
                     </div>
                 @endforeach
             </div>
-
-
-
         </div>
     </section>
+    @endif
 
 
-
-   
     @if ($whyChooseItems->count() > 0)
         
 
@@ -657,5 +766,74 @@
 
 @section('script')
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollElements = document.querySelectorAll('.scroll-reveal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    // Optional: Stop observing after animation
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,        // Trigger when 10% is visible
+            rootMargin: '0px 0px -50px 0px'  // Slight offset from bottom
+        });
+
+        scrollElements.forEach(el => {
+            observer.observe(el);
+        });
+    });
+
+
+    function toggleFeatures(uniqueId, toggleElement) {
+    const hiddenDiv = document.getElementById(uniqueId + '-hidden');
+    
+    if (!hiddenDiv) return;
+
+    const isExpanded = hiddenDiv.classList.contains('expanded');
+    const hiddenCount = hiddenDiv.querySelectorAll('li').length;
+    const toggleText = toggleElement.querySelector('.toggle-text');
+
+    if (isExpanded) {
+        // Collapse
+        hiddenDiv.classList.remove('expanded');
+        toggleElement.classList.remove('is-expanded');
+        toggleText.setAttribute('data-count', hiddenCount);
+    } else {
+        // Expand
+        hiddenDiv.classList.add('expanded');
+        toggleElement.classList.add('is-expanded');
+    }
+}
+
+// Fix: Set initial count text properly
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.feature-toggle').forEach(toggle => {
+        const hiddenDiv = toggle.previousElementSibling;
+        if (hiddenDiv) {
+            const count = hiddenDiv.querySelectorAll('li').length;
+            toggle.querySelector('.toggle-text').setAttribute('data-count', count);
+        }
+    });
+
+    // Override CSS ::after with JS for dynamic count
+    const style = document.createElement('style');
+    style.textContent = `
+        .feature-toggle:not(.is-expanded) .toggle-text::after {
+            content: attr(data-count) ' more';
+        }
+        .feature-toggle.is-expanded .toggle-text::after {
+            content: 'Show less';
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+
+</script>
 
 @endsection
