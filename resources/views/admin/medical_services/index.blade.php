@@ -227,6 +227,9 @@ $(document).ready(function () {
                 $("#addThisFormContainer").slideUp();
                 $("#newBtn").show();
                 table.draw();
+                setTimeout(function() {
+                    location.reload();
+                }, 2000);
             },
             error: function (xhr) {
                 showError(xhr.responseJSON.message);
