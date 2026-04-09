@@ -1,69 +1,182 @@
 @extends('admin.pages.master')
 @section('title', 'Medical Packages')
+
+@section('css')
+<style>
+    .img-preview-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .img-preview-container img {
+        width: 120px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+    }
+    .img-preview-container .remove-img {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #dc3545;
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+    .spinner-border {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-right: 0.5rem;
+    }
+    .seo-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+    }
+    .feature-tag {
+        display: inline-flex;
+        align-items: center;
+        background: #e7f5ff;
+        border: 1px solid #74c0fc;
+        color: #1971c2;
+        padding: 4px 10px;
+        border-radius: 20px;
+        margin: 2px;
+        font-size: 13px;
+    }
+    .feature-tag .remove-feature {
+        margin-left: 6px;
+        cursor: pointer;
+        color: #e03131;
+    }
+    .tab-content {
+        min-height: 200px;
+    }
+</style>
+@endsection
+
 @section('content')
 
 <div class="container-fluid" id="newBtnSection">
-    <button type="button" class="btn btn-primary mb-3" id="newBtn">Add New Package</button>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">Medical Packages</h4>
+        <button type="button" class="btn btn-primary" id="newBtn">
+            <i class="ri-add-line me-1"></i> Add New Package
+        </button>
+    </div>
 </div>
 
 <div class="container-fluid" id="addThisFormContainer" style="display: none;">
     <div class="card">
-        <div class="card-header"><h4 id="cardTitle">Add New Medical Package</h4></div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0" id="cardTitle">Add New Medical Package</h4>
+            <button type="button" id="FormCloseBtn" class="btn btn-sm btn-light">
+                <i class="ri-close-line"></i>
+            </button>
+        </div>
         <div class="card-body">
             <form id="createThisForm" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="codeid" name="codeid">
                 
+                <!-- Basic Information -->
+                <h5 class="text-primary mb-3">
+                    <i class="ri-information-line me-1"></i> Basic Information
+                </h5>
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label>Package Image</label>
-                        <input type="file" class="form-control" name="image" id="image">
+                        <label class="form-label">Package Image <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" name="image" id="image" accept="image/*">
+                        <div id="imagePreview" class="mt-2"></div>
+                        <small class="text-muted">Recommended: 800x600px, Max 2MB</small>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label>Category</label>
-                        <select class="form-control" name="category" id="category">
-                            <option value="Surgery">Surgery</option>
-                            <option value="Treatment">Treatment</option>
-                            <option value="Checkup">Checkup</option>
+                        <label class="form-label">Category <span class="text-danger">*</span></label>
+                        <select class="form-select" name="category" id="category" required>
+                            <option value="">Select Category</option>
+                            @foreach($categories as $key => $category)
+                                <option value="{{ $key }}">{{ $category }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label>Duration (e.g., 18 days)</label>
-                        <input type="text" class="form-control" name="duration" id="duration" placeholder="18 days">
+                        <label class="form-label">Duration <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="duration" id="duration" 
+                               placeholder="e.g., 7 days, 2 weeks" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label>Price Range</label>
-                        <input type="text" class="form-control" name="price_range" id="price_range" placeholder="$18,000 - $30,000">
+                        <label class="form-label">Price Range</label>
+                        <input type="text" class="form-control" name="price_range" id="price_range" 
+                               placeholder="e.g., 5000-10000">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label>Cities Count</label>
-                        <input type="number" class="form-control" name="cities_count" id="cities_count" value="1">
+                        <label class="form-label">Cities Count</label>
+                        <input type="number" class="form-control" name="cities_count" id="cities_count" 
+                               value="1" min="1">
                     </div>
-                    <div class="col-md-4 mb-3 d-flex align-items-end gap-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="is_popular" id="is_popular">
-                            <label class="form-check-label" for="is_popular">Popular Tag</label>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" name="status" id="status" checked>
+                            <label class="form-check-label" for="status">Active</label>
                         </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="is_featured" id="is_featured">
-                            <label class="form-check-label" for="is_featured">Featured Tag</label>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="is_popular" id="is_popular">
+                                <label class="form-check-label" for="is_popular">
+                                    <span class="badge bg-info">Popular</span>
+                                </label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="is_featured" id="is_featured">
+                                <label class="form-check-label" for="is_featured">
+                                    <span class="badge bg-warning">Featured</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Features Section -->
                 <hr>
-                <h5>Package Features (Bullet Points)</h5>
-                <div id="feature-container" class="mb-3">
-                    <div class="input-group mb-2">
-                        <input type="text" name="features[]" class="form-control" placeholder="Enter a feature...">
-                        <button type="button" class="btn btn-success add-feature-btn"><i class="ri-add-line"></i></button>
+                <h5 class="text-primary mb-3">
+                    <i class="ri-list-check-2 me-1"></i> Package Features
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" id="featureInput" class="form-control" 
+                                   placeholder="Type a feature and press Enter or click Add">
+                            <button type="button" class="btn btn-success" id="addFeatureBtn">
+                                <i class="ri-add-line"></i> Add
+                            </button>
+                        </div>
                     </div>
                 </div>
+                <div id="featureTags" class="mb-3"></div>
+                <input type="hidden" name="features" id="featuresInput">
 
+                <!-- Translatable Fields -->
+                <hr>
+                <h5 class="text-primary mb-3">
+                    <i class="ri-translate-2 me-1"></i> Multilingual Content
+                </h5>
                 <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
                     @foreach(config('translatable.locales') as $index => $locale)
                         <li class="nav-item">
-                            <a class="nav-link {{ $index == 0 ? 'active' : '' }}" data-bs-toggle="tab" href="#tab-{{ $locale }}" role="tab">
+                            <a class="nav-link {{ $index == 0 ? 'active' : '' }}" 
+                               data-bs-toggle="tab" href="#tab-{{ $locale }}" role="tab">
                                 {{ strtoupper($locale) }}
                             </a>
                         </li>
@@ -72,44 +185,108 @@
 
                 <div class="tab-content">
                     @foreach(config('translatable.locales') as $index => $locale)
-                        <div class="tab-pane {{ $index == 0 ? 'active' : '' }}" id="tab-{{ $locale }}" role="tabpanel">
+                        <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" 
+                             id="tab-{{ $locale }}" role="tabpanel">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label>Title ({{ strtoupper($locale) }})</label>
-                                    <input type="text" name="{{ $locale }}[title]" id="{{ $locale }}_title" class="form-control">
+                                    <label class="form-label">Title ({{ strtoupper($locale) }}) <span class="text-danger">*</span></label>
+                                    <input type="text" name="{{ $locale }}[title]" id="{{ $locale }}_title" 
+                                           class="form-control" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Subtitle / Native Title ({{ strtoupper($locale) }})</label>
-                                    <input type="text" name="{{ $locale }}[subtitle]" id="{{ $locale }}_subtitle" class="form-control" placeholder="e.g. 骨科关节置换套餐">
+                                    <label class="form-label">Subtitle ({{ strtoupper($locale) }})</label>
+                                    <input type="text" name="{{ $locale }}[subtitle]" id="{{ $locale }}_subtitle" 
+                                           class="form-control" placeholder="Native language title">
                                 </div>
                                 <div class="col-md-12 mb-3">
-                                    <label>Short Description ({{ strtoupper($locale) }})</label>
-                                    <textarea name="{{ $locale }}[description]" id="{{ $locale }}_description" class="form-control" rows="2"></textarea>
+                                    <label class="form-label">Description ({{ strtoupper($locale) }})</label>
+                                    <textarea name="{{ $locale }}[description]" id="{{ $locale }}_description" 
+                                              class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- SEO Fields -->
+                            <div class="seo-section">
+                                <h6 class="text-muted mb-3">
+                                    <i class="ri-search-line me-1"></i> SEO Settings ({{ strtoupper($locale) }})
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Meta Title</label>
+                                        <input type="text" name="{{ $locale }}[meta_title]" 
+                                               id="{{ $locale }}_meta_title" class="form-control"
+                                               placeholder="Leave empty to use package title"
+                                               maxlength="60">
+                                        <small class="text-muted">Recommended: 50-60 characters</small>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Meta Description</label>
+                                        <textarea name="{{ $locale }}[meta_description]" 
+                                                  id="{{ $locale }}_meta_description" class="form-control" 
+                                                  rows="2" maxlength="160"
+                                                  placeholder="Brief description for search engines"></textarea>
+                                        <small class="text-muted">Recommended: 150-160 characters</small>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Meta Keywords</label>
+                                        <input type="text" name="{{ $locale }}[meta_keywords]" 
+                                               id="{{ $locale }}_meta_keywords" class="form-control"
+                                               placeholder="keyword1, keyword2, keyword3">
+                                        <small class="text-muted">Separate keywords with commas</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
+
+                <!-- Global SEO Fields -->
+                <hr>
+                <h5 class="text-primary mb-3">
+                    <i class="ri-global-line me-1"></i> Global SEO Settings
+                </h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">OG Image (Open Graph)</label>
+                        <input type="file" class="form-control" name="og_image" id="og_image" accept="image/*">
+                        <div id="ogImagePreview" class="mt-2"></div>
+                        <small class="text-muted">Used for social media sharing. Recommended: 1200x630px</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Canonical URL</label>
+                        <input type="url" class="form-control" name="canonical_url" id="canonical_url" 
+                               placeholder="https://example.com/package/slug">
+                        <small class="text-muted">Prevents duplicate content issues</small>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="card-footer text-end">
-            <button type="button" id="addBtn" class="btn btn-primary">Save Package</button>
-            <button type="button" id="FormCloseBtn" class="btn btn-light">Cancel</button>
+            <button type="button" id="FormCloseBtnBottom" class="btn btn-light me-2">Cancel</button>
+            <button type="button" id="addBtn" class="btn btn-primary">
+                <span class="btn-text"><i class="ri-save-line me-1"></i> Save Package</span>
+                <span class="btn-spinner d-none">
+                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                    Saving...
+                </span>
+            </button>
         </div>
     </div>
 </div>
 
+<!-- DataTable -->
 <div class="container-fluid" id="contentContainer">
     <div class="card">
         <div class="card-body">
             <table id="packageTable" class="table table-bordered dt-responsive nowrap w-100">
                 <thead>
                     <tr>
-                        <th>Sl</th>
+                        <th width="50">Sl</th>
+                        <th width="100">Image</th>
                         <th>Category</th>
                         <th>Title</th>
                         <th>Price</th>
-                        <th>Action</th>
+                        <th width="100">Action</th>
                     </tr>
                 </thead>
             </table>
@@ -122,120 +299,300 @@
 @section('script')
 <script>
     $(document).ready(function() {
+        
         // Initialize DataTable
         var table = $('#packageTable').DataTable({
-            processing: true, serverSide: true,
-            ajax: "{{ route('admin.medical_sections') }}", // Ensure this route name matches yours
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('admin.medical_package.data') }}",
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'image', name: 'image', orderable: false, searchable: false },
                 { data: 'category', name: 'category' },
                 { data: 'title', name: 'title' },
                 { data: 'price_range', name: 'price_range' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
-            ]
+            ],
+            order: [[0, 'desc']]
         });
 
-        // Add Dynamic Feature Input
-        $(document).on('click', '.add-feature-btn', function() {
-            let html = `
-                <div class="input-group mb-2">
-                    <input type="text" name="features[]" class="form-control" placeholder="Enter a feature...">
-                    <button type="button" class="btn btn-danger remove-feature-btn"><i class="ri-delete-bin-line"></i></button>
-                </div>`;
-            $('#feature-container').append(html);
+        // Features Management
+        let features = [];
+        
+        function renderFeatures() {
+            let html = '';
+            features.forEach(function(feature, index) {
+                html += `<span class="feature-tag">
+                    ${escapeHtml(feature)}
+                    <span class="remove-feature" data-index="${index}">&times;</span>
+                </span>`;
+            });
+            if (features.length === 0) {
+                html = '<span class="text-muted">No features added yet</span>';
+            }
+            $('#featureTags').html(html);
+            $('#featuresInput').val(JSON.stringify(features));
+        }
+
+        function escapeHtml(text) {
+            var map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        function addFeature(text) {
+            text = text.trim();
+            if (text && !features.includes(text)) {
+                features.push(text);
+                renderFeatures();
+            }
+            $('#featureInput').val('').focus();
+        }
+
+        $('#addFeatureBtn').click(function() {
+            addFeature($('#featureInput').val());
         });
 
-        // Remove Dynamic Feature Input
-        $(document).on('click', '.remove-feature-btn', function() {
-            $(this).closest('.input-group').remove();
+        $('#featureInput').keypress(function(e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                addFeature($(this).val());
+            }
         });
+
+        $(document).on('click', '.remove-feature', function() {
+            let index = $(this).data('index');
+            features.splice(index, 1);
+            renderFeatures();
+        });
+
+        // Image Preview
+        $('#image').change(function() {
+            previewImage(this, '#imagePreview');
+        });
+
+        $('#og_image').change(function() {
+            previewImage(this, '#ogImagePreview');
+        });
+
+        function previewImage(input, previewSelector) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $(previewSelector).html(`
+                        <div class="img-preview-container">
+                            <img src="${e.target.result}" alt="Preview">
+                            <button type="button" class="remove-img" onclick="removePreview('${previewSelector}', '${input.id}')">&times;</button>
+                        </div>
+                    `);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        window.removePreview = function(previewSelector, inputId) {
+            $(previewSelector).html('');
+            $(`#${inputId}`).val('');
+        };
+
+        // Spinner Functions
+        function showSpinner() {
+            $('#addBtn').prop('disabled', true);
+            $('#addBtn .btn-text').addClass('d-none');
+            $('#addBtn .btn-spinner').removeClass('d-none');
+        }
+
+        function hideSpinner() {
+            $('#addBtn').prop('disabled', false);
+            $('#addBtn .btn-text').removeClass('d-none');
+            $('#addBtn .btn-spinner').addClass('d-none');
+        }
 
         // Save or Update
         $("#addBtn").click(function() {
+            // Update features hidden input before submit
+            $('#featuresInput').val(JSON.stringify(features));
+            
             let id = $("#codeid").val();
             let url = id 
-                    ? "{{ route('admin.medical_sections.update') }}" 
-                    : "{{ route('admin.medical_sections') }}";
+                    ? "{{ route('admin.medical_package.update') }}" 
+                    : "{{ route('admin.medical_package.store') }}";
+            
             let form_data = new FormData($('#createThisForm')[0]);
 
+            showSpinner();
+
             $.ajax({
-                url: url, type: "POST", data: form_data,
-                contentType: false, processData: false,
-                success: function(d) {
-                    showSuccess(d.message);
-                    $("#addThisFormContainer").slideUp();
-                    $("#newBtn").show();
-                    table.draw();
+                url: url,
+                type: "POST",
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    hideSpinner();
+                    if (response.success) {
+                        showToast('success', response.message);
+                        resetForm();
+                        $("#addThisFormContainer").slideUp();
+                        $("#newBtnSection").show();
+                        table.draw();
+                    }
                 },
-                error: function(xhr) { showError(xhr.responseJSON.message); }
-            });
-        });
-
-        // Edit Button Logic
-        $('#contentContainer').on('click', '#EditBtn', function() {
-            let id = $(this).attr('rid');
-            $.get("/admin/medical-packages/" + id + "/edit", function(data) {
-                $("#codeid").val(data.id);
-                $("#category").val(data.category);
-                $("#duration").val(data.duration);
-                $("#price_range").val(data.price_range);
-                $("#cities_count").val(data.cities_count);
-                $("#is_popular").prop('checked', data.is_popular);
-                $("#is_featured").prop('checked', data.is_featured);
-
-                // Populate Features
-                $('#feature-container').html(''); // Clear first
-                if(data.features && data.features.length > 0) {
-                    data.features.forEach((feature, index) => {
-                        let btnClass = index === 0 ? 'btn-success add-feature-btn' : 'btn-danger remove-feature-btn';
-                        let icon = index === 0 ? 'ri-add-line' : 'ri-delete-bin-line';
-                        $('#feature-container').append(`
-                            <div class="input-group mb-2">
-                                <input type="text" name="features[]" class="form-control" value="${feature}">
-                                <button type="button" class="btn ${btnClass}"><i class="${icon}"></i></button>
-                            </div>
-                        `);
-                    });
-                } else {
-                    $('#feature-container').append(`
-                        <div class="input-group mb-2">
-                            <input type="text" name="features[]" class="form-control">
-                            <button type="button" class="btn btn-success add-feature-btn"><i class="ri-add-line"></i></button>
-                        </div>
-                    `);
+                error: function(xhr) {
+                    hideSpinner();
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        let errorMsg = Object.values(xhr.responseJSON.errors).flat().join('<br>');
+                        showToast('error', errorMsg);
+                    } else {
+                        showToast('error', xhr.responseJSON?.message || 'Something went wrong!');
+                    }
                 }
-
-                // Translations
-                data.translations.forEach(function(t) {
-                    $(`#${t.locale}_title`).val(t.title);
-                    $(`#${t.locale}_subtitle`).val(t.subtitle);
-                    $(`#${t.locale}_description`).val(t.description);
-                });
-
-                $("#addThisFormContainer").slideDown();
-                $("#newBtn").hide();
-                $("#cardTitle").text('Edit Medical Package');
             });
         });
 
-        // Toggle Form
+        // Edit Button Logic - FIXED URL
+        $('#contentContainer').on('click', '.editBtn', function() {
+            let editUrl = $(this).data('edit-url');
+            
+            $.ajax({
+                url: editUrl,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        populateEditForm(response.data);
+                    }
+                },
+                error: function(xhr) {
+                    showToast('error', 'Failed to load package data');
+                }
+            });
+        });
+
+        function populateEditForm(data) {
+            // Reset form first
+            resetForm();
+
+            // Set basic fields
+            $("#codeid").val(data.id);
+            $("#category").val(data.category);
+            $("#duration").val(data.duration);
+            $("#price_range").val(data.price_range);
+            $("#cities_count").val(data.cities_count);
+            $("#is_popular").prop('checked', data.is_popular);
+            $("#is_featured").prop('checked', data.is_featured);
+            $("#status").prop('checked', data.status);
+            $("#canonical_url").val(data.canonical_url);
+
+            // Show existing images
+            if (data.image) {
+                $('#imagePreview').html(`
+                    <div class="img-preview-container">
+                        <img src="${data.image_url}" alt="Current Image">
+                    </div>
+                `);
+            }
+
+            if (data.og_image) {
+                $('#ogImagePreview').html(`
+                    <div class="img-preview-container">
+                        <img src="${data.og_image_url}" alt="Current OG Image">
+                    </div>
+                `);
+            }
+
+            // Populate Features
+            features = data.features || [];
+            renderFeatures();
+
+            // Populate Translations including SEO
+            if (data.translations) {
+                data.translations.forEach(function(t) {
+                    $(`#${t.locale}_title`).val(t.title || '');
+                    $(`#${t.locale}_subtitle`).val(t.subtitle || '');
+                    $(`#${t.locale}_description`).val(t.description || '');
+                    $(`#${t.locale}_meta_title`).val(t.meta_title || '');
+                    $(`#${t.locale}_meta_description`).val(t.meta_description || '');
+                    $(`#${t.locale}_meta_keywords`).val(t.meta_keywords || '');
+                });
+            }
+
+            // Show form
+            $("#addThisFormContainer").slideDown();
+            $("#newBtnSection").hide();
+            $("#cardTitle").text('Edit Medical Package');
+            
+            // Scroll to form
+            $('html, body').animate({
+                scrollTop: $("#addThisFormContainer").offset().top - 100
+            }, 500);
+        }
+
+        // Toggle Form - New
         $("#newBtn").click(function() {
+            resetForm();
+            $("#addThisFormContainer").slideDown();
+            $(this).closest('#newBtnSection').hide();
+            $("#cardTitle").text('Add New Medical Package');
+            
+            $('html, body').animate({
+                scrollTop: $("#addThisFormContainer").offset().top - 100
+            }, 500);
+        });
+
+        // Close Form
+        $("#FormCloseBtn, #FormCloseBtnBottom").click(function() {
+            $("#addThisFormContainer").slideUp();
+            $("#newBtnSection").show();
+        });
+
+        // Reset Form
+        function resetForm() {
             $('#createThisForm')[0].reset();
             $("#codeid").val('');
-            $('#feature-container').html(`
-                <div class="input-group mb-2">
-                    <input type="text" name="features[]" class="form-control" placeholder="Enter a feature...">
-                    <button type="button" class="btn btn-success add-feature-btn"><i class="ri-add-line"></i></button>
+            features = [];
+            renderFeatures();
+            $('#imagePreview').html('');
+            $('#ogImagePreview').html('');
+            $("#status").prop('checked', true);
+        }
+
+        // Toast Notification
+        function showToast(type, message) {
+            let icon = type === 'success' ? 'ri-check-line' : 'ri-error-warning-line';
+            let bgColor = type === 'success' ? '#198754' : '#dc3545';
+            
+            let toast = $(`
+                <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+                    <div class="toast show" role="alert" style="border-left: 4px solid ${bgColor};">
+                        <div class="toast-header">
+                            <i class="${icon} me-2" style="color: ${bgColor};"></i>
+                            <strong class="me-auto">${type === 'success' ? 'Success' : 'Error'}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div class="toast-body">${message}</div>
+                    </div>
                 </div>
             `);
-            $("#addThisFormContainer").slideDown();
-            $(this).hide();
-        });
+            
+            $('body').append(toast);
+            setTimeout(function() {
+                toast.remove();
+            }, 5000);
+        }
 
-        $("#FormCloseBtn").click(function() {
-            $("#addThisFormContainer").slideUp();
-            $("#newBtn").show();
-        });
+        // Initial render
+        renderFeatures();
     });
 </script>
 @endsection

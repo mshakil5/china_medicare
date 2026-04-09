@@ -238,7 +238,7 @@
                                     @endif
                                 </ul>
 
-                                <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3 d-none">
                                     <span class="small text-muted">
                                         <i class="far fa-calendar-alt me-2"></i> 
                                         {{ $package->duration }}
@@ -249,7 +249,7 @@
                                     </span>
                                 </div>
 
-                                <h4 class="fw-bold text-teal mb-3">
+                                <h4 class="fw-bold text-teal mb-3  d-none">
                                     {{ $package->price_range }}
                                 </h4>
 
@@ -267,63 +267,63 @@
     
     <style>
         /* Hidden features - initially collapsed */
-.features-hidden {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
-    opacity: 0;
-}
+        .features-hidden {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
 
-.features-hidden.expanded {
-    max-height: 500px; /* Adjust based on max possible features */
-    opacity: 1;
-    transition: max-height 0.5s ease-in, opacity 0.4s ease-in;
-}
+        .features-hidden.expanded {
+            max-height: 500px; /* Adjust based on max possible features */
+            opacity: 1;
+            transition: max-height 0.5s ease-in, opacity 0.4s ease-in;
+        }
 
-/* Toggle button styling */
-.feature-toggle {
-    cursor: pointer;
-    padding: 4px 0 !important;
-    transition: color 0.2s ease;
-}
+        /* Toggle button styling */
+        .feature-toggle {
+            cursor: pointer;
+            padding: 4px 0 !important;
+            transition: color 0.2s ease;
+        }
 
-.feature-toggle:hover .toggle-text {
-    color: var(--bs-teal, #0d9488);
-}
+        .feature-toggle:hover .toggle-text {
+            color: var(--bs-teal, #0d9488);
+        }
 
-.feature-toggle .toggle-text {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #6b7280;
-    transition: color 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-}
+        .feature-toggle .toggle-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6b7280;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
 
-/* When expanded, change icon and text */
-.feature-toggle.is-expanded .toggle-text::after {
-    content: 'Show less';
-}
+        /* When expanded, change icon and text */
+        .feature-toggle.is-expanded .toggle-text::after {
+            content: 'Show less';
+        }
 
-.feature-toggle.is-expanded .toggle-text i {
-    transform: rotate(45deg);
-}
+        .feature-toggle.is-expanded .toggle-text i {
+            transform: rotate(45deg);
+        }
 
 
-/* Hide the default text node, we use ::after instead */
-.feature-toggle .toggle-text {
-    font-size: 0;
-}
+        /* Hide the default text node, we use ::after instead */
+        .feature-toggle .toggle-text {
+            font-size: 0;
+        }
 
-.feature-toggle .toggle-text::after {
-    font-size: 0.75rem;
-}
+        .feature-toggle .toggle-text::after {
+            font-size: 0.75rem;
+        }
 
-.feature-toggle .toggle-text i {
-    font-size: 0.75rem;
-    margin-right: 4px;
-    transition: transform 0.3s ease;
-}
+        .feature-toggle .toggle-text i {
+            font-size: 0.75rem;
+            margin-right: 4px;
+            transition: transform 0.3s ease;
+        }
     </style>
 
     @if ($services->count() > 0)

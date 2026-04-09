@@ -101,11 +101,12 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::delete('/hero-sections/{id}', [HeroSectionController::class, 'destroy'])->name('hero_sections.destroy');
 
     
+    Route::post('/medical-package/data', [MedicalPackageController::class, 'index'])->name('admin.medical_package.data');
     Route::get('/medical-package', [MedicalPackageController::class, 'index'])->name('admin.medical_package');
-    Route::post('/medical-package', [MedicalPackageController::class, 'store'])->name('admin.medical_sections');
-    Route::get('/medical-package/{id}/edit', [MedicalPackageController::class, 'edit']);
-    Route::post('/medical-package-update', [MedicalPackageController::class, 'update'])->name('admin.medical_sections.update');
-    Route::delete('/medical-package/{id}', [MedicalPackageController::class, 'destroy'])->name('medical-packages.destroy');
+    Route::post('/medical-package', [MedicalPackageController::class, 'store'])->name('admin.medical_package.store');
+    Route::get('/medical-package/{id}/edit', [MedicalPackageController::class, 'edit'])->name('admin.medical_package.edit');
+    Route::post('/medical-package-update', [MedicalPackageController::class, 'update'])->name('admin.medical_package.update');
+    Route::delete('/medical-package/{id}', [MedicalPackageController::class, 'destroy'])->name('admin.medical_package.destroy');
 
     Route::get('/medical-services', [MedicalServiceController::class, 'index'])->name('admin.medical_services');
     Route::post('/medical-services', [MedicalServiceController::class, 'store'])->name('admin.medical_services.store');

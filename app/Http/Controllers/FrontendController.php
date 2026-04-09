@@ -31,7 +31,7 @@ class FrontendController extends Controller
         $categories = Category::with('products')->where('status', 1)->get();
         $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
         $hero = HeroSection::with('translations')->latest()->first();
-        $packages = MedicalPackage::with('translations')->take(3)->get();
+        $packages = MedicalPackage::with('translations')->get();
         $services = MedicalService::with('translations')->where('status',1)->orderBy('order')->get();
 
         $whyChooseItems = WhyChoose::with('translations')->where('status', 1)->orderBy('serial')->get();
