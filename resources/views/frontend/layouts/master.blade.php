@@ -4,48 +4,30 @@
 <head>
     @php
         $company = App\Models\CompanyDetails::select(
-            'company_name', 
-            'fav_icon', 
-            'google_site_verification',
-            'bing_site_verification',
-            'footer_content', 
-            'facebook', 
-            'twitter', 
-            'linkedin', 
-            'website', 
-            'phone1', 
-            'email1', 
-            'address1',
-            'company_logo',
-            'footer_logo',
-            'copyright',
-            'google_map',
-            'meta_title',
-            'meta_description',
-            'meta_keywords',
-            'og_image',
-            'canonical_url',
-            'google_analytics_id',
-            'google_tag_manager_id',
-            'robots_index',
-            'robots_follow'
+            'company_name', 'fav_icon', 'google_site_verification',
+            'bing_site_verification', 'footer_content', 'facebook',
+            'twitter', 'linkedin', 'website', 'phone1', 'email1',
+            'address1', 'company_logo', 'footer_logo', 'copyright',
+            'google_map', 'meta_title', 'meta_description', 'meta_keywords',
+            'og_image', 'canonical_url', 'google_analytics_id',
+            'google_tag_manager_id', 'robots_index', 'robots_follow'
         )->first();
 
-        // Page-specific SEO (override if available)
-        $pageTitle = $pageTitle ?? $company->meta_title ?? $company->company_name;
-        $pageDescription = $pageDescription ?? $company->meta_description ?? null;
-        $pageKeywords = $pageKeywords ?? $company->meta_keywords ?? null;
-        $pageImage = $pageImage ?? ($company->og_image ? asset('images/company/' . $company->og_image) : asset('images/company/' . $company->company_logo));
-        $canonicalUrl = $canonicalUrl ?? ($company->canonical_url ?? url()->current());
-        $robotsIndex = $robotsIndex ?? $company->robots_index ?? 'index';
-        $robotsFollow = $robotsFollow ?? $company->robots_follow ?? 'follow';
+        // Fallback chain: page-specific → company default → hardcoded
+        $pageTitle       = $pageTitle       ?? $company->meta_title       ?? 'China Medicare | Trusted Healthcare Services';
+        $pageDescription = $pageDescription ?? $company->meta_description ?? 'China Medicare offers comprehensive health check-up packages, specialist consultations, advanced cancer treatment, and cardiac procedures.';
+        $pageKeywords    = $pageKeywords    ?? $company->meta_keywords    ?? 'China Medicare, healthcare, medical check-up';
+        $pageImage       = $pageImage       ?? ($company->og_image ? asset('images/company/' . $company->og_image) : asset('images/company/' . $company->company_logo));
+        $canonicalUrl    = $canonicalUrl    ?? ($company->canonical_url  ?? url()->current());
+        $robotsIndex     = $robotsIndex     ?? $company->robots_index     ?? 'index';
+        $robotsFollow    = $robotsFollow    ?? $company->robots_follow    ?? 'follow';
     @endphp
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- Primary Meta Tags -->
+    <!-- ===== PRIMARY META TAGS ===== -->
     <title>{{ $pageTitle }}</title>
     <meta name="title" content="{{ $pageTitle }}">
     @if($pageDescription)
@@ -56,16 +38,11 @@
     @endif
     <meta name="author" content="{{ $company->company_name }}">
     <meta name="robots" content="{{ $robotsIndex }}, {{ $robotsFollow }}, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="{{ $canonicalUrl }}">
-    
-    <!-- Hreflang (if multilingual) -->
-    {{-- <link rel="alternate" hreflang="en" href="{{ url()->current() }}">
-    <link rel="alternate" hreflang="zh" href="{{ url()->current() }}">
-    <link rel="alternate" hreflang="x-default" href="{{ url()->current() }}"> --}}
 
-    <!-- Favicon -->
+    <!-- ===== CANONICAL ===== -->
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+
+    <!-- ===== FAVICON ===== -->
     <link rel="icon" type="image/x-icon" href="{{ asset('images/company/' . $company->fav_icon) }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/company/' . $company->fav_icon) }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/company/' . $company->fav_icon) }}">
@@ -74,7 +51,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="msapplication-TileColor" content="#ffffff">
 
-    <!-- Open Graph / Facebook -->
+    <!-- ===== OPEN GRAPH / FACEBOOK ===== -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:title" content="{{ $pageTitle }}">
@@ -88,7 +65,7 @@
     <meta property="og:site_name" content="{{ $company->company_name }}">
     <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-    <!-- Twitter Card -->
+    <!-- ===== TWITTER CARD ===== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ $canonicalUrl }}">
     <meta name="twitter:title" content="{{ $pageTitle }}">
@@ -101,7 +78,7 @@
         <meta name="twitter:site" content="@{{ str_replace(['https://twitter.com/', 'https://x.com/', '@'], '', $company->twitter) }}">
     @endif
 
-    <!-- Site Verification -->
+    <!-- ===== SITE VERIFICATION ===== -->
     @if($company->google_site_verification)
         <meta name="google-site-verification" content="{{ $company->google_site_verification }}">
     @endif
@@ -109,37 +86,46 @@
         <meta name="msvalidate.01" content="{{ $company->bing_site_verification }}">
     @endif
 
-    <!-- Geo Tags (for local business) -->
+    <!-- ===== GEO TAGS ===== -->
     @if($company->address1)
         <meta name="geo.region" content="CN">
         <meta name="geo.placename" content="{{ $company->address1 }}">
     @endif
 
-    <!-- Preconnect for Performance -->
+    <!-- ===== PRECONNECT ===== -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
-    <!-- Stylesheets -->
+    <!-- ===== STYLESHEETS ===== -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('resources/frontend/style.css') }}">
 
+    <!-- ===== GOOGLE TAG MANAGER (HEAD) ===== -->
+    @if($company->google_tag_manager_id)
+        <script>
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','{{ $company->google_tag_manager_id }}');
+        </script>
+    @endif
 
 
 
 
 
-    <!-- Page-specific structured data placeholder -->
+    <!-- ===== PAGE-SPECIFIC STRUCTURED DATA ===== -->
     @yield('structured-data')
 
 </head>
 <body>
 
-    <!-- Google Tag Manager (BODY) -->
+    <!-- ===== GOOGLE TAG MANAGER (BODY) ===== -->
     @if($company->google_tag_manager_id)
         <noscript>
             <iframe src="https://www.googletagmanager.com/ns.html?id={{ $company->google_tag_manager_id }}"
@@ -155,10 +141,10 @@
 
     @include('frontend.inc.footer')
 
-    <!-- Scripts -->
+    <!-- ===== SCRIPTS ===== -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Google Analytics -->
+    <!-- ===== GOOGLE ANALYTICS ===== -->
     @if($company->google_analytics_id)
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $company->google_analytics_id }}"></script>
         <script>
@@ -175,5 +161,4 @@
     @yield('script')
 
 </body>
-
 </html>
