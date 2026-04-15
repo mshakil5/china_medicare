@@ -193,6 +193,7 @@
                         'faq.index',
                         'admin.mail-body',
                         'sections.index',
+                        'banner-section.index',
                         'allslider',
                         'admin.home-footer',
                         'admin.copyright'
@@ -248,6 +249,10 @@
                             <li class="nav-item">
                                 <a href="{{ route('faq.index') }}" 
                                   class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}">FAQ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('banner-section.index') }}" 
+                                  class="nav-link {{ Route::is('banner-section.index') ? 'active' : '' }}">Banner</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.hero_sections') }}" 

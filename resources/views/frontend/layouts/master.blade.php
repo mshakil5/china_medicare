@@ -115,10 +115,6 @@
         </script>
     @endif
 
-
-
-
-
     <!-- ===== PAGE-SPECIFIC STRUCTURED DATA ===== -->
     @yield('structured-data')
 

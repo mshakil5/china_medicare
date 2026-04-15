@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CompanyDetailsController;
@@ -147,6 +148,14 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/team/{id}/edit', [TeamController::class, 'edit']);
     Route::post('/team-update', [TeamController::class, 'update']);
     Route::delete('/team/{id}', [TeamController::class, 'destroy'])->name('team.destroy');
+
+    
+    // banner section for all pages
+    Route::get('/banner-section', [BannerController::class, 'index'])->name('banner-section.index');
+    Route::post('/banner-section-store', [BannerController::class, 'store'])->name('banner-section.store');
+    Route::get('/banner-section/{id}/edit', [BannerController::class, 'edit'])->name('banner-section.edit');
+    Route::post('/banner-section-update', [BannerController::class, 'update'])->name('banner-section.update');
+    Route::delete('/banner-section/{id}', [BannerController::class, 'destroy'])->name('banner-section.delete');
 
 
 
