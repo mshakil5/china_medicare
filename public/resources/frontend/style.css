@@ -384,12 +384,7 @@ body { font-family: 'Inter', sans-serif; }
   /* service page css  */
 
 /* --- Services Breadcrumb Section --- */
-.services-header-bg {
-    background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
-                url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600');
-    background-size: cover;
-    background-position: center;
-}
+
 
 .max-w-700 { max-width: 700px; }
 .bg-white-50 { background-color: rgba(255, 255, 255, 0.5); }
@@ -455,12 +450,6 @@ body { font-family: 'Inter', sans-serif; }
 
 
 /* --- Contact Specific Styles --- */
-.contact-hero {
-    background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
-                url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600');
-    background-size: cover;
-    background-position: center;
-}
 
 .border-teal-thin { border: 1px solid rgba(20, 184, 166, 0.3); }
 

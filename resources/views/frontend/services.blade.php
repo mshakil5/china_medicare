@@ -2,6 +2,14 @@
 
 @section('content')
 
+
+<style>
+    .services-header-bg {
+        background: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600');
+        background-size: cover;
+        background-position: center;
+    }
+</style>
     
 <section class="services-header-bg py-5">
     <div class="container py-lg-4 text-center">

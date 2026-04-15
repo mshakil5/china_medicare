@@ -3,6 +3,14 @@
 @section('content')
 
 
+<style>
+    .contact-hero {
+        background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600');
+        background-size: cover;
+        background-position: center;
+    }
+
+</style>
 
     <section class="contact-hero py-5">
         <div class="container py-lg-4 text-center">

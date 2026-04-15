@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Models\ContactEmail;
 use App\Mail\ContactMail;
 use App\Models\Award;
+use App\Models\BannerSection;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\CompanyDetails;
@@ -59,7 +60,8 @@ class FrontendController extends Controller
     {
         $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
         $packages = MedicalPackage::with('translations')->get();
-        return view('frontend.packages', compact('company','packages'));
+        $banner = BannerSection::where('page', 'Packages')->first() ?? new BannerSection();
+        return view('frontend.packages', compact('company','packages','banner'));
     }
 
     public function blogList()
@@ -83,14 +85,16 @@ class FrontendController extends Controller
     {
         $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
         $services = MedicalService::with('translations')->where('status',1)->orderBy('order')->get();
-        return view('frontend.services', compact('company','services'));
+        $banner = BannerSection::where('page', 'Services')->first() ?? new BannerSection();
+        return view('frontend.services', compact('company','services','banner'));
     }
 
     public function contact()
     {
         $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
         $services = MedicalService::with('translations')->where('status',1)->orderBy('order')->get();
-        return view('frontend.contact', compact('company','services'));
+        $banner = BannerSection::where('page', 'Contact')->first() ?? new BannerSection();
+        return view('frontend.contact', compact('company','services','banner'));
     }
 
 
