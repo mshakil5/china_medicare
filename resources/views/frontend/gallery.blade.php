@@ -58,13 +58,7 @@
 {{-- HERO --}}
 <section class="glry-hero py-5">
     <div class="container py-lg-4 text-center">
-        <span class="badge rounded-pill bg-dark-teal mb-3 py-2 px-3 border-teal-thin">
-            <i class="far fa-images text-teal me-2"></i> Photo & Video Gallery
-        </span>
         <h1 class="display-5 fw-bold text-white mb-3">Our <span class="text-teal">Gallery</span></h1>
-        <p class="text-light-gray mx-auto" style="max-width:580px;">
-            A visual journey through world-class facilities, compassionate care, and life-changing outcomes.
-        </p>
     </div>
 </section>
 
@@ -83,10 +77,6 @@
             <div class="col-6 col-md-3">
                 <div class="glry-stat-num">{{ $items->count() }}</div>
                 <div class="text-light-gray" style="font-size:.82rem;">Total Media</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="glry-stat-num">4</div>
-                <div class="text-light-gray" style="font-size:.82rem;">Cities</div>
             </div>
         </div>
     </div>
