@@ -10,6 +10,7 @@ use App\Models\BannerSection;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\CompanyDetails;
+use App\Models\Gallery;
 use App\Models\Master;
 use App\Models\Research;
 use App\Models\Slider;
@@ -171,6 +172,25 @@ class FrontendController extends Controller
         ]);
 
         return back()->with('success', 'Inquiry submitted successfully!');
+    }
+
+    public function gallery(Request $request)
+    {
+        $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
+        $data = MedicalPackage::with('translations')->get();
+        $banner = BannerSection::where('page', 'Gallery')->first() ?? new BannerSection();
+
+
+        $query = Gallery::active()->ordered();
+
+        if ($request->filled('type') && in_array($request->type, ['image', 'video'])) {
+            $query->where('type', $request->type);
+        }
+
+        $items = $query->get();
+
+
+        return view('frontend.gallery', compact('company','data','banner','items'));
     }
 
 

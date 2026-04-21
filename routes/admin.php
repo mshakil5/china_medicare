@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CompanyDetailsController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\FAQController;
+use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\HospitalController;
 use App\Http\Controllers\Admin\MasterController;
@@ -156,6 +157,13 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/banner-section/{id}/edit', [BannerController::class, 'edit'])->name('banner-section.edit');
     Route::post('/banner-section-update', [BannerController::class, 'update'])->name('banner-section.update');
     Route::delete('/banner-section/{id}', [BannerController::class, 'destroy'])->name('banner-section.delete');
+
+    Route::get('/galleries',           [GalleryController::class, 'index'])->name('admin.galleries');
+    Route::post('/galleries',          [GalleryController::class, 'store']);
+    Route::get('/galleries/{id}/edit', [GalleryController::class, 'edit']);
+    Route::post('/galleries-update',   [GalleryController::class, 'update']);
+    Route::delete('/galleries/{id}',   [GalleryController::class, 'destroy'])->name('galleries.destroy');
+
 
 
 

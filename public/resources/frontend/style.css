@@ -513,3 +513,251 @@ body { font-family: 'Inter', sans-serif; }
 
 
 
+/* =============================================
+   HOMEPAGE GALLERY SECTION — Unique prefix: hglry-
+   Paste this into your style.css
+============================================= */
+
+/* Section heading area */
+.hglry-section { background: #fff; }
+
+/* Preview grid - asymmetric 3-col layout */
+.hglry-preview-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    grid-template-rows: 220px 220px;
+    gap: 14px;
+}
+
+/* Big hero item spans 2 rows */
+.hglry-preview-grid .hglry-pi:first-child {
+    grid-row: 1 / 3;
+}
+
+.hglry-pi {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.hglry-pi img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+.hglry-pi:hover img { transform: scale(1.06); }
+
+/* Dark overlay on hover */
+.hglry-pi-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15,23,42,0.82) 0%, rgba(15,23,42,0.05) 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.hglry-pi:hover .hglry-pi-overlay { opacity: 1; }
+
+.hglry-pi-label {
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.hglry-pi-label span {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 400;
+}
+
+/* Play badge for video tiles */
+.hglry-video-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #D8202A;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 2;
+}
+
+/* Center play icon on videos */
+.hglry-play-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #D8202A;
+    font-size: 0.95rem;
+    z-index: 2;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, background 0.2s;
+}
+.hglry-pi:hover .hglry-play-circle {
+    transform: translate(-50%, -50%) scale(1.12);
+    background: #fff;
+}
+
+/* "More" overlay tile */
+.hglry-more-tile {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.hglry-more-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.35);
+}
+
+.hglry-more-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+}
+
+.hglry-more-num {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.hglry-more-txt {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.hglry-more-tile:hover img { filter: brightness(0.45); }
+
+/* --- Lightbox (same logic as gallery page) --- */
+.hglry-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(7,10,22,0.97);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.hglry-lightbox.hglry-lb-open {
+    display: flex;
+    animation: hglryFade 0.25s ease;
+}
+
+@keyframes hglryFade { from { opacity: 0; } to { opacity: 1; } }
+
+.hglry-lb-close {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.1);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10001;
+    transition: background 0.2s;
+}
+.hglry-lb-close:hover { background: #D8202A; border-color: #D8202A; }
+
+.hglry-lb-media {
+    max-width: 1000px;
+    width: 100%;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hglry-lb-media img,
+.hglry-lb-media video {
+    max-width: 100%;
+    max-height: 78vh;
+    border-radius: 12px;
+    object-fit: contain;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.hglry-lb-caption {
+    color: #fff;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.hglry-lb-caption span { color: #94a3b8; font-size: 0.78rem; font-weight: 400; display: block; margin-top: 3px; }
+
+/* Responsive */
+@media (max-width: 991px) {
+    .hglry-preview-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px 200px 200px;
+    }
+    .hglry-preview-grid .hglry-pi:first-child {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+}
+
+@media (max-width: 575px) {
+    .hglry-preview-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 150px 150px 150px;
+        gap: 10px;
+    }
+    .hglry-preview-grid .hglry-pi:first-child {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+}
+
+/* =============================================
+   END HOMEPAGE GALLERY SECTION CSS
+============================================= */
+

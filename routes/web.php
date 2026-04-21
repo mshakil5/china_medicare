@@ -47,6 +47,9 @@ Route::post('/contact/store', [FrontendController::class, 'contactStore'])->name
 
 Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('aboutUs');
 
+
+Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
+
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
 Route::group(['prefix' =>'user/', 'middleware' => ['auth', 'is_user', 'verified']], function(){

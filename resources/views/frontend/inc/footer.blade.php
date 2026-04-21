@@ -9,7 +9,7 @@
                         </a>
                     </div>
                     <p class="text-light-gray small pe-lg-5">
-                        Your trusted partner for medical tourism in China. We connect international patients with world-class healthcare facilities.
+                        {{$company->footer_content}}
                     </p>
                 </div>
 
