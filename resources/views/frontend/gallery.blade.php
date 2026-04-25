@@ -47,7 +47,7 @@
     .glry-lb-nav { position:fixed; top:50%; transform:translateY(-50%); width:48px; height:48px; background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.2); border-radius:50%; color:#fff; font-size:1rem; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10001; transition:background .2s; }
     .glry-lb-nav:hover { background:var(--glry-teal); border-color:var(--glry-teal); }
     .glry-lb-prev { left:16px; } .glry-lb-next { right:16px; }
-    .glry-lb-caption { color:#fff; text-align:center; margin-top:18px; font-size:.95rem; font-weight:600; }
+    .glry-lb-caption { color:#fff; text-align:center; margin-top:18px; font-size:.95rem; font-weight:600; min-height:2.5em; }
     .glry-lb-caption span { display:block; color:#94a3b8; font-size:.8rem; font-weight:400; margin-top:4px; }
     .glry-lb-counter { position:fixed; top:22px; left:50%; transform:translateX(-50%); color:#94a3b8; font-size:.82rem; font-weight:600; background:rgba(255,255,255,.07); padding:4px 14px; border-radius:50px; }
 
@@ -112,14 +112,14 @@
                     <div class="glry-item"
                          data-type="image"
                          data-title="{{ $item->title }}"
-                         data-sub="{{ $item->subtitle }}"
+                         data-sub="{{ $item->subtitle ?? '' }}"
                          data-src="{{ asset($item->file_path) }}">
                         <img src="{{ asset($item->file_path) }}" alt="{{ $item->title }}" loading="lazy">
                         <div class="glry-overlay">
                             <div class="glry-overlay-icon"><i class="fas fa-expand-alt"></i></div>
                             <div class="glry-overlay-label">
                                 {{ $item->title }}
-                                <span>{{ $item->subtitle }}</span>
+                                <span>{{ $item->subtitle ?? '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                     <div class="glry-item"
                          data-type="video"
                          data-title="{{ $item->title }}"
-                         data-sub="{{ $item->subtitle }}"
+                         data-sub="{{ $item->subtitle ?? '' }}"
                          data-src="{{ asset($item->file_path) }}"
                          data-poster="{{ $item->thumbnail ? asset($item->thumbnail) : '' }}">
                         <div class="glry-video-badge">
@@ -142,7 +142,7 @@
                             <div class="glry-overlay-icon"><i class="fas fa-play"></i></div>
                             <div class="glry-overlay-label">
                                 {{ $item->title }}
-                                <span>{{ $item->subtitle }}</span>
+                                <span>{{ $item->subtitle ?? '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -161,93 +161,145 @@
     <button class="glry-lb-nav glry-lb-prev" id="glryPrev"><i class="fas fa-chevron-left"></i></button>
     <button class="glry-lb-nav glry-lb-next" id="glryNext"><i class="fas fa-chevron-right"></i></button>
     <div class="glry-lb-content" id="glryContent"></div>
-    <div class="glry-lb-caption" id="glryCaption">
-        Title <span id="glrySub"></span>
-    </div>
+    <div class="glry-lb-caption" id="glryCaption"></div>
 </div>
 
 @endsection
 
-@push('scripts')
+@section('script')
 <script>
 (function () {
-    const grid = document.getElementById('glryGrid');
+    var grid = document.getElementById('glryGrid');
     if (!grid) return;
 
-    const lb      = document.getElementById('glryLightbox');
-    const content = document.getElementById('glryContent');
-    const caption = document.getElementById('glryCaption');
-    const sub     = document.getElementById('glrySub');
-    const counter = document.getElementById('glryCounter');
-    let items     = Array.from(grid.querySelectorAll('.glry-item'));
-    let visible   = [], currentIndex = 0, activeMedia = null;
+    var lb      = document.getElementById('glryLightbox');
+    var content = document.getElementById('glryContent');
+    var caption = document.getElementById('glryCaption');
+    var counter = document.getElementById('glryCounter');
+    var items   = Array.from(grid.querySelectorAll('.glry-item'));
+    var visible = [];
+    var currentIndex = 0;
+    var activeMedia  = null;
 
-    // Filter
-    document.querySelectorAll('.glry-filter-btn').forEach(btn => {
+    // Filter buttons
+    document.querySelectorAll('.glry-filter-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            document.querySelectorAll('.glry-filter-btn').forEach(b => b.classList.remove('glry-active'));
+            document.querySelectorAll('.glry-filter-btn').forEach(function (b) {
+                b.classList.remove('glry-active');
+            });
             this.classList.add('glry-active');
-            const f = this.dataset.filter;
-            items.forEach(i => i.classList.toggle('glry-hidden', f !== 'all' && i.dataset.type !== f));
+            var f = this.dataset.filter;
+            items.forEach(function (i) {
+                i.classList.toggle('glry-hidden', f !== 'all' && i.dataset.type !== f);
+            });
         });
     });
 
+    function getVisible() {
+        return items.filter(function (i) { return !i.classList.contains('glry-hidden'); });
+    }
+
     function openLightbox(idx) {
-        visible = items.filter(i => !i.classList.contains('glry-hidden'));
+        visible = getVisible();
+        if (idx < 0 || idx >= visible.length) return;
         currentIndex = idx;
-        renderMedia(currentIndex);
+
+        // OPEN LIGHTBOX FIRST — before renderMedia, so it's always visible
         lb.classList.add('glry-open');
         document.body.style.overflow = 'hidden';
+
+        renderMedia(currentIndex);
     }
 
     function closeLightbox() {
         lb.classList.remove('glry-open');
         document.body.style.overflow = '';
-        if (activeMedia) { activeMedia.pause && activeMedia.pause(); activeMedia.src = ''; activeMedia = null; }
+        if (activeMedia) {
+            if (typeof activeMedia.pause === 'function') activeMedia.pause();
+            activeMedia.src = '';
+            activeMedia = null;
+        }
         content.innerHTML = '';
+        caption.innerHTML = '';
+        counter.textContent = '';
     }
 
     function renderMedia(idx) {
-        if (activeMedia) { activeMedia.pause && activeMedia.pause(); activeMedia.src = ''; activeMedia = null; }
-        content.innerHTML = '';
-        const item = visible[idx];
-        if (item.dataset.type === 'video') {
-            const v = document.createElement('video');
-            v.src = item.dataset.src; v.controls = true; v.autoplay = true;
-            content.appendChild(v); activeMedia = v;
-        } else {
-            const i = document.createElement('img');
-            i.src = item.dataset.src; i.alt = item.dataset.title;
-            content.appendChild(i);
+        // Cleanup previous
+        if (activeMedia) {
+            if (typeof activeMedia.pause === 'function') activeMedia.pause();
+            activeMedia.src = '';
+            activeMedia = null;
         }
-        caption.childNodes[0].nodeValue = item.dataset.title + ' ';
-        sub.textContent = item.dataset.sub;
+        content.innerHTML = '';
+        caption.innerHTML = '';
+
+        var item = visible[idx];
+        if (!item) return;
+
+        var type  = item.dataset.type || 'image';
+        var src   = item.dataset.src || '';
+        var title = item.dataset.title || '';
+        var sub   = item.dataset.sub || '';
+
+        if (type === 'video') {
+            var v = document.createElement('video');
+            v.src = src;
+            v.controls = true;
+            v.autoplay = true;
+            if (item.dataset.poster) v.poster = item.dataset.poster;
+            content.appendChild(v);
+            activeMedia = v;
+        } else {
+            var img = document.createElement('img');
+            img.src = src;
+            img.alt = title;
+            content.appendChild(img);
+        }
+
+        // Build caption safely — no childNodes[0] dependency
+        var titleNode = document.createTextNode(title);
+        caption.appendChild(titleNode);
+        if (sub) {
+            var subSpan = document.createElement('span');
+            subSpan.textContent = sub;
+            caption.appendChild(subSpan);
+        }
+
         counter.textContent = (idx + 1) + ' / ' + visible.length;
     }
 
     function navigate(dir) {
-        visible = items.filter(i => !i.classList.contains('glry-hidden'));
+        visible = getVisible();
+        if (visible.length === 0) return;
         currentIndex = (currentIndex + dir + visible.length) % visible.length;
         renderMedia(currentIndex);
     }
 
-    items.forEach(item => {
+    // Attach click to each gallery item
+    items.forEach(function (item) {
         item.addEventListener('click', function () {
-            visible = items.filter(i => !i.classList.contains('glry-hidden'));
-            openLightbox(visible.indexOf(this));
+            visible = getVisible();
+            var idx = visible.indexOf(this);
+            openLightbox(idx);
         });
     });
 
+    // Controls
     document.getElementById('glryClose').addEventListener('click', closeLightbox);
-    document.getElementById('glryPrev').addEventListener('click', () => navigate(-1));
-    document.getElementById('glryNext').addEventListener('click', () => navigate(1));
-    lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
-    document.addEventListener('keydown', e => {
+    document.getElementById('glryPrev').addEventListener('click', function () { navigate(-1); });
+    document.getElementById('glryNext').addEventListener('click', function () { navigate(1); });
+
+    lb.addEventListener('click', function (e) {
+        if (e.target === lb) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function (e) {
         if (!lb.classList.contains('glry-open')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') navigate(-1);
+        if (e.key === 'Escape')     closeLightbox();
+        if (e.key === 'ArrowLeft')  navigate(-1);
         if (e.key === 'ArrowRight') navigate(1);
     });
 })();
 </script>
-@endpush
+@endsection

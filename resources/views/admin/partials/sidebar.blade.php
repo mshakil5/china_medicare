@@ -183,6 +183,14 @@
                     </a>
                 </li>
 
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.galleries') }}" class="nav-link {{ Route::is('admin.galleries') ? 'active' : '' }}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Galleries</span>
+                    </a>
+                </li>
+
                 @php
                     $settingsRoute = Route::is(
                         'admin.companyDetails',

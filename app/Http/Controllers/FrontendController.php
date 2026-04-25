@@ -53,8 +53,10 @@ class FrontendController extends Controller
                 ->latest()
                 ->get(['id', 'image', 'slug', 'read_time', 'created_at']); 
 
+        $galleryPreview = Gallery::active()->ordered()->take(4)->get();
+        $galleryTotal = Gallery::active()->count();
 
-        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners','blogs','teams'));
+        return view('frontend.index', compact('categories','company','hero','packages','services','whyChooseItems','hospitals','partners','blogs','teams', 'galleryPreview', 'galleryTotal'));
     }
 
     public function packages()

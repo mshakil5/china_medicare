@@ -765,80 +765,69 @@
 
 
 
-    <!-- ======  ( gallery section) ====== -->
-    <section class="hglry-section py-5 d-none">
-        <div class="container py-lg-3">
+<!-- ====== GALLERY SECTION ====== -->
+@if($galleryPreview->isNotEmpty())
+<section class="hglry-section py-5">
+    <div class="container py-lg-3">
 
-            <!-- Section Header -->
-            <div class="row align-items-end mb-4">
-                <div class="col-md-8">
-                    <h2 class="fw-bold">Our <span class="text-teal">Gallery</span></h2>
-                </div>
-                <div class="col-md-4 text-md-end d-none d-md-block">
-                    <a href="gallery.html" class="btn btn-outline-dark rounded-pill px-4">
-                        View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
-                </div>
+        <!-- Section Header -->
+        <div class="row align-items-end mb-4">
+            <div class="col-md-8">
+                <h2 class="fw-bold">Our <span class="text-teal">Gallery</span></h2>
             </div>
+            <div class="col-md-4 text-md-end d-none d-md-block">
+                <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
+                    View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
 
-            <!-- Asymmetric Preview Grid -->
-            <div class="hglry-preview-grid">
+        <!-- Asymmetric Preview Grid -->
+        <div class="hglry-preview-grid">
 
-                <!-- Tile 1 — Big hero image -->
-                <div class="hglry-pi"
-                    data-hglry-type="image"
-                    data-hglry-src="https://images.unsplash.com/photo-1586773860418-d37222d8fce2?auto=format&fit=crop&w=1200"
-                    data-hglry-title="Beijing United Hospital"
-                    data-hglry-sub="Cardiology Wing, Beijing">
-                    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce2?auto=format&fit=crop&w=800" alt="Beijing United Hospital">
+            @foreach($galleryPreview as $index => $item)
+                @php
+                    $isFirst = $index === 0;
+                    $imgSrc = $item->type === 'video' && $item->thumbnail
+                        ? asset($item->thumbnail)
+                        : asset($item->file_path);
+                    $fullSrc = asset($item->file_path);
+                @endphp
+
+                <div class="hglry-pi {{ $isFirst ? 'hglry-pi--hero' : '' }}"
+                     data-hglry-type="{{ $item->type }}"
+                     data-hglry-src="{{ $fullSrc }}"
+                     data-hglry-title="{{ $item->title }}"
+                     data-hglry-sub="{{ $item->subtitle ?? '' }}">
+                    <img src="{{ $imgSrc }}" alt="{{ $item->title }}" loading="lazy">
+
+                    @if($item->type === 'video')
+                        <div class="hglry-video-tag">
+                            <i class="fas fa-play" style="font-size:.5rem;"></i> Video
+                        </div>
+                        <div class="hglry-play-circle">
+                            <i class="fas fa-play" style="margin-left:3px;"></i>
+                        </div>
+                    @endif
+
                     <div class="hglry-pi-overlay">
-                        <div class="hglry-pi-label">Beijing United Hospital <span>Cardiology Wing</span></div>
+                        <div class="hglry-pi-label">
+                            {{ $item->title }}
+                            @if($item->subtitle)
+                                <span>{{ $item->subtitle }}</span>
+                            @endif
+                        </div>
                     </div>
                 </div>
+            @endforeach
 
-                <!-- Tile 2 -->
-                <div class="hglry-pi"
-                    data-hglry-type="image"
-                    data-hglry-src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900"
-                    data-hglry-title="Surgical Suite"
-                    data-hglry-sub="Guangzhou Union">
-                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600" alt="Surgical Suite">
-                    <div class="hglry-pi-overlay">
-                        <div class="hglry-pi-label">Surgical Suite <span>Guangzhou Union</span></div>
-                    </div>
-                </div>
-
-                <!-- Tile 3 — Video -->
-                <div class="hglry-pi"
-                    data-hglry-type="video"
-                    data-hglry-src="https://www.w3schools.com/html/mov_bbb.mp4"
-                    data-hglry-title="Hospital Facility Tour"
-                    data-hglry-sub="Beijing United">
-                    <div class="hglry-video-tag"><i class="fas fa-play" style="font-size:.5rem;"></i> Video</div>
-                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600" alt="Hospital Tour">
-                    <div class="hglry-play-circle"><i class="fas fa-play" style="margin-left:3px;"></i></div>
-                    <div class="hglry-pi-overlay">
-                        <div class="hglry-pi-label">Facility Tour <span>Beijing United</span></div>
-                    </div>
-                </div>
-
-                <!-- Tile 4 -->
-                <div class="hglry-pi"
-                    data-hglry-type="image"
-                    data-hglry-src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900"
-                    data-hglry-title="Doctor Consultation"
-                    data-hglry-sub="Patient Care">
-                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=600" alt="Doctor Consultation">
-                    <div class="hglry-pi-overlay">
-                        <div class="hglry-pi-label">Doctor Consultation <span>Patient Care</span></div>
-                    </div>
-                </div>
-
-                <!-- Tile 5 — "View More" overlay -->
-                <a href="gallery.html" class="hglry-more-tile">
-                    <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=600" alt="More Gallery">
+            {{-- "View More" Tile --}}
+            @if($galleryTotal > 4)
+                <a href="{{ route('gallery') }}" class="hglry-more-tile">
+                    <img src="{{ asset($galleryPreview->last()->type === 'video' && $galleryPreview->last()->thumbnail ? $galleryPreview->last()->thumbnail : $galleryPreview->last()->file_path) }}"
+                         alt="More Gallery" loading="lazy">
                     <div class="hglry-more-content">
-                        <div class="hglry-more-num">50+</div>
+                        <div class="hglry-more-num">{{ $galleryTotal - 4 }}+</div>
                         <div class="hglry-more-txt">More Photos<br>&amp; Videos</div>
                         <div class="mt-2">
                             <span style="font-size:.75rem; color:#D8202A; font-weight:600;">
@@ -847,28 +836,30 @@
                         </div>
                     </div>
                 </a>
+            @endif
 
-            </div><!-- end grid -->
+        </div><!-- end grid -->
 
-            <!-- Mobile CTA -->
-            <div class="text-center d-md-none mt-4">
-                <a href="gallery.html" class="btn btn-outline-dark rounded-pill px-4">
-                    View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-            </div>
-
+        <!-- Mobile CTA -->
+        <div class="text-center d-md-none mt-4">
+            <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
+                View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
+            </a>
         </div>
-    </section>
 
-    <!-- ====== LIGHTBOX MARKUP — Paste just before </body> ====== -->
-    <div class="hglry-lightbox" id="hglryLightbox" role="dialog" aria-modal="true" aria-label="Media Viewer">
-        <button class="hglry-lb-close" id="hglryClose"><i class="fas fa-times"></i></button>
-        <div class="hglry-lb-media" id="hglryMedia"></div>
-        <div class="hglry-lb-caption">
-            <span id="hglryTitle">Title</span>
-            <span id="hglrySub">Sub</span>
-        </div>
     </div>
+</section>
+@endif
+
+<!-- ====== LIGHTBOX ====== -->
+<div class="hglry-lightbox" id="hglryLightbox" role="dialog" aria-modal="true" aria-label="Media Viewer">
+    <button class="hglry-lb-close" id="hglryClose"><i class="fas fa-times"></i></button>
+    <div class="hglry-lb-media" id="hglryMedia"></div>
+    <div class="hglry-lb-caption">
+        <span id="hglryTitle">Title</span>
+        <span id="hglrySub">Sub</span>
+    </div>
+</div>
 
 
 
@@ -946,56 +937,70 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-
 <script>
-    (function () {
-        const tiles   = document.querySelectorAll('.hglry-pi[data-hglry-src]');
-        const lb      = document.getElementById('hglryLightbox');
-        const media   = document.getElementById('hglryMedia');
-        const titleEl = document.getElementById('hglryTitle');
-        const subEl   = document.getElementById('hglrySub');
-        const closeEl = document.getElementById('hglryClose');
-        let activeMedia = null;
+(function () {
+    const tiles   = document.querySelectorAll('.hglry-pi[data-hglry-src]');
+    if (!tiles.length) return;
 
-        function openHglry(src, type, title, sub) {
-            media.innerHTML = '';
-            if (type === 'video') {
-                const v = document.createElement('video');
-                v.src = src; v.controls = true; v.autoplay = true;
-                media.appendChild(v); activeMedia = v;
-            } else {
-                const i = document.createElement('img');
-                i.src = src; i.alt = title;
-                media.appendChild(i); activeMedia = i;
-            }
-            titleEl.textContent = title;
-            subEl.textContent = sub;
-            lb.classList.add('hglry-lb-open');
-            document.body.style.overflow = 'hidden';
+    const lb      = document.getElementById('hglryLightbox');
+    const mediaEl = document.getElementById('hglryMedia');
+    const titleEl = document.getElementById('hglryTitle');
+    const subEl   = document.getElementById('hglrySub');
+    const closeEl = document.getElementById('hglryClose');
+    let activeMedia = null;
+
+    function openHglry(src, type, title, sub) {
+        mediaEl.innerHTML = '';
+        if (type === 'video') {
+            const v = document.createElement('video');
+            v.src = src;
+            v.controls = true;
+            v.autoplay = true;
+            mediaEl.appendChild(v);
+            activeMedia = v;
+        } else {
+            const i = document.createElement('img');
+            i.src = src;
+            i.alt = title;
+            mediaEl.appendChild(i);
+            activeMedia = i;
         }
+        titleEl.textContent = title || '';
+        subEl.textContent = sub || '';
+        lb.classList.add('hglry-lb-open');
+        document.body.style.overflow = 'hidden';
+    }
 
-        function closeHglry() {
-            lb.classList.remove('hglry-lb-open');
-            document.body.style.overflow = '';
-            if (activeMedia && activeMedia.pause) { activeMedia.pause(); activeMedia.src = ''; }
-            media.innerHTML = ''; activeMedia = null;
+    function closeHglry() {
+        lb.classList.remove('hglry-lb-open');
+        document.body.style.overflow = '';
+        if (activeMedia && activeMedia.pause) {
+            activeMedia.pause();
+            activeMedia.src = '';
         }
+        mediaEl.innerHTML = '';
+        activeMedia = null;
+    }
 
-        tiles.forEach(tile => {
-            tile.addEventListener('click', function () {
-                openHglry(
-                    this.dataset.hglrySrc,
-                    this.dataset.hglryType,
-                    this.dataset.hglryTitle,
-                    this.dataset.hglrySub
-                );
-            });
+    tiles.forEach(tile => {
+        tile.addEventListener('click', function () {
+            openHglry(
+                this.dataset.hglrySrc,
+                this.dataset.hglryType,
+                this.dataset.hglryTitle || '',
+                this.dataset.hglrySub || ''
+            );
         });
+    });
 
-        closeEl.addEventListener('click', closeHglry);
-        lb.addEventListener('click', e => { if (e.target === lb) closeHglry(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHglry(); });
-    })();
+    closeEl.addEventListener('click', closeHglry);
+    lb.addEventListener('click', function (e) {
+        if (e.target === lb) closeHglry();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeHglry();
+    });
+})();
 </script>
 
 @endsection
