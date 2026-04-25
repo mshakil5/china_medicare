@@ -17,7 +17,7 @@
                     <h6 class="text-white fw-bold mb-4">Quick Links</h6>
                     <ul class="list-unstyled footer-links">
                         <li><a href="{{ route('home')}}">Home</a></li>
-                        <li><a href="{{ route('home')}}">Hospitals</a></li>
+                        {{-- <li><a href="{{ route('home')}}">Hospitals</a></li> --}}
                         <li><a href="{{ route('packages')}}">Packages</a></li>
                         <li><a href="{{ route('services')}}">Services</a></li>
                         <li><a href="{{ route('contact')}}">Contact</a></li>
