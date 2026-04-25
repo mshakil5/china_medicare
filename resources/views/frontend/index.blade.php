@@ -849,8 +849,6 @@
 
     </div>
 </section>
-@endif
-
 <!-- ====== LIGHTBOX ====== -->
 <div class="hglry-lightbox" id="hglryLightbox" role="dialog" aria-modal="true" aria-label="Media Viewer">
     <button class="hglry-lb-close" id="hglryClose"><i class="fas fa-times"></i></button>
