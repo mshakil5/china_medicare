@@ -2,26 +2,61 @@
 
 @section('content')
 
-
 <style>
+    /* ✅ Dynamic background with overlay */
     .services-header-bg {
-        background: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600');
         background-size: cover;
         background-position: center;
+        position: relative;
+    }
+    .services-header-bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+        z-index: 1;
+    }
+    .services-header-bg .container {
+        position: relative;
+        z-index: 2;
     }
 </style>
 
-<section class="services-header-bg py-5">
+{{-- ✅ Dynamic Banner Section --}}
+<section class="services-header-bg py-5" 
+         style="background-image: url('{{ $banner->image_url ?? asset('assets/images/default-banner.jpg') }}');">
     <div class="container py-lg-4 text-center">
         <nav aria-label="breadcrumb" class="d-flex justify-content-center mb-3">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" class="text-teal text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-teal text-decoration-none">Home</a></li>
                 <li class="breadcrumb-item active text-white" aria-current="page">Services</li>
             </ol>
         </nav>
-        <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">Comprehensive Support</h6>
-        <h1 class="display-5 fw-bold text-white mb-3">One-Stop <span class="text-teal">5th generation premium Medical Treatments</span></h1>
-        <p class="text-light-gray mx-auto max-w-700">From consultation to recovery, we handle every aspect of your medical journey to China with care and precision.</p>
+        
+        @if($banner)
+            @if($banner->short_title)
+                <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">{{ $banner->short_title }}</h6>
+            @else
+                <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">Comprehensive Support</h6>
+            @endif
+
+            <h1 class="display-5 fw-bold text-white mb-3">
+                {!! $banner->long_title ?? 'One-Stop <span class="text-teal">5th generation premium Medical Treatments</span>' !!}
+            </h1>
+
+            @if($banner->short_description)
+                <p class="text-light-gray mx-auto max-w-700">{{ $banner->short_description }}</p>
+            @else
+                <p class="text-light-gray mx-auto max-w-700">From consultation to recovery, we handle every aspect of your medical journey to China with care and precision.</p>
+            @endif
+        @else
+            <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">Comprehensive Support</h6>
+            <h1 class="display-5 fw-bold text-white mb-3">One-Stop <span class="text-teal">5th generation premium Medical Treatments</span></h1>
+            <p class="text-light-gray mx-auto max-w-700">From consultation to recovery, we handle every aspect of your medical journey to China with care and precision.</p>
+        @endif
     </div>
 </section>
 
@@ -99,14 +134,7 @@
     </div>
 </section>
 
-
-
-
-
-
 @endsection
 
 @section('script')
-
-
 @endsection

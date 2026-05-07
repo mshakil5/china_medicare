@@ -10,7 +10,21 @@
 <style>
     :root { --glry-teal: #D8202A; --glry-navy: #0f172a; --glry-radius: 16px; --glry-t: 0.32s cubic-bezier(.4,0,.2,1); }
 
-    .glry-hero { background: linear-gradient(rgba(15,23,42,0.92),rgba(15,23,42,0.92)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600') center/cover; }
+    /* ✅ Dynamic background with overlay */
+    .glry-hero { 
+        background-size: cover; 
+        background-position: center; 
+        position: relative; 
+    }
+    .glry-hero::before { 
+        content: ''; 
+        position: absolute; 
+        top: 0; left: 0; width: 100%; height: 100%; 
+        background: linear-gradient(rgba(15,23,42,0.92),rgba(15,23,42,0.92)); 
+        z-index: 1; 
+    }
+    .glry-hero .container { position: relative; z-index: 2; }
+
     .glry-stats-strip { background: var(--glry-navy); }
     .glry-stat-num { font-size:1.8rem; font-weight:700; color:var(--glry-teal); }
 
@@ -55,10 +69,25 @@
     @media(max-width:767px){.glry-grid{columns:2}}
     @media(max-width:479px){.glry-grid{columns:1}}
 </style>
-{{-- HERO --}}
-<section class="glry-hero py-5">
+
+{{-- ✅ DYNAMIC HERO --}}
+<section class="glry-hero py-5" style="background-image: url('{{ $banner->image_url ?? asset('assets/images/default-banner.jpg') }}');">
     <div class="container py-lg-4 text-center">
-        <h1 class="display-5 fw-bold text-white mb-3">Our <span class="text-teal">Gallery</span></h1>
+        @if($banner)
+            @if($banner->short_title)
+                <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1 mb-2">{{ $banner->short_title }}</h6>
+            @endif
+
+            <h1 class="display-5 fw-bold text-white mb-3">
+                {!! $banner->long_title ?? 'Our <span class="text-teal">Gallery</span>' !!}
+            </h1>
+
+            @if($banner->short_description)
+                <p class="text-light-gray mx-auto max-w-700">{{ $banner->short_description }}</p>
+            @endif
+        @else
+            <h1 class="display-5 fw-bold text-white mb-3">Our <span class="text-teal">Gallery</span></h1>
+        @endif
     </div>
 </section>
 
