@@ -25,7 +25,7 @@
                 </div>
                 
                 <h1 class="fw-bold display-6 mb-2">{{ $translation->title }}</h1>
-                <p class="text-muted mb-4">
+                <p class="text-muted mb-4 d-none">
                     <i class="fas fa-map-marker-alt me-2 text-teal"></i>
                     Available in {{ $package->cities_count }} Locations
                 </p>
