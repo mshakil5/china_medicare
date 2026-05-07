@@ -158,7 +158,7 @@ class MedicalPackageController extends Controller
     {
         $rules = [
             'category'     => 'required|string|max:255',
-            'duration'     => 'required|string|max:255',
+            'duration'     => 'nullable|string|max:255',
             'cities_count' => 'nullable|integer|min:1',
             'price_range'  => 'nullable|string|max:255',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MedicalPackage extends Model implements TranslatableContract
 {
-    use HasFactory, Translatable;  // ✅ FIXED: Removed duplicate Translatable
+    use HasFactory, Translatable; 
 
     protected $table = 'medical_packages';
 
