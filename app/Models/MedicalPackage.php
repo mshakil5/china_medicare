@@ -50,6 +50,7 @@ class MedicalPackage extends Model implements TranslatableContract
             'Surgery'           => 'Surgery',
             'Treatment'         => 'Treatment',
             'Checkup'           => 'Checkup',
+            'Consultation'      => 'Consultation',
             'Wellness'          => 'Wellness & Spa',
             'Dental'            => 'Dental Care',
             'Eye Care'          => 'Eye Care',
