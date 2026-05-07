@@ -30,13 +30,12 @@
                     <ul class="list-unstyled footer-contact">
                         <li><i class="fas fa-phone-alt me-3"></i>+880 1333 218519</li>
                         <li><i class="fas fa-envelope me-3"></i>chinamedicare.cn@gmail.com</li>
-                        <li><i class="fas fa-map-marker-alt me-3"></i>73 A Gulshan Avenue, 3rd Floor, Silvy Heights,
-                            <br><span class="ms-4 ps-2">Gulshan, Dhaka - 1212.</span></li>
 
  
                         <li><i class="fas fa-map-marker-alt me-3"></i>No 30, Shuangqing Road, Haidian District, 
-
-                                <br><span class="ms-4 ps-2">Beijing - 100084.</span></li>
+                                <br><span class="">Beijing - 100084.</span></li>
+                        <li><i class="fas fa-map-marker-alt me-3"></i>73 A Gulshan Avenue, 3rd Floor, Silvy Heights,
+                            <br><span class="">Gulshan, Dhaka - 1212.</span></li>
                     </ul>
                 </div>
             </div>

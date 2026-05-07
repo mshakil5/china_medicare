@@ -337,7 +337,8 @@
                 html = '<span class="text-muted">No features added yet</span>';
             }
             $('#featureTags').html(html);
-            $('#featuresInput').val(JSON.stringify(features));
+            // REMOVED: $('#featuresInput').val(JSON.stringify(features));
+            // We'll append features directly to FormData instead
         }
 
         function escapeHtml(text) {
@@ -421,15 +422,24 @@
 
         // Save or Update
         $("#addBtn").click(function() {
-            // Update features hidden input before submit
-            $('#featuresInput').val(JSON.stringify(features));
-            
             let id = $("#codeid").val();
             let url = id 
                     ? "{{ route('admin.medical_package.update') }}" 
                     : "{{ route('admin.medical_package.store') }}";
             
             let form_data = new FormData($('#createThisForm')[0]);
+            
+            // ✅ FIX: Remove the hidden features input (it's a JSON string)
+            form_data.delete('features');
+            
+            // ✅ FIX: Append each feature as an array element
+            features.forEach(function(feature) {
+                form_data.append('features[]', feature);
+            });
+
+            // Debug: Log FormData contents
+            console.log('Duration value:', form_data.get('duration'));
+            console.log('Features array:', features);
 
             showSpinner();
 
@@ -461,7 +471,7 @@
             });
         });
 
-        // Edit Button Logic - FIXED URL
+        // Edit Button Logic
         $('#contentContainer').on('click', '.editBtn', function() {
             let editUrl = $(this).data('edit-url');
             
@@ -470,6 +480,7 @@
                 type: 'GET',
                 success: function(response) {
                     if (response.success) {
+                        console.log('Edit response data:', response.data); // Debug
                         populateEditForm(response.data);
                     }
                 },
@@ -480,25 +491,49 @@
         });
 
         function populateEditForm(data) {
-            // Reset form first
-            resetForm();
+            // Reset features array first
+            features = [];
+            
+            // Reset form WITHOUT using .reset() to avoid issues
+            $("#codeid").val('');
+            $("#category").val('');
+            $("#duration").val('');
+            $("#price_range").val('');
+            $("#cities_count").val(1);
+            $("#is_popular").prop('checked', false);
+            $("#is_featured").prop('checked', false);
+            $("#status").prop('checked', true);
+            $("#canonical_url").val('');
+            $('#imagePreview').html('');
+            $('#ogImagePreview').html('');
+            $('input[type="file"]').val('');
+            
+            // Reset translation fields
+            @foreach(config('translatable.locales') as $locale)
+                $("#{{ $locale }}_title").val('');
+                $("#{{ $locale }}_subtitle").val('');
+                $("#{{ $locale }}_description").val('');
+                $("#{{ $locale }}_meta_title").val('');
+                $("#{{ $locale }}_meta_description").val('');
+                $("#{{ $locale }}_meta_keywords").val('');
+            @endforeach
 
-            // Set basic fields
-            $("#codeid").val(data.id);
-            $("#category").val(data.category);
-            $("#duration").val(data.duration);
-            $("#price_range").val(data.price_range);
-            $("#cities_count").val(data.cities_count);
-            $("#is_popular").prop('checked', data.is_popular);
-            $("#is_featured").prop('checked', data.is_featured);
-            $("#status").prop('checked', data.status);
-            $("#canonical_url").val(data.canonical_url);
+            // ✅ FIX: Set basic fields with null checks
+            $("#codeid").val(data.id || '');
+            $("#category").val(data.category || '');
+            $("#duration").val(data.duration || '');  // ✅ Ensure this is set
+            $("#price_range").val(data.price_range || '');
+            $("#cities_count").val(data.cities_count || 1);
+            $("#is_popular").prop('checked', data.is_popular == 1 || data.is_popular === true);
+            $("#is_featured").prop('checked', data.is_featured == 1 || data.is_featured === true);
+            $("#status").prop('checked', data.status == 1 || data.status === true);
+            $("#canonical_url").val(data.canonical_url || '');
 
             // Show existing images
             if (data.image) {
                 $('#imagePreview').html(`
                     <div class="img-preview-container">
-                        <img src="${data.image_url}" alt="Current Image">
+                        <img src="${data.image_url || data.image}" alt="Current Image">
                     </div>
                 `);
             }
@@ -506,24 +541,36 @@
             if (data.og_image) {
                 $('#ogImagePreview').html(`
                     <div class="img-preview-container">
-                        <img src="${data.og_image_url}" alt="Current OG Image">
+                        <img src="${data.og_image_url || data.og_image}" alt="Current OG Image">
                     </div>
                 `);
             }
 
-            // Populate Features
-            features = data.features || [];
+            // ✅ FIX: Populate Features - handle both array and JSON string
+            if (data.features) {
+                if (typeof data.features === 'string') {
+                    try {
+                        features = JSON.parse(data.features);
+                    } catch(e) {
+                        features = [];
+                    }
+                } else if (Array.isArray(data.features)) {
+                    features = [...data.features];
+                }
+            }
             renderFeatures();
 
             // Populate Translations including SEO
-            if (data.translations) {
+            if (data.translations && Array.isArray(data.translations)) {
                 data.translations.forEach(function(t) {
-                    $(`#${t.locale}_title`).val(t.title || '');
-                    $(`#${t.locale}_subtitle`).val(t.subtitle || '');
-                    $(`#${t.locale}_description`).val(t.description || '');
-                    $(`#${t.locale}_meta_title`).val(t.meta_title || '');
-                    $(`#${t.locale}_meta_description`).val(t.meta_description || '');
-                    $(`#${t.locale}_meta_keywords`).val(t.meta_keywords || '');
+                    if (t.locale) {
+                        $(`#${t.locale}_title`).val(t.title || '');
+                        $(`#${t.locale}_subtitle`).val(t.subtitle || '');
+                        $(`#${t.locale}_description`).val(t.description || '');
+                        $(`#${t.locale}_meta_title`).val(t.meta_title || '');
+                        $(`#${t.locale}_meta_description`).val(t.meta_description || '');
+                        $(`#${t.locale}_meta_keywords`).val(t.meta_keywords || '');
+                    }
                 });
             }
 
@@ -558,13 +605,30 @@
 
         // Reset Form
         function resetForm() {
-            $('#createThisForm')[0].reset();
             $("#codeid").val('');
-            features = [];
-            renderFeatures();
+            $("#category").val('');
+            $("#duration").val('');
+            $("#price_range").val('');
+            $("#cities_count").val(1);
+            $("#is_popular").prop('checked', false);
+            $("#is_featured").prop('checked', false);
+            $("#status").prop('checked', true);
+            $("#canonical_url").val('');
+            $('input[type="file"]').val('');
             $('#imagePreview').html('');
             $('#ogImagePreview').html('');
-            $("#status").prop('checked', true);
+            features = [];
+            renderFeatures();
+            
+            // Reset translation fields
+            @foreach(config('translatable.locales') as $locale)
+                $("#{{ $locale }}_title").val('');
+                $("#{{ $locale }}_subtitle").val('');
+                $("#{{ $locale }}_description").val('');
+                $("#{{ $locale }}_meta_title").val('');
+                $("#{{ $locale }}_meta_description").val('');
+                $("#{{ $locale }}_meta_keywords").val('');
+            @endforeach
         }
 
         // Toast Notification

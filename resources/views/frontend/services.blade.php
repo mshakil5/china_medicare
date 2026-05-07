@@ -10,7 +10,7 @@
         background-position: center;
     }
 </style>
-    
+
 <section class="services-header-bg py-5">
     <div class="container py-lg-4 text-center">
         <nav aria-label="breadcrumb" class="d-flex justify-content-center mb-3">
@@ -20,7 +20,7 @@
             </ol>
         </nav>
         <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">Comprehensive Support</h6>
-        <h1 class="display-5 fw-bold text-white mb-3">One-Stop <span class="text-teal">Services</span></h1>
+        <h1 class="display-5 fw-bold text-white mb-3">One-Stop <span class="text-teal">5th generation premium Medical Treatments</span></h1>
         <p class="text-light-gray mx-auto max-w-700">From consultation to recovery, we handle every aspect of your medical journey to China with care and precision.</p>
     </div>
 </section>

@@ -115,7 +115,7 @@
                                     @endif
                                 </ul>
 
-                                <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-3 d-none">
                                     <span class="small text-muted">
                                         <i class="far fa-calendar-alt me-2"></i>
                                         {{ $package->duration }}

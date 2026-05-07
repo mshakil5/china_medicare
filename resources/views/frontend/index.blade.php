@@ -158,11 +158,13 @@
         .scroll-reveal.revealed .col-lg-4:nth-child(6) .card,
         .scroll-reveal.revealed .col-xl-3:nth-child(6) .service-card-new { transition-delay: 0.6s; }
 
+        .text-justify-custom{
+            text-align: justify;
+        }
+
 
     </style>
 
-
-    
     @if ($packages->count() > 0)
     <section class="py-5 bg-white scroll-reveal">
         <div class="container py-lg-4">
@@ -217,7 +219,7 @@
                                     {{ $translation->subtitle ?? '' }}
                                 </p>
 
-                                <p class="card-text text-muted small mb-4">
+                                <p class="card-text text-muted small mb-4 text-justify-custom">
                                     {{ $translation->description ?? '' }}
                                 </p>
 
@@ -264,6 +266,11 @@
         </div>
     </section>
     @endif
+
+
+
+
+
     
     <style>
         /* Hidden features - initially collapsed */
