@@ -68,6 +68,7 @@ class MedicalPackage extends Model implements TranslatableContract
             'Pediatric'         => 'Pediatric',
             'Gynecology'        => 'Gynecology',
             'Urology'           => 'Urology',
+            'Other Services'    => 'Other Services',
         ];
     }
 

@@ -171,8 +171,8 @@
             <div class="row align-items-end mb-5">
                 <div class="col-md-8 text-center text-md-start">
                     <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">All-Inclusive Packages</h6>
-                    <h2 class="display-6 fw-bold mb-3">Popular <span class="text-teal">Medical Packages</span></h2>
-                    <p class="text-muted max-w-600">Comprehensive treatment packages with transparent pricing and full support throughout your medical journey.</p>
+                    <h2 class="display-6 fw-bold mb-3">Popular <span class="text-teal">Medical Packages and exclusive Services</span></h2>
+                    <p class="text-muted max-w-600">Comprehensive premium treatment and service packages with transparent pricing and full support throughout your medical journey.</p>
                 </div>
             </div>
 
