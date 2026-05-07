@@ -4,6 +4,6 @@ return [
     'home' => 'Home',
     'hospitals' => 'Hospitals',
     'packages' => 'Packages',
-    'services' => 'Services',
+    'services' => 'Premium Treatments',
     'consultation' => 'Free Consultation',
 ];
