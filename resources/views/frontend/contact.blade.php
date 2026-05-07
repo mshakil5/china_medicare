@@ -126,8 +126,35 @@
                         @endif
                     </div>
                     <div class="map-overlay p-3 text-white">
-                        <p class="fw-bold mb-0">{{ $company->address1 ?? 'China' }}</p>
+                        <p class="fw-bold mb-0">{{ $company->address1 ?? 'Dhaka' }}</p>
                         <p class="x-small mb-0">Global Medical Tourism Hub</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 rounded-4 overflow-hidden shadow-sm position-relative">
+                    <div class="ratio ratio-16x9">
+                        @if(!empty($company->google_map))
+                            {{-- 
+                                Note: If your database stores ONLY the URL (e.g., https://www.google.com/maps/embed...), use src="{{ $company->google_map }}"
+                                If your database stores the FULL IFRAME HTML TAG, change the line below to: {!! $company->google_map !!}
+                            --}}
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3055.895064085665!2d116.3482322759909!3d40.01079147150782!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDAwJzM4LjkiTiAxMTbCsDIxJzAyLjkiRQ!5e0!3m2!1sen!2sbd!4v1778160556033!5m2!1sen!2sbd" 
+                                width="600" 
+                                height="450" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        @else
+                            <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+                                <p class="text-muted mb-0"><i class="fas fa-map-marker-alt me-2"></i>Map not available</p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="map-overlay p-3 text-white">
+                        <p class="fw-bold mb-0">No 30, Shuangqing Road, Haidian District, Beijing - 100084.</p>
                     </div>
                 </div>
 
