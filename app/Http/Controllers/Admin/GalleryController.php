@@ -18,11 +18,14 @@ class GalleryController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('preview', function ($row) {
+                    $badge = match($row->type) {
+                        'youtube' => '<span class="badge bg-danger ms-1">YouTube</span>',
+                        'video'   => '<span class="badge bg-warning text-dark ms-1">Video</span>',
+                        default   => '<span class="badge bg-primary ms-1">Image</span>'
+                    };
+                    
                     $img = $row->preview_image;
-                    $badge = $row->type === 'video'
-                        ? '<span class="badge bg-danger ms-1">Video</span>'
-                        : '<span class="badge bg-primary ms-1">Image</span>';
-                    return '<img src="/' . $img . '" width="60" class="img-thumbnail rounded">' . $badge;
+                    return '<img src="/' . $img . '" width="60" class="img-thumbnail rounded" onerror="this.src=\'https://via.placeholder.com/60\'">' . $badge;
                 })
                 ->addColumn('status', function ($row) {
                     $checked = $row->status ? 'checked' : '';
@@ -46,38 +49,31 @@ class GalleryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'type'      => 'required|in:image,video',
+        $rules = [
+            'type'      => 'required|in:image,video,youtube',
             'title'     => 'required|string|max:255',
-            'file'      => 'required|file|mimes:jpeg,png,jpg,gif,webp,mp4,mov,avi,mkv|max:51200',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-        ]);
+            'subtitle'  => 'nullable|string|max:255',
+            'sort_order'=> 'nullable|integer|min:0',
+        ];
+
+        // Conditional validation
+        if ($request->type === 'youtube') {
+            $rules['video_link'] = 'required|url';
+            $rules['file']       = 'nullable';
+            $rules['thumbnail']  = 'nullable';
+        } else {
+            $rules['file'] = 'required|file|mimes:jpeg,png,jpg,gif,webp,mp4,mov,avi,mkv|max:51200';
+            if ($request->type === 'video') {
+                $rules['thumbnail'] = 'required|image|mimes:jpeg,png,jpg,webp|max:5120';
+            } else {
+                $rules['thumbnail'] = 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120';
+            }
+        }
+
+        $request->validate($rules);
 
         $gallery = new Gallery();
-        $gallery->type      = $request->type;
-        $gallery->title     = $request->title;
-        $gallery->subtitle  = $request->subtitle;
-        $gallery->sort_order = $request->sort_order ?? 0;
-        $gallery->status    = $request->has('status') ? 1 : 0;
-
-        // Upload main file (image or video)
-        if ($request->hasFile('file')) {
-            $file     = $request->file('file');
-            $folder   = $gallery->type === 'video' ? 'uploads/gallery/videos' : 'uploads/gallery/images';
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path($folder), $filename);
-            $gallery->file_path = $folder . '/' . $filename;
-        }
-
-        // Upload thumbnail (required for video, optional for image)
-        if ($request->hasFile('thumbnail')) {
-            $thumb    = $request->file('thumbnail');
-            $tname    = time() . '_thumb.' . $thumb->getClientOriginalExtension();
-            $thumb->move(public_path('uploads/gallery/thumbnails'), $tname);
-            $gallery->thumbnail = 'uploads/gallery/thumbnails/' . $tname;
-        }
-
-        $gallery->save();
+        $this->saveData($gallery, $request);
 
         return response()->json(['message' => 'Gallery item added successfully!']);
     }
@@ -89,23 +85,43 @@ class GalleryController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
-            'type'      => 'required|in:image,video',
+        $rules = [
+            'type'      => 'required|in:image,video,youtube',
             'title'     => 'required|string|max:255',
-            'file'      => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,mp4,mov,avi,mkv|max:51200',
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-        ]);
+            'subtitle'  => 'nullable|string|max:255',
+            'sort_order'=> 'nullable|integer|min:0',
+        ];
+
+        if ($request->type === 'youtube') {
+            $rules['video_link'] = 'required|url';
+            $rules['file']       = 'nullable';
+            $rules['thumbnail']  = 'nullable';
+        } else {
+            $rules['file'] = 'nullable|file|mimes:jpeg,png,jpg,gif,webp,mp4,mov,avi,mkv|max:51200';
+            $rules['thumbnail'] = 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120';
+        }
+
+        $request->validate($rules);
 
         $gallery = Gallery::findOrFail($request->codeid);
-        $gallery->type      = $request->type;
-        $gallery->title     = $request->title;
-        $gallery->subtitle  = $request->subtitle;
-        $gallery->sort_order = $request->sort_order ?? 0;
-        $gallery->status    = $request->has('status') ? 1 : 0;
+        $this->saveData($gallery, $request);
 
-        // Replace main file if new one uploaded
+        return response()->json(['message' => 'Gallery item updated successfully!']);
+    }
+
+    // ✅ Reusable Save Logic
+    private function saveData(Gallery $gallery, Request $request)
+    {
+        $gallery->type       = $request->type;
+        $gallery->title      = $request->title;
+        $gallery->subtitle   = $request->subtitle;
+        $gallery->sort_order = $request->sort_order ?? 0;
+        $gallery->status     = $request->has('status') ? 1 : 0;
+        $gallery->video_link = $request->video_link ?? null;
+
+        // Handle local file upload
         if ($request->hasFile('file')) {
-            if (File::exists(public_path($gallery->file_path))) {
+            if ($gallery->file_path && File::exists(public_path($gallery->file_path))) {
                 File::delete(public_path($gallery->file_path));
             }
             $file     = $request->file('file');
@@ -115,7 +131,7 @@ class GalleryController extends Controller
             $gallery->file_path = $folder . '/' . $filename;
         }
 
-        // Replace thumbnail if new one uploaded
+        // Handle thumbnail upload
         if ($request->hasFile('thumbnail')) {
             if ($gallery->thumbnail && File::exists(public_path($gallery->thumbnail))) {
                 File::delete(public_path($gallery->thumbnail));
@@ -126,16 +142,26 @@ class GalleryController extends Controller
             $gallery->thumbnail = 'uploads/gallery/thumbnails/' . $tname;
         }
 
-        $gallery->save();
+        // If switched to YouTube, clear old local files to save space
+        if ($request->type === 'youtube') {
+            if ($gallery->file_path && File::exists(public_path($gallery->file_path))) {
+                File::delete(public_path($gallery->file_path));
+                $gallery->file_path = null;
+            }
+            if ($gallery->thumbnail && File::exists(public_path($gallery->thumbnail))) {
+                File::delete(public_path($gallery->thumbnail));
+                $gallery->thumbnail = null;
+            }
+        }
 
-        return response()->json(['message' => 'Gallery item updated successfully!']);
+        $gallery->save();
     }
 
     public function destroy($id)
     {
         $gallery = Gallery::findOrFail($id);
 
-        if (File::exists(public_path($gallery->file_path))) {
+        if ($gallery->file_path && File::exists(public_path($gallery->file_path))) {
             File::delete(public_path($gallery->file_path));
         }
         if ($gallery->thumbnail && File::exists(public_path($gallery->thumbnail))) {

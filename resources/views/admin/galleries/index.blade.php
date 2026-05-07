@@ -1,5 +1,3 @@
-{{-- resources/views/admin/galleries/index.blade.php --}}
-
 @extends('admin.pages.master')
 @section('title', 'Gallery Management')
 
@@ -26,7 +24,8 @@
                         <label class="form-label fw-semibold">Type <span class="text-danger">*</span></label>
                         <select class="form-select" name="type" id="type" required>
                             <option value="image">Image</option>
-                            <option value="video">Video</option>
+                            <option value="video">Upload Video</option>
+                            <option value="youtube">YouTube Link</option>
                         </select>
                     </div>
 
@@ -44,26 +43,37 @@
                                placeholder="e.g. Cardiology Wing">
                     </div>
 
-                    {{-- File Upload --}}
-                    <div class="col-md-5 mb-3">
+                    {{-- ✅ YouTube Link (Hidden by default) --}}
+                    <div class="col-md-7 mb-3" id="linkWrap" style="display:none;">
+                        <label class="form-label fw-semibold">
+                            YouTube Video Link <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fab fa-youtube text-danger"></i></span>
+                            <input type="url" class="form-control" name="video_link" id="video_link"
+                                   placeholder="https://www.youtube.com/watch?v=xxxxx or short link">
+                        </div>
+                        <div class="form-text">Paste the full YouTube URL. The thumbnail will be fetched automatically.</div>
+                    </div>
+
+                    {{-- File Upload (Hidden when YouTube is selected) --}}
+                    <div class="col-md-7 mb-3" id="fileWrap">
                         <label class="form-label fw-semibold" id="fileLabel">
                             Image File <span class="text-danger">*</span>
                         </label>
                         <input type="file" class="form-control" name="file" id="file"
                                accept="image/*">
                         <div class="form-text" id="fileHint">Accepted: JPG, PNG, GIF, WEBP</div>
-                        {{-- Preview existing file on edit --}}
                         <div id="currentFileWrap" class="mt-2" style="display:none;">
                             <small class="text-muted">Current file:</small><br>
                             <img id="currentFilePreview" src="" width="80" class="img-thumbnail mt-1">
                         </div>
                     </div>
 
-                    {{-- Thumbnail (shown for video only) --}}
+                    {{-- Thumbnail (Only for uploaded video) --}}
                     <div class="col-md-4 mb-3" id="thumbnailWrap">
                         <label class="form-label fw-semibold">
-                            Thumbnail / Poster Image
-                            <span class="text-danger" id="thumbRequired">*</span>
+                            Thumbnail / Poster Image <span class="text-danger">*</span>
                         </label>
                         <input type="file" class="form-control" name="thumbnail" id="thumbnail"
                                accept="image/*">
@@ -127,9 +137,8 @@
 
 @section('script')
 <script>
-$(document).ready(function () {
+ $(document).ready(function () {
 
-    // ── DataTable ─────────────────────────────────────────
     var table = $('#galleryTable').DataTable({
         processing: true,
         serverSide: true,
@@ -145,24 +154,40 @@ $(document).ready(function () {
         ]
     });
 
-    // ── Toggle thumbnail field based on type ──────────────
-    function toggleThumbnailField() {
+    // ── Toggle fields based on type ──────────────────────
+    function toggleFields() {
         var type = $('#type').val();
-        if (type === 'video') {
-            $('#thumbnailWrap').show();
-            $('#fileLabel').html('Video File <span class="text-danger">*</span>');
-            $('#fileHint').text('Accepted: MP4, MOV, AVI, MKV (max 50MB)');
-            $('#file').attr('accept', 'video/*');
-        } else {
-            $('#thumbnailWrap').hide();
+        
+        // Hide all conditional fields first
+        $('#fileWrap, #thumbnailWrap, #linkWrap').hide();
+        
+        // Remove required attributes to prevent HTML5 blocking submission
+        $('#file, #thumbnail, #video_link').prop('required', false);
+
+        if (type === 'image') {
+            $('#fileWrap').show();
+            $('#file').prop('required', true);
             $('#fileLabel').html('Image File <span class="text-danger">*</span>');
             $('#fileHint').text('Accepted: JPG, PNG, GIF, WEBP');
             $('#file').attr('accept', 'image/*');
+        } 
+        else if (type === 'video') {
+            $('#fileWrap').show();
+            $('#thumbnailWrap').show();
+            $('#file').prop('required', true);
+            $('#thumbnail').prop('required', true);
+            $('#fileLabel').html('Video File <span class="text-danger">*</span>');
+            $('#fileHint').text('Accepted: MP4, MOV, AVI, MKV (max 50MB)');
+            $('#file').attr('accept', 'video/*');
+        } 
+        else if (type === 'youtube') {
+            $('#linkWrap').show();
+            $('#video_link').prop('required', true);
         }
     }
 
-    $('#type').on('change', toggleThumbnailField);
-    toggleThumbnailField(); // run on load
+    $('#type').on('change', toggleFields);
+    toggleFields(); // run on load
 
     // ── Save / Update ─────────────────────────────────────
     $('#addBtn').click(function () {
@@ -196,21 +221,27 @@ $(document).ready(function () {
         var id = $(this).attr('rid');
         $.get('/admin/galleries/' + id + '/edit', function (data) {
             $('#codeid').val(data.id);
-            $('#type').val(data.type).trigger('change');
+            $('#type').val(data.type).trigger('change'); // Trigger change to show/hide fields
             $('#title').val(data.title);
             $('#subtitle').val(data.subtitle);
             $('#sort_order').val(data.sort_order);
             $('#status').prop('checked', data.status == 1);
+            $('#video_link').val(data.video_link || '');
 
             // Show current file preview
             if (data.preview_image) {
                 $('#currentFilePreview').attr('src', '/' + data.preview_image);
                 $('#currentFileWrap').show();
+            } else {
+                $('#currentFileWrap').hide();
             }
-            // Show current thumbnail preview (video)
+
+            // Show current thumbnail preview
             if (data.thumbnail) {
                 $('#currentThumbPreview').attr('src', '/' + data.thumbnail);
                 $('#currentThumbWrap').show();
+            } else {
+                $('#currentThumbWrap').hide();
             }
 
             $('#addThisFormContainer').slideDown();
@@ -224,7 +255,7 @@ $(document).ready(function () {
         $('#createThisForm')[0].reset();
         $('#codeid').val('');
         $('#currentFileWrap, #currentThumbWrap').hide();
-        toggleThumbnailField();
+        toggleFields();
         $('#addThisFormContainer').slideDown();
         $(this).hide();
         $('#cardTitle').text('Add New Gallery Item');
