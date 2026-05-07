@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\CheckSiteLock;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,6 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'is_admin' => App\Http\Middleware\IsAdmin::class,
             'is_user' => App\Http\Middleware\IsUser::class,
         ]);
+        $middleware->append(CheckSiteLock::class);
+        
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

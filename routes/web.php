@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
+use App\Http\Controllers\SiteManageController;
 use Illuminate\Support\Facades\Session;
 
 // cache clear
@@ -43,6 +44,7 @@ Route::get('/packages-details/{id}', [FrontendController::class, 'packagesDetail
 Route::get('/blog-details/{slug}', [FrontendController::class, 'blogDetails'])->name('front.blog.details');
 Route::get('/blog-list', [FrontendController::class, 'blogList'])->name('front.blog');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
+Route::get('/manage/{secret}', [SiteManageController::class, 'handle']);
 Route::post('/contact/store', [FrontendController::class, 'contactStore'])->name('contact.store');
 
 Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('aboutUs');
