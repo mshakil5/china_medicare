@@ -165,7 +165,7 @@
                     </div>
                 </div>
                 <div id="featureTags" class="mb-3"></div>
-                <input type="hidden" name="features" id="featuresInput">
+                {{-- <input type="hidden" name="features" id="featuresInput"> --}}
 
                 <!-- Translatable Fields -->
                 <hr>
