@@ -29,6 +29,7 @@
                     <h6 class="text-white fw-bold mb-4">Contact Us</h6>
                     <ul class="list-unstyled footer-contact">
                         <li><i class="fas fa-phone-alt me-3"></i>+880 1333 218519</li>
+                        <li><i class="fab fa-whatsapp me-3"></i>+86 188 1056 1453</li>
                         <li><i class="fas fa-envelope me-3"></i>chinamedicare.cn@gmail.com</li>
 
  
