@@ -56,8 +56,8 @@
     .glry-lb-close { position:fixed; top:20px; right:24px; width:44px; height:44px; background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.2); border-radius:50%; color:#fff; font-size:1.1rem; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10001; transition:background .2s; }
     .glry-lb-close:hover { background:var(--glry-teal); border-color:var(--glry-teal); }
     .glry-lb-content { max-width:1100px; width:100%; max-height:85vh; display:flex; align-items:center; justify-content:center; }
-    .glry-lb-content img { max-width:100%; max-height:80vh; border-radius:12px; object-fit:contain; box-shadow:0 30px 80px rgba(0,0,0,.6); }
-    .glry-lb-content video { max-width:100%; max-height:80vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.6); }
+    .glry-lb-content img, .glry-lb-content video { max-width:100%; max-height:80vh; border-radius:12px; object-fit:contain; box-shadow:0 30px 80px rgba(0,0,0,.6); }
+    .glry-lb-content iframe { max-width:100%; max-height:80vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.6); aspect-ratio:16/9; border:none; }
     .glry-lb-nav { position:fixed; top:50%; transform:translateY(-50%); width:48px; height:48px; background:rgba(255,255,255,.1); border:1.5px solid rgba(255,255,255,.2); border-radius:50%; color:#fff; font-size:1rem; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10001; transition:background .2s; }
     .glry-lb-nav:hover { background:var(--glry-teal); border-color:var(--glry-teal); }
     .glry-lb-prev { left:16px; } .glry-lb-next { right:16px; }
@@ -103,6 +103,11 @@
                 <div class="glry-stat-num">{{ $items->where('type','video')->count() }}</div>
                 <div class="text-light-gray" style="font-size:.82rem;">Videos</div>
             </div>
+            {{-- ✅ YouTube Stat --}}
+            <div class="col-6 col-md-3">
+                <div class="glry-stat-num">{{ $items->where('type','youtube')->count() }}</div>
+                <div class="text-light-gray" style="font-size:.82rem;">YouTube</div>
+            </div>
             <div class="col-6 col-md-3">
                 <div class="glry-stat-num">{{ $items->count() }}</div>
                 <div class="text-light-gray" style="font-size:.82rem;">Total Media</div>
@@ -115,7 +120,7 @@
 <section class="py-5 bg-light">
     <div class="container py-lg-3">
 
-        {{-- Filter Tabs --}}
+        {{-- ✅ Filter Tabs (Added YouTube) --}}
         <div class="glry-filter-wrap mb-5">
             <button class="glry-filter-btn glry-active" data-filter="all">
                 <i class="fas fa-th me-2"></i>All ({{ $items->count() }})
@@ -125,6 +130,9 @@
             </button>
             <button class="glry-filter-btn" data-filter="video">
                 <i class="fas fa-video me-2"></i>Videos ({{ $items->where('type','video')->count() }})
+            </button>
+            <button class="glry-filter-btn" data-filter="youtube">
+                <i class="fab fa-youtube me-2"></i>YouTube ({{ $items->where('type','youtube')->count() }})
             </button>
         </div>
 
@@ -152,7 +160,8 @@
                             </div>
                         </div>
                     </div>
-                @else
+                
+                @elseif($item->type === 'video')
                     <div class="glry-item"
                          data-type="video"
                          data-title="{{ $item->title }}"
@@ -169,6 +178,29 @@
                         </div>
                         <div class="glry-overlay">
                             <div class="glry-overlay-icon"><i class="fas fa-play"></i></div>
+                            <div class="glry-overlay-label">
+                                {{ $item->title }}
+                                <span>{{ $item->subtitle ?? '' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                @elseif($item->type === 'youtube')
+                    {{-- ✅ YouTube Grid Item --}}
+                    <div class="glry-item"
+                         data-type="youtube"
+                         data-title="{{ $item->title }}"
+                         data-sub="{{ $item->subtitle ?? '' }}"
+                         data-src="{{ $item->embed_url }}">
+                        <div class="glry-video-badge" style="background:#FF0000;">
+                            <i class="fab fa-youtube" style="font-size:.65rem;"></i> YouTube
+                        </div>
+                        <img src="{{ asset($item->preview_image) }}" alt="{{ $item->title }}" loading="lazy">
+                        <div class="glry-play-btn" style="background:#FF0000; color:white;">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="glry-overlay">
+                            <div class="glry-overlay-icon" style="background:#FF0000;"><i class="fab fa-youtube"></i></div>
                             <div class="glry-overlay-label">
                                 {{ $item->title }}
                                 <span>{{ $item->subtitle ?? '' }}</span>
@@ -233,7 +265,6 @@
         if (idx < 0 || idx >= visible.length) return;
         currentIndex = idx;
 
-        // OPEN LIGHTBOX FIRST — before renderMedia, so it's always visible
         lb.classList.add('glry-open');
         document.body.style.overflow = 'hidden';
 
@@ -243,9 +274,15 @@
     function closeLightbox() {
         lb.classList.remove('glry-open');
         document.body.style.overflow = '';
+        
+        // ✅ Cleanup media safely
         if (activeMedia) {
-            if (typeof activeMedia.pause === 'function') activeMedia.pause();
-            activeMedia.src = '';
+            if (typeof activeMedia.pause === 'function') {
+                activeMedia.pause();
+                activeMedia.src = '';
+            } else if (activeMedia.tagName === 'IFRAME') {
+                activeMedia.src = ''; // Stops YouTube audio
+            }
             activeMedia = null;
         }
         content.innerHTML = '';
@@ -256,8 +293,12 @@
     function renderMedia(idx) {
         // Cleanup previous
         if (activeMedia) {
-            if (typeof activeMedia.pause === 'function') activeMedia.pause();
-            activeMedia.src = '';
+            if (typeof activeMedia.pause === 'function') {
+                activeMedia.pause();
+                activeMedia.src = '';
+            } else if (activeMedia.tagName === 'IFRAME') {
+                activeMedia.src = '';
+            }
             activeMedia = null;
         }
         content.innerHTML = '';
@@ -271,7 +312,17 @@
         var title = item.dataset.title || '';
         var sub   = item.dataset.sub || '';
 
-        if (type === 'video') {
+        // ✅ Handle YouTube Iframe
+        if (type === 'youtube') {
+            var iframe = document.createElement('iframe');
+            iframe.src = src;
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            content.appendChild(iframe);
+            activeMedia = iframe;
+        } 
+        // Handle Uploaded Video
+        else if (type === 'video') {
             var v = document.createElement('video');
             v.src = src;
             v.controls = true;
@@ -279,14 +330,16 @@
             if (item.dataset.poster) v.poster = item.dataset.poster;
             content.appendChild(v);
             activeMedia = v;
-        } else {
+        } 
+        // Handle Standard Image
+        else {
             var img = document.createElement('img');
             img.src = src;
             img.alt = title;
             content.appendChild(img);
         }
 
-        // Build caption safely — no childNodes[0] dependency
+        // Build caption safely
         var titleNode = document.createTextNode(title);
         caption.appendChild(titleNode);
         if (sub) {

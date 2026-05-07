@@ -773,6 +773,7 @@
 
 
 <!-- ====== GALLERY SECTION ====== -->
+
 @if($galleryPreview->isNotEmpty())
 <section class="hglry-section py-5">
     <div class="container py-lg-3">
@@ -795,10 +796,12 @@
             @foreach($galleryPreview as $index => $item)
                 @php
                     $isFirst = $index === 0;
-                    $imgSrc = $item->type === 'video' && $item->thumbnail
-                        ? asset($item->thumbnail)
-                        : asset($item->file_path);
-                    $fullSrc = asset($item->file_path);
+                    
+                    // ✅ Use the model accessor we created (handles YouTube thumbnails automatically)
+                    $imgSrc = asset($item->preview_image);
+                    
+                    // ✅ Set lightbox source (YouTube embed URL or local file path)
+                    $fullSrc = $item->type === 'youtube' ? $item->embed_url : asset($item->file_path);
                 @endphp
 
                 <div class="hglry-pi {{ $isFirst ? 'hglry-pi--hero' : '' }}"
@@ -808,7 +811,15 @@
                      data-hglry-sub="{{ $item->subtitle ?? '' }}">
                     <img src="{{ $imgSrc }}" alt="{{ $item->title }}" loading="lazy">
 
-                    @if($item->type === 'video')
+                    @if($item->type === 'youtube')
+                        {{-- ✅ YouTube Badge & Icon --}}
+                        <div class="hglry-video-tag" style="background: #FF0000;">
+                            <i class="fab fa-youtube" style="font-size:.6rem;"></i> YouTube
+                        </div>
+                        <div class="hglry-play-circle" style="background: #FF0000;">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                    @elseif($item->type === 'video')
                         <div class="hglry-video-tag">
                             <i class="fas fa-play" style="font-size:.5rem;"></i> Video
                         </div>
@@ -831,7 +842,7 @@
             {{-- "View More" Tile --}}
             @if($galleryTotal > 4)
                 <a href="{{ route('gallery') }}" class="hglry-more-tile">
-                    <img src="{{ asset($galleryPreview->last()->type === 'video' && $galleryPreview->last()->thumbnail ? $galleryPreview->last()->thumbnail : $galleryPreview->last()->file_path) }}"
+                    <img src="{{ asset($galleryPreview->last()->preview_image) }}"
                          alt="More Gallery" loading="lazy">
                     <div class="hglry-more-content">
                         <div class="hglry-more-num">{{ $galleryTotal - 4 }}+</div>
@@ -856,6 +867,7 @@
 
     </div>
 </section>
+
 <!-- ====== LIGHTBOX ====== -->
 <div class="hglry-lightbox" id="hglryLightbox" role="dialog" aria-modal="true" aria-label="Media Viewer">
     <button class="hglry-lb-close" id="hglryClose"><i class="fas fa-times"></i></button>
@@ -866,8 +878,9 @@
     </div>
 </div>
 
-
 @endif
+
+
 
 
 @endsection
@@ -957,20 +970,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openHglry(src, type, title, sub) {
         mediaEl.innerHTML = '';
-        if (type === 'video') {
+        
+        // ✅ Handle YouTube Videos
+        if (type === 'youtube') {
+            const iframe = document.createElement('iframe');
+            iframe.src = src;
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.style.cssText = 'max-width:100%; max-height:80vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.6); aspect-ratio:16/9;';
+            mediaEl.appendChild(iframe);
+            activeMedia = iframe;
+        } 
+        // Handle Uploaded Videos
+        else if (type === 'video') {
             const v = document.createElement('video');
             v.src = src;
             v.controls = true;
             v.autoplay = true;
+            v.style.cssText = 'max-width:100%; max-height:80vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.6);';
             mediaEl.appendChild(v);
             activeMedia = v;
-        } else {
+        } 
+        // Handle Standard Images
+        else {
             const i = document.createElement('img');
             i.src = src;
             i.alt = title;
+            i.style.cssText = 'max-width:100%; max-height:80vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,.6);';
             mediaEl.appendChild(i);
             activeMedia = i;
         }
+        
         titleEl.textContent = title || '';
         subEl.textContent = sub || '';
         lb.classList.add('hglry-lb-open');
@@ -980,10 +1011,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeHglry() {
         lb.classList.remove('hglry-lb-open');
         document.body.style.overflow = '';
-        if (activeMedia && activeMedia.pause) {
-            activeMedia.pause();
-            activeMedia.src = '';
+        
+        // Stop video/iframe playback
+        if (activeMedia) {
+            if (activeMedia.pause) {
+                activeMedia.pause();
+                activeMedia.src = '';
+            } else if (activeMedia.tagName === 'IFRAME') {
+                activeMedia.src = ''; // Stops YouTube video from playing in background
+            }
         }
+        
         mediaEl.innerHTML = '';
         activeMedia = null;
     }
@@ -1008,5 +1046,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 })();
 </script>
-
 @endsection

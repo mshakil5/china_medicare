@@ -200,15 +200,14 @@ class FrontendController extends Controller
         $data = MedicalPackage::with('translations')->get();
         $banner = BannerSection::where('page', 'Gallery')->first() ?? new BannerSection();
 
-
         $query = Gallery::active()->ordered();
 
-        if ($request->filled('type') && in_array($request->type, ['image', 'video'])) {
+        // ✅ Added 'youtube' to allowed filters
+        if ($request->filled('type') && in_array($request->type, ['image', 'video', 'youtube'])) {
             $query->where('type', $request->type);
         }
 
         $items = $query->get();
-
 
         return view('frontend.gallery', compact('company','data','banner','items'));
     }
