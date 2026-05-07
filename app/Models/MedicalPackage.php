@@ -44,6 +44,18 @@ class MedicalPackage extends Model implements TranslatableContract
         'meta_keywords',
     ];
 
+    // ✅ Priority categories (shown first in this exact order)
+    public static function getPriorityCategories(): array
+    {
+        return ['Surgery', 'Treatment', 'Checkup'];
+    }
+
+    // ✅ Last category (shown at the end)
+    public static function getLastCategory(): string
+    {
+        return 'Other Services';
+    }
+
     public static function getCategories(): array
     {
         return [
@@ -70,6 +82,37 @@ class MedicalPackage extends Model implements TranslatableContract
             'Urology'           => 'Urology',
             'Other Services'    => 'Other Services',
         ];
+    }
+
+    /**
+     * ✅ Returns categories sorted: Priority first, then alphabetical, then "Other Services" last
+     */
+    public static function getOrderedCategories(): array
+    {
+        $allCategories = self::getCategories();
+        $priority = self::getPriorityCategories();
+        $last = self::getLastCategory();
+
+        $ordered = [];
+
+        // 1. Add priority categories first
+        foreach ($priority as $cat) {
+            if (isset($allCategories[$cat])) {
+                $ordered[$cat] = $allCategories[$cat];
+            }
+        }
+
+        // 2. Add remaining categories alphabetically (excluding priority and last)
+        $remaining = array_diff_key($allCategories, array_flip($priority), [$last => '']);
+        ksort($remaining);
+        $ordered = array_merge($ordered, $remaining);
+
+        // 3. Add "Other Services" at the very end
+        if (isset($allCategories[$last])) {
+            $ordered[$last] = $allCategories[$last];
+        }
+
+        return $ordered;
     }
 
     public function getImageUrlAttribute(): string

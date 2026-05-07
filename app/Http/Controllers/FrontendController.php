@@ -62,9 +62,27 @@ class FrontendController extends Controller
     public function packages()
     {
         $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
-        $packages = MedicalPackage::with('translations')->get();
-        $banner = BannerSection::where('page', 'Packages')->first() ?? new BannerSection();
-        return view('frontend.packages', compact('company','packages','banner'));
+        
+        // ✅ Get only active packages
+        $packages = MedicalPackage::with('translations')
+            ->get()
+            ->groupBy('category');
+
+        // ✅ Get ordered categories (Surgery -> Treatment -> Checkup -> Alphabetical -> Other Services)
+        $orderedCategories = MedicalPackage::getOrderedCategories();
+        
+        // ✅ Filter to only show categories that have packages
+        $activeCategories = [];
+        foreach ($orderedCategories as $key => $label) {
+            if ($packages->has($key)) {
+                $activeCategories[$key] = $label;
+            }
+        }
+
+        // ✅ Get dynamic banner
+        $banner = BannerSection::where('page', 'Packages')->where('status', 1)->first();
+
+        return view('frontend.packages', compact('company', 'packages', 'activeCategories', 'banner'));
     }
 
     public function blogList()

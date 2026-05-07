@@ -31,4 +31,10 @@ class BannerSection extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    // ✅ Add image URL accessor
+    public function getImageUrlAttribute(): string
+    {
+        return $this->image ? asset($this->image) : asset('assets/images/default-banner.jpg');
+    }
 }
