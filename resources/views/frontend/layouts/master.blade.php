@@ -43,10 +43,14 @@
     <link rel="canonical" href="{{ $canonicalUrl }}">
 
     <!-- ===== FAVICON ===== -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/company/' . $company->fav_icon) }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/company/' . $company->fav_icon) }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/company/' . $company->fav_icon) }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/company/' . $company->fav_icon) }}">
+    <!-- ===== FAVICON ===== -->
+    @if($company->fav_icon)
+        <!-- Generic icon tag (Works for .ico, .png, .jpg) -->
+        <link rel="icon" href="{{ asset('uploads/company/' . $company->fav_icon) }}">
+        <!-- Apple Touch Icon (For iOS home screen bookmarks) -->
+        <link rel="apple-touch-icon" href="{{ asset('uploads/company/' . $company->fav_icon) }}">
+    @endif
+
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <meta name="theme-color" content="#ffffff">
     <meta name="msapplication-TileColor" content="#ffffff">
