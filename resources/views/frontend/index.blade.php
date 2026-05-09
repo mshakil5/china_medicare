@@ -623,7 +623,7 @@
             <!-- Section Header -->
             <div class="text-center mb-5">
                 <h2 class="display-6 fw-bold text-white mb-3 mt-3">
-                    What Our <span class="text-teal">Patients Say</span>
+                    {{ __('testimonials.heading_what_our') }} <span class="text-teal">{{ __('testimonials.heading_patients_say') }}</span>
                 </h2>
             </div>
 
@@ -636,20 +636,14 @@
                         <div class="testimonial-card">
                             <div class="testimonial-quote-icon">"</div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <p class="testimonial-text">
-                                My life changed after robotic knee replacement surgery. No major cuts, advanced high-tech treatment in English, and the doctors explained everything clearly. China's technology is truly outstanding. Thank you, China Medicare, for the coordination!
-                            </p>
+                            <p class="testimonial-text">{{ __('testimonials.t1_text') }}</p>
                             <div class="testimonial-author">
-                                <img src="{{ asset('person.jpeg') }}" alt="Michel" class="testimonial-avatar">
+                                <img src="{{ asset('person.jpeg') }}" alt="{{ __('testimonials.t1_name') }}" class="testimonial-avatar">
                                 <div class="testimonial-author-info">
-                                    <h6>Michel</h6>
-                                    <span><i class="fas fa-map-marker-alt"></i> USA</span>
+                                    <h6>{{ __('testimonials.t1_name') }}</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ __('testimonials.t1_loc') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -660,20 +654,14 @@
                         <div class="testimonial-card">
                             <div class="testimonial-quote-icon">"</div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <p class="testimonial-text">
-                                I came for CAR-T cell therapy in my fight against cancer. Today, I am cancer-free! The Chinese hospital team cared for me like family, and the CyberKnife treatment was completely painless!
-                            </p>
+                            <p class="testimonial-text">{{ __('testimonials.t2_text') }}</p>
                             <div class="testimonial-author">
-                                <img src="{{ asset('person.jpeg') }}" alt="Salma Rahman" class="testimonial-avatar">
+                                <img src="{{ asset('person.jpeg') }}" alt="{{ __('testimonials.t2_name') }}" class="testimonial-avatar">
                                 <div class="testimonial-author-info">
-                                    <h6>Salma Rahman</h6>
-                                    <span><i class="fas fa-map-marker-alt"></i> UAE</span>
+                                    <h6>{{ __('testimonials.t2_name') }}</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ __('testimonials.t2_loc') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -684,20 +672,14 @@
                         <div class="testimonial-card">
                             <div class="testimonial-quote-icon">"</div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <p class="testimonial-text">
-                                Robotic surgery and 5G telemedicine — I could hardly believe it. Within just 25 hours, I was connected with doctors and my treatment began — no hassle, no delays. China's healthcare system is truly remarkable.
-                            </p>
+                            <p class="testimonial-text">{{ __('testimonials.t3_text') }}</p>
                             <div class="testimonial-author">
-                                <img src="{{ asset('person.jpeg') }}" alt="Victoria" class="testimonial-avatar">
+                                <img src="{{ asset('person.jpeg') }}" alt="{{ __('testimonials.t3_name') }}" class="testimonial-avatar">
                                 <div class="testimonial-author-info">
-                                    <h6>Victoria</h6>
-                                    <span><i class="fas fa-map-marker-alt"></i> Austria</span>
+                                    <h6>{{ __('testimonials.t3_name') }}</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ __('testimonials.t3_loc') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -708,20 +690,14 @@
                         <div class="testimonial-card">
                             <div class="testimonial-quote-icon">"</div>
                             <div class="testimonial-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <p class="testimonial-text">
-                                My prostate cancer surgery was performed in Guangzhou using robotic technology — no major cuts, no pain, and I was able to return to work within just 5 days. China's surgical technology is truly world-class. Thank you, China Medicare.
-                            </p>
+                            <p class="testimonial-text">{{ __('testimonials.t4_text') }}</p>
                             <div class="testimonial-author">
-                                <img src="{{ asset('person.jpeg') }}" alt="Amir Hossian" class="testimonial-avatar">
+                                <img src="{{ asset('person.jpeg') }}" alt="{{ __('testimonials.t4_name') }}" class="testimonial-avatar">
                                 <div class="testimonial-author-info">
-                                    <h6>Amir Hossian</h6>
-                                    <span><i class="fas fa-map-marker-alt"></i> Bangladesh</span>
+                                    <h6>{{ __('testimonials.t4_name') }}</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ __('testimonials.t4_loc') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -747,8 +723,6 @@
                     </button>
                 </div>
             </div>
-
-
 
         </div>
     </section>
