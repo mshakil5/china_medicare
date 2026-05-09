@@ -395,10 +395,369 @@
     </section>
     @endif
 
+    <!-- ====== TESTIMONIALS SECTION ====== -->
+    <style>
+        .testimonials-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .testimonials-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(216, 32, 42, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .testimonial-badge {
+            background: rgba(20, 184, 166, 0.15);
+            color: #D8202A;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+
+        .testimonial-slider-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .testimonial-slide {
+            min-width: 100%;
+            padding: 0 15px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 48px 40px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .testimonial-quote-icon {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 4rem;
+            line-height: 1;
+            color: #D8202A;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-stars {
+            color: #f59e0b;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-text {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(20, 184, 166, 0.4);
+            flex-shrink: 0;
+        }
+
+        .testimonial-author-info h6 {
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 2px;
+            font-size: 1rem;
+        }
+
+        .testimonial-author-info span {
+            color: #D8202A;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .testimonial-author-info span i {
+            font-size: 0.7rem;
+        }
+
+        /* Slider Navigation */
+        .testimonial-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .testimonial-nav-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: transparent;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-nav-btn:hover {
+            background: rgba(20, 184, 166, 0.15);
+            border-color: #D8202A;
+            color: #D8202A;
+        }
+
+        .testimonial-nav-btn.active {
+            background: #D8202A;
+            border-color: #D8202A;
+            color: #ffffff;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .testimonial-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .testimonial-dot.active {
+            background: #DA2D37;
+            width: 28px;
+            border-radius: 10px;
+        }
+
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .testimonial-card {
+                padding: 32px 24px;
+                border-radius: 20px;
+            }
+
+            .testimonial-quote-icon {
+                font-size: 3rem;
+                top: 20px;
+                right: 24px;
+            }
+
+            .testimonial-text {
+                font-size: 0.95rem;
+            }
+
+
+        }
+
+
+    </style>
+
+    <section class="testimonials-section py-5">
+        <div class="container py-lg-5 position-relative" style="z-index: 1;">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-5">
+                <h2 class="display-6 fw-bold text-white mb-3 mt-3">
+                    What Our <span class="text-teal">Patients Say</span>
+                </h2>
+            </div>
+
+            <!-- Slider -->
+            <div class="testimonial-slider-wrapper">
+                <div class="testimonial-track" id="testimonialTrack">
+
+                    <!-- Slide 1 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote-icon">"</div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">
+                                My life changed after robotic knee replacement surgery. No major cuts, advanced high-tech treatment in English, and the doctors explained everything clearly. China's technology is truly outstanding. Thank you, China Medicare, for the coordination!
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="{{ asset('person.jpeg') }}" alt="Michel" class="testimonial-avatar">
+                                <div class="testimonial-author-info">
+                                    <h6>Michel</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> USA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote-icon">"</div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">
+                                I came for CAR-T cell therapy in my fight against cancer. Today, I am cancer-free! The Chinese hospital team cared for me like family, and the CyberKnife treatment was completely painless!
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="{{ asset('person.jpeg') }}" alt="Salma Rahman" class="testimonial-avatar">
+                                <div class="testimonial-author-info">
+                                    <h6>Salma Rahman</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> UAE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote-icon">"</div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">
+                                Robotic surgery and 5G telemedicine — I could hardly believe it. Within just 25 hours, I was connected with doctors and my treatment began — no hassle, no delays. China's healthcare system is truly remarkable.
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="{{ asset('person.jpeg') }}" alt="Victoria" class="testimonial-avatar">
+                                <div class="testimonial-author-info">
+                                    <h6>Victoria</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> Austria</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-quote-icon">"</div>
+                            <div class="testimonial-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <p class="testimonial-text">
+                                My prostate cancer surgery was performed in Guangzhou using robotic technology — no major cuts, no pain, and I was able to return to work within just 5 days. China's surgical technology is truly world-class. Thank you, China Medicare.
+                            </p>
+                            <div class="testimonial-author">
+                                <img src="{{ asset('person.jpeg') }}" alt="Amir Hossian" class="testimonial-avatar">
+                                <div class="testimonial-author-info">
+                                    <h6>Amir Hossian</h6>
+                                    <span><i class="fas fa-map-marker-alt"></i> Bangladesh</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Navigation -->
+                <div class="testimonial-nav">
+                    <button class="testimonial-nav-btn" id="testiPrev" aria-label="Previous testimonial">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+
+                    <div class="testimonial-dots" id="testiDots">
+                        <button class="testimonial-dot active" data-index="0" aria-label="Go to slide 1"></button>
+                        <button class="testimonial-dot" data-index="1" aria-label="Go to slide 2"></button>
+                        <button class="testimonial-dot" data-index="2" aria-label="Go to slide 3"></button>
+                        <button class="testimonial-dot" data-index="3" aria-label="Go to slide 4"></button>
+                    </div>
+
+                    <button class="testimonial-nav-btn" id="testiNext" aria-label="Next testimonial">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+
+
+
 
     @if ($whyChooseItems->count() > 0)
-        
-
+    
     <section class="why-choose-section py-5">
         <div class="container py-lg-5">
             <div class="text-center mb-5">
@@ -772,113 +1131,113 @@
 
 
 
-<!-- ====== GALLERY SECTION ====== -->
+    <!-- ====== GALLERY SECTION ====== -->
 
-@if($galleryPreview->isNotEmpty())
-<section class="hglry-section py-5">
-    <div class="container py-lg-3">
+    @if($galleryPreview->isNotEmpty())
+        <section class="hglry-section py-5">
+            <div class="container py-lg-3">
 
-        <!-- Section Header -->
-        <div class="row align-items-end mb-4">
-            <div class="col-md-8">
-                <h2 class="fw-bold">Our <span class="text-teal">Gallery</span></h2>
-            </div>
-            <div class="col-md-4 text-md-end d-none d-md-block">
-                <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
-                    View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Asymmetric Preview Grid -->
-        <div class="hglry-preview-grid">
-
-            @foreach($galleryPreview as $index => $item)
-                @php
-                    $isFirst = $index === 0;
-                    
-                    // ✅ Use the model accessor we created (handles YouTube thumbnails automatically)
-                    $imgSrc = asset($item->preview_image);
-                    
-                    // ✅ Set lightbox source (YouTube embed URL or local file path)
-                    $fullSrc = $item->type === 'youtube' ? $item->embed_url : asset($item->file_path);
-                @endphp
-
-                <div class="hglry-pi {{ $isFirst ? 'hglry-pi--hero' : '' }}"
-                     data-hglry-type="{{ $item->type }}"
-                     data-hglry-src="{{ $fullSrc }}"
-                     data-hglry-title="{{ $item->title }}"
-                     data-hglry-sub="{{ $item->subtitle ?? '' }}">
-                    <img src="{{ $imgSrc }}" alt="{{ $item->title }}" loading="lazy">
-
-                    @if($item->type === 'youtube')
-                        {{-- ✅ YouTube Badge & Icon --}}
-                        <div class="hglry-video-tag" style="background: #FF0000;">
-                            <i class="fab fa-youtube" style="font-size:.6rem;"></i> YouTube
-                        </div>
-                        <div class="hglry-play-circle" style="background: #FF0000;">
-                            <i class="fab fa-youtube"></i>
-                        </div>
-                    @elseif($item->type === 'video')
-                        <div class="hglry-video-tag">
-                            <i class="fas fa-play" style="font-size:.5rem;"></i> Video
-                        </div>
-                        <div class="hglry-play-circle">
-                            <i class="fas fa-play" style="margin-left:3px;"></i>
-                        </div>
-                    @endif
-
-                    <div class="hglry-pi-overlay">
-                        <div class="hglry-pi-label">
-                            {{ $item->title }}
-                            @if($item->subtitle)
-                                <span>{{ $item->subtitle }}</span>
-                            @endif
-                        </div>
+                <!-- Section Header -->
+                <div class="row align-items-end mb-4">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold">Our <span class="text-teal">Gallery</span></h2>
+                    </div>
+                    <div class="col-md-4 text-md-end d-none d-md-block">
+                        <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
+                            View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
                     </div>
                 </div>
-            @endforeach
 
-            {{-- "View More" Tile --}}
-            @if($galleryTotal > 4)
-                <a href="{{ route('gallery') }}" class="hglry-more-tile">
-                    <img src="{{ asset($galleryPreview->last()->preview_image) }}"
-                         alt="More Gallery" loading="lazy">
-                    <div class="hglry-more-content">
-                        <div class="hglry-more-num">{{ $galleryTotal - 4 }}+</div>
-                        <div class="hglry-more-txt">More Photos<br>&amp; Videos</div>
-                        <div class="mt-2">
-                            <span style="font-size:.75rem; color:#D8202A; font-weight:600;">
-                                View Gallery <i class="fas fa-arrow-right"></i>
-                            </span>
+                <!-- Asymmetric Preview Grid -->
+                <div class="hglry-preview-grid">
+
+                    @foreach($galleryPreview as $index => $item)
+                        @php
+                            $isFirst = $index === 0;
+                            
+                            // ✅ Use the model accessor we created (handles YouTube thumbnails automatically)
+                            $imgSrc = asset($item->preview_image);
+                            
+                            // ✅ Set lightbox source (YouTube embed URL or local file path)
+                            $fullSrc = $item->type === 'youtube' ? $item->embed_url : asset($item->file_path);
+                        @endphp
+
+                        <div class="hglry-pi {{ $isFirst ? 'hglry-pi--hero' : '' }}"
+                            data-hglry-type="{{ $item->type }}"
+                            data-hglry-src="{{ $fullSrc }}"
+                            data-hglry-title="{{ $item->title }}"
+                            data-hglry-sub="{{ $item->subtitle ?? '' }}">
+                            <img src="{{ $imgSrc }}" alt="{{ $item->title }}" loading="lazy">
+
+                            @if($item->type === 'youtube')
+                                {{-- ✅ YouTube Badge & Icon --}}
+                                <div class="hglry-video-tag" style="background: #FF0000;">
+                                    <i class="fab fa-youtube" style="font-size:.6rem;"></i> YouTube
+                                </div>
+                                <div class="hglry-play-circle" style="background: #FF0000;">
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+                            @elseif($item->type === 'video')
+                                <div class="hglry-video-tag">
+                                    <i class="fas fa-play" style="font-size:.5rem;"></i> Video
+                                </div>
+                                <div class="hglry-play-circle">
+                                    <i class="fas fa-play" style="margin-left:3px;"></i>
+                                </div>
+                            @endif
+
+                            <div class="hglry-pi-overlay">
+                                <div class="hglry-pi-label">
+                                    {{ $item->title }}
+                                    @if($item->subtitle)
+                                        <span>{{ $item->subtitle }}</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            @endif
+                    @endforeach
 
-        </div><!-- end grid -->
+                    {{-- "View More" Tile --}}
+                    @if($galleryTotal > 4)
+                        <a href="{{ route('gallery') }}" class="hglry-more-tile">
+                            <img src="{{ asset($galleryPreview->last()->preview_image) }}"
+                                alt="More Gallery" loading="lazy">
+                            <div class="hglry-more-content">
+                                <div class="hglry-more-num">{{ $galleryTotal - 4 }}+</div>
+                                <div class="hglry-more-txt">More Photos<br>&amp; Videos</div>
+                                <div class="mt-2">
+                                    <span style="font-size:.75rem; color:#D8202A; font-weight:600;">
+                                        View Gallery <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    @endif
 
-        <!-- Mobile CTA -->
-        <div class="text-center d-md-none mt-4">
-            <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
-                View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
-            </a>
+                </div><!-- end grid -->
+
+                <!-- Mobile CTA -->
+                <div class="text-center d-md-none mt-4">
+                    <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
+                        View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ====== LIGHTBOX ====== -->
+        <div class="hglry-lightbox" id="hglryLightbox" role="dialog" aria-modal="true" aria-label="Media Viewer">
+            <button class="hglry-lb-close" id="hglryClose"><i class="fas fa-times"></i></button>
+            <div class="hglry-lb-media" id="hglryMedia"></div>
+            <div class="hglry-lb-caption">
+                <span id="hglryTitle">Title</span>
+                <span id="hglrySub">Sub</span>
+            </div>
         </div>
 
-    </div>
-</section>
-
-<!-- ====== LIGHTBOX ====== -->
-<div class="hglry-lightbox" id="hglryLightbox" role="dialog" aria-modal="true" aria-label="Media Viewer">
-    <button class="hglry-lb-close" id="hglryClose"><i class="fas fa-times"></i></button>
-    <div class="hglry-lb-media" id="hglryMedia"></div>
-    <div class="hglry-lb-caption">
-        <span id="hglryTitle">Title</span>
-        <span id="hglrySub">Sub</span>
-    </div>
-</div>
-
-@endif
+    @endif
 
 
 
@@ -1046,4 +1405,88 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 })();
 </script>
+
+
+<script>
+(function () {
+    const track = document.getElementById('testimonialTrack');
+    const dots = document.querySelectorAll('.testimonial-dot');
+    const prevBtn = document.getElementById('testiPrev');
+    const nextBtn = document.getElementById('testiNext');
+
+    if (!track) return;
+
+    const totalSlides = 4;
+    let current = 0;
+    let autoPlayTimer;
+
+    function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        current = index;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === current);
+        });
+    }
+
+    function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayTimer = setInterval(() => goToSlide(current + 1), 5000);
+    }
+
+    function stopAutoPlay() {
+        if (autoPlayTimer) clearInterval(autoPlayTimer);
+    }
+
+    // Event Listeners
+    prevBtn.addEventListener('click', () => {
+        goToSlide(current - 1);
+        startAutoPlay();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        goToSlide(current + 1);
+        startAutoPlay();
+    });
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            goToSlide(parseInt(dot.dataset.index));
+            startAutoPlay();
+        });
+    });
+
+    // Pause on hover
+    track.addEventListener('mouseenter', stopAutoPlay);
+    track.addEventListener('mouseleave', startAutoPlay);
+
+    // Touch/Swipe Support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        stopAutoPlay();
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                goToSlide(current + 1);
+            } else {
+                goToSlide(current - 1);
+            }
+        }
+        startAutoPlay();
+    }, { passive: true });
+
+    // Start
+    startAutoPlay();
+})();
+</script>
+
 @endsection
