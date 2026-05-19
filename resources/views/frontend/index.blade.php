@@ -2,9 +2,6 @@
 
 @section('content')
 
-
-
-
     @if($hero)
     <section class="hero-section text-white overflow-hidden">
         <div class="container py-5">
@@ -28,7 +25,7 @@
                         @endif
 
                         @if($hero->video_url)
-                        <a href="{{ $hero->video_url }}" class="btn btn-outline-light btn-lg px-4">Watch Video</a>
+                        <a href="{{ $hero->video_url }}" class="btn btn-outline-light btn-lg px-4">{{ __('home.watch_video') }}</a>
                         @endif
                     </div>
 
@@ -51,16 +48,16 @@
                         <div class="floating-info-card jci-position d-none d-sm-flex">
                             <div class="icon-box bg-light-teal text-teal"><i class="fas fa-shield-alt"></i></div>
                             <div>
-                                <p class="fw-bold mb-0">{{ $hero->info_cards[0]['title'] ?? 'JCI Accredited' }}</p>
-                                <p class="x-small text-muted mb-0">{{ $hero->info_cards[0]['sub'] ?? 'International Standards' }}</p>
+                                <p class="fw-bold mb-0">{{ $hero->info_cards[0]['title'] ?? __('home.jci_accredited') }}</p>
+                                <p class="x-small text-muted mb-0">{{ $hero->info_cards[0]['sub'] ?? __('home.international_standards') }}</p>
                             </div>
                         </div>
 
                         <div class="floating-info-card support-position d-none d-sm-flex">
                             <div class="icon-box bg-light-yellow text-warning"><i class="fas fa-globe"></i></div>
                             <div>
-                                <p class="fw-bold mb-0">{{ $hero->info_cards[1]['title'] ?? '24/7 Support' }}</p>
-                                <p class="x-small text-muted mb-0">{{ $hero->info_cards[1]['sub'] ?? 'Multilingual Team' }}</p>
+                                <p class="fw-bold mb-0">{{ $hero->info_cards[1]['title'] ?? __('home.support_24_7') }}</p>
+                                <p class="x-small text-muted mb-0">{{ $hero->info_cards[1]['sub'] ?? __('home.multilingual_team') }}</p>
                             </div>
                         </div>
                     </div>
@@ -73,16 +70,16 @@
 
 
     @if ($hospitals->count() > 0)
-          <section class="py-5 bg-white">
+    <section class="py-5 bg-white">
         <div class="container py-lg-4">
             <div class="row align-items-end mb-5 text-center text-md-start">
                 <div class="col-md-8">
-                    <h6 class="text-teal text-uppercase fw-bold small mb-2">Partner Hospitals</h6>
-                    <h2 class="fw-bold">Featured <span class="text-teal">Hospitals</span></h2>
-                    <p class="text-muted">World-class medical facilities with expert specialists.</p>
+                    <h6 class="text-teal text-uppercase fw-bold small mb-2">{{ __('home.partner_hospitals') }}</h6>
+                    <h2 class="fw-bold">{!! __('home.featured_hospitals') !!}</h2>
+                    <p class="text-muted">{{ __('home.hospitals_description') }}</p>
                 </div>
                 <div class="col-md-4 text-md-end d-none d-md-block">
-                    <a href="/all-hospitals" class="btn btn-outline-dark rounded-pill px-4">View All Hospitals</a>
+                    <a href="/all-hospitals" class="btn btn-outline-dark rounded-pill px-4">{{ __('home.view_all_hospitals') }}</a>
                 </div>
             </div>
 
@@ -95,7 +92,7 @@
                             <h5 class="fw-bold">{{ $hospital->name }}</h5>
                             <p class="text-muted small">{{ $hospital->specialty }}</p>
                             <a href="{{ url('hospitals/'.$hospital->slug) }}" class="text-teal fw-bold text-decoration-none small">
-                                View Details <i class="fas fa-arrow-right ms-1"></i>
+                                {{ __('home.view_details') }} <i class="fas fa-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
@@ -104,7 +101,7 @@
             </div>
             
             <div class="text-center d-md-none mt-4">
-                <a href="/all-hospitals" class="btn btn-outline-dark rounded-pill px-4">View All Hospitals</a>
+                <a href="/all-hospitals" class="btn btn-outline-dark rounded-pill px-4">{{ __('home.view_all_hospitals') }}</a>
             </div>
         </div>
     </section>  
@@ -161,8 +158,6 @@
         .text-justify-custom{
             text-align: justify;
         }
-
-
     </style>
 
     @if ($packages->count() > 0)
@@ -170,9 +165,9 @@
         <div class="container py-lg-4">
             <div class="row align-items-end mb-5">
                 <div class="col-md-8 text-center text-md-start">
-                    <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">All-Inclusive Packages</h6>
-                    <h2 class="display-6 fw-bold mb-3">Popular <span class="text-teal">Medical Packages and exclusive Services</span></h2>
-                    <p class="text-muted max-w-600">Comprehensive premium treatment and service packages with transparent pricing and full support throughout your medical journey.</p>
+                    <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">{{ __('home.all_inclusive_packages') }}</h6>
+                    <h2 class="display-6 fw-bold mb-3">{!! __('home.popular_packages_title') !!}</h2>
+                    <p class="text-muted max-w-600">{{ __('home.packages_description') }}</p>
                 </div>
             </div>
 
@@ -196,13 +191,13 @@
                                 <div class="card-badges p-3 position-absolute top-0 start-0 w-100 d-flex gap-2">
                                     @if($package->is_featured)
                                         <span class="badge bg-warning-soft text-warning">
-                                            <i class="fas fa-star me-1"></i> Featured
+                                            <i class="fas fa-star me-1"></i> {{ __('home.featured') }}
                                         </span>
                                     @endif
 
                                     @if($package->is_popular)
                                         <span class="badge bg-teal-soft text-teal">
-                                            <i class="fas fa-chart-line me-1"></i> Popular
+                                            <i class="fas fa-chart-line me-1"></i> {{ __('home.popular') }}
                                         </span>
                                     @endif
                                 </div>
@@ -234,7 +229,7 @@
 
                                         @if(count($features) > 3)
                                             <li class="text-muted ps-4 small">
-                                                +{{ count($features) - 3 }} more services
+                                                {{ __('home.more_services', ['count' => count($features) - 3]) }}
                                             </li>
                                         @endif
                                     @endif
@@ -256,7 +251,7 @@
                                 </h4>
 
                                 <a href="{{route('package.details', $package->id)}}" class="btn btn-teal-solid w-100 py-2">
-                                    View Details
+                                    {{ __('home.view_details') }}
                                 </a>
                             </div>
                         </div>
@@ -266,7 +261,6 @@
         </div>
     </section>
     @endif
-
 
 
 
@@ -282,7 +276,7 @@
         }
 
         .features-hidden.expanded {
-            max-height: 500px; /* Adjust based on max possible features */
+            max-height: 500px;
             opacity: 1;
             transition: max-height 0.5s ease-in, opacity 0.4s ease-in;
         }
@@ -309,13 +303,12 @@
 
         /* When expanded, change icon and text */
         .feature-toggle.is-expanded .toggle-text::after {
-            content: 'Show less';
+            content: '{{ __('home.show_less') }}';
         }
 
         .feature-toggle.is-expanded .toggle-text i {
             transform: rotate(45deg);
         }
-
 
         /* Hide the default text node, we use ::after instead */
         .feature-toggle .toggle-text {
@@ -337,9 +330,9 @@
     <section class="py-5 bg-white scroll-reveal">
         <div class="container">
             <div class="text-center mb-5">
-                <h6 class="text-teal text-uppercase fw-bold small">Comprehensive Care</h6>
-                <h2 class="display-6 fw-bold">One-Stop Medical Tourism <span class="text-teal">Services</span></h2>
-                <p class="text-muted mx-auto" style="max-width: 600px;">From your first inquiry to post-treatment recovery, we handle every detail of your medical journey to China.</p>
+                <h6 class="text-teal text-uppercase fw-bold small">{{ __('home.comprehensive_care') }}</h6>
+                <h2 class="display-6 fw-bold">{!! __('home.one_stop_services') !!}</h2>
+                <p class="text-muted mx-auto" style="max-width: 600px;">{{ __('home.services_description') }}</p>
             </div>
 
             <div class="row g-4">
@@ -381,7 +374,7 @@
                                     <li class="feature-toggle mt-1" onclick="toggleFeatures('{{ $uniqueId }}', this)">
                                         <span class="toggle-text">
                                             <i class="fas fa-plus-circle me-1 text-teal"></i>
-                                            +{{ $hiddenCount }} more
+                                            {{ __('home.more_count', ['count' => $hiddenCount]) }}
                                         </span>
                                     </li>
                                 @endif
@@ -592,8 +585,6 @@
             border-radius: 10px;
         }
 
-
-
         /* Responsive */
         @media (max-width: 768px) {
             .testimonial-card {
@@ -610,11 +601,7 @@
             .testimonial-text {
                 font-size: 0.95rem;
             }
-
-
         }
-
-
     </style>
 
     <section class="testimonials-section py-5">
@@ -731,16 +718,15 @@
 
 
     @if ($whyChooseItems->count() > 0)
-    
     <section class="why-choose-section py-5">
         <div class="container py-lg-5">
             <div class="text-center mb-5">
                 <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">
-                    {{ __('Why Choose Us') }}
+                    {{ __('home.why_choose_us') }}
                 </h6>
                 <h2 class="display-6 fw-bold text-white mb-3">
-                    {{ __('Your Trusted Partner in') }} 
-                    <span class="text-teal">{{ __('Medical Tourism') }}</span>
+                    {{ __('home.your_trusted_partner') }} 
+                    <span class="text-teal">{{ __('home.medical_tourism') }}</span>
                 </h2>
             </div>
 
@@ -757,7 +743,6 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="why-card p-4 h-100">
                                 <div class="why-icon-box mb-4">
-                                    {{-- If icon column stores class name like: fas fa-hospital-alt --}}
                                     <i class="{{ $item->icon }}"></i>
                                 </div>
 
@@ -776,7 +761,6 @@
             </div>
         </div>
     </section>
-
     @endif
 
     
@@ -786,10 +770,10 @@
         <div class="container py-lg-4">
             <div class="row align-items-end mb-5 text-center text-md-start">
                 <div class="col-md-8">
-                    <h2 class="fw-bold display-6">Latest <span class="text-teal">Medical News</span></h2>
+                    <h2 class="fw-bold display-6">{!! __('home.latest_medical_news') !!}</h2>
                 </div>
                 <div class="col-md-4 text-md-end d-none d-md-block">
-                    <a href="{{ route('front.blog') }}" class="btn btn-outline-teal rounded-pill px-4">View All Articles</a>
+                    <a href="{{ route('front.blog') }}" class="btn btn-outline-teal rounded-pill px-4">{{ __('home.view_all_articles') }}</a>
                 </div>
             </div>
 
@@ -814,7 +798,7 @@
                                 </h5>
                                 <p class="text-muted small mb-4">{{ Str::limit($info->summary, 120) }}</p>
                                 <a href="{{ route('front.blog.details', $blog->slug) }}" class="text-teal fw-bold text-decoration-none small">
-                                    Read Full Article <i class="fas fa-arrow-right ms-1"></i>
+                                    {{ __('home.read_full_article') }} <i class="fas fa-arrow-right ms-1"></i>
                                 </a>
                             </div>
                         </article>
@@ -823,7 +807,6 @@
             </div>
         </div>
     </section>
-
     <!-- blog section -->
     @endif
 
@@ -832,7 +815,6 @@
 
     <!-- our team section -->
     <style>
-        /* --- Team Section Unique Styles --- */
         :root {
             --med-teal: #14b8a6;
             --med-teal-soft: rgba(20, 184, 166, 0.1);
@@ -849,7 +831,7 @@
             position: relative;
             border-radius: 20px;
             overflow: hidden;
-            aspect-ratio: 4/5; /* Maintains professional portrait look */
+            aspect-ratio: 4/5;
         }
 
         .med-team-img-wrapper img {
@@ -859,10 +841,9 @@
             transition: transform 0.5s ease;
         }
 
-        /* Social Overlay */
         .med-team-socials {
             position: absolute;
-            bottom: -50px; /* Hidden initially */
+            bottom: -50px;
             left: 0;
             width: 100%;
             padding: 20px;
@@ -892,7 +873,6 @@
             color: white;
         }
 
-        /* Hover Effects */
         .med-team-card:hover .med-team-img-wrapper img {
             transform: scale(1.1);
         }
@@ -906,7 +886,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.08);
         }
 
-        /* Typography & Badges */
         .bg-teal-soft {
             background-color: var(--med-teal-soft);
             color: var(--med-teal);
@@ -923,10 +902,9 @@
             color: white;
         }
 
-        /* Responsive Adjustments */
         @media (max-width: 576px) {
             .med-team-img-wrapper {
-                aspect-ratio: 1/1; /* Square on small mobile for better fit */
+                aspect-ratio: 1/1;
             }
         }
     </style>
@@ -937,7 +915,7 @@
         <div class="container py-lg-4">
             <div class="row mb-5 text-center">
                 <div class="col-lg-7 mx-auto">
-                    <h2 class="display-6 fw-bold mb-3">Meet Our <span class="text-teal">Team</span></h2>
+                    <h2 class="display-6 fw-bold mb-3">{!! __('home.meet_our_team') !!}</h2>
                 </div>
             </div>
 
@@ -946,18 +924,15 @@
                     <div class="col-lg-3 col-sm-6">
                         <div class="med-team-card text-center">
                             <div class="med-team-img-wrapper mb-3">
-                                {{-- Dynamic Image with Fallback --}}
                                 <img src="{{ $member->image ? asset($member->image) : 'https://via.placeholder.com/500x500?text=No+Image' }}" 
                                     alt="{{ $member->name }}" 
                                     class="img-fluid">
                                 
                                 <div class="med-team-socials">
-                                    {{-- Show LinkedIn only if exists --}}
                                     @if($member->linkedin)
                                         <a href="{{ $member->linkedin }}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                     @endif
                                     
-                                    {{-- Show Email only if exists --}}
                                     @if($member->email)
                                         <a href="mailto:{{ $member->email }}"><i class="fas fa-envelope"></i></a>
                                     @endif
@@ -965,7 +940,6 @@
                             </div>
 
                             <div class="med-team-info">
-                                {{-- Show Specialty Badge only if exists --}}
                                 @if($member->specialty)
                                     <span class="badge bg-teal-soft text-teal mb-2">{{ $member->specialty }}</span>
                                 @endif
@@ -983,20 +957,17 @@
     @endif
 
 
-    <!-- our team section -->
-
-
 
 
     <section class="cta-section py-5 text-white text-center d-none">
         <div class="container py-4">
-            <h2 class="display-5 fw-bold mb-3">Ready to Start Your Medical Journey?</h2>
-            <p class="mb-5 opacity-90">Get a free consultation with our medical tourism experts and discover the <br class="d-none d-md-block"> best treatment options for you.</p>
+            <h2 class="display-5 fw-bold mb-3">{{ __('home.ready_to_start') }}</h2>
+            <p class="mb-5 opacity-90">{!! __('home.cta_description') !!}</p>
             <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
                 <a href="#" class="btn btn-light text-teal fw-bold px-4 py-3 rounded-3 shadow-sm">
-                    <i class="far fa-comment-dots me-2"></i> Free Consultation <i class="fas fa-arrow-right ms-2"></i>
+                    <i class="far fa-comment-dots me-2"></i> {{ __('home.free_consultation') }} <i class="fas fa-arrow-right ms-2"></i>
                 </a>
-                <a href="#" class="btn btn-outline-light px-4 py-3 rounded-3">Explore Hospitals</a>
+                <a href="#" class="btn btn-outline-light px-4 py-3 rounded-3">{{ __('home.explore_hospitals') }}</a>
             </div>
         </div>
     </section>
@@ -1036,12 +1007,10 @@
             transform: scale(1.05);
         }
 
-        /* pause animation on hover */
         .partners-scroll-wrapper:hover .partners-scroll-track {
             animation-play-state: paused;
         }
 
-        /* animation */
         @keyframes partnersScroll {
             from {
                 transform: translateX(0);
@@ -1051,11 +1020,7 @@
             }
         }
 
-
-
-        /* Mobile Responsive */
         @media (max-width: 768px) {
-
             .partner-logo {
                 padding: 10px 20px;
             }
@@ -1067,26 +1032,21 @@
             .partners-scroll-track {
                 animation: partnersScroll 18s linear infinite;
             }
-
         }
-
     </style>
 
     @if ($partners->count() > 0)
-        
     <div class="partners-scroll-section py-5 border-bottom">
         <div class="container text-center">
-            <h3 class="mb-4 fw-bold">Our Partners</h3>
+            <h3 class="mb-4 fw-bold">{{ __('home.our_partners') }}</h3>
             <div class="partners-scroll-wrapper">
                 <div class="partners-scroll-track">
-                    {{-- First set of logos --}}
                     @foreach($partners as $partner)
                         <div class="partner-logo">
                             <img src="{{ asset($partner->image) }}" alt="Partner">
                         </div>
                     @endforeach
 
-                    {{-- Duplicate set for smooth infinite scroll --}}
                     @foreach($partners as $partner)
                         <div class="partner-logo">
                             <img src="{{ asset($partner->image) }}" alt="Partner">
@@ -1096,7 +1056,6 @@
             </div>
         </div>
     </div>
-
     @endif
 
 
@@ -1114,11 +1073,11 @@
                 <!-- Section Header -->
                 <div class="row align-items-end mb-4">
                     <div class="col-md-8">
-                        <h2 class="fw-bold">Our <span class="text-teal">Gallery</span></h2>
+                        <h2 class="fw-bold">{!! __('home.our_gallery') !!}</h2>
                     </div>
                     <div class="col-md-4 text-md-end d-none d-md-block">
                         <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
-                            View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
+                            {{ __('home.view_full_gallery') }} <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                     </div>
                 </div>
@@ -1129,11 +1088,7 @@
                     @foreach($galleryPreview as $index => $item)
                         @php
                             $isFirst = $index === 0;
-                            
-                            // ✅ Use the model accessor we created (handles YouTube thumbnails automatically)
                             $imgSrc = asset($item->preview_image);
-                            
-                            // ✅ Set lightbox source (YouTube embed URL or local file path)
                             $fullSrc = $item->type === 'youtube' ? $item->embed_url : asset($item->file_path);
                         @endphp
 
@@ -1145,16 +1100,15 @@
                             <img src="{{ $imgSrc }}" alt="{{ $item->title }}" loading="lazy">
 
                             @if($item->type === 'youtube')
-                                {{-- ✅ YouTube Badge & Icon --}}
                                 <div class="hglry-video-tag" style="background: #FF0000;">
-                                    <i class="fab fa-youtube" style="font-size:.6rem;"></i> YouTube
+                                    <i class="fab fa-youtube" style="font-size:.6rem;"></i> {{ __('home.youtube') }}
                                 </div>
                                 <div class="hglry-play-circle" style="background: #FF0000;">
                                     <i class="fab fa-youtube"></i>
                                 </div>
                             @elseif($item->type === 'video')
                                 <div class="hglry-video-tag">
-                                    <i class="fas fa-play" style="font-size:.5rem;"></i> Video
+                                    <i class="fas fa-play" style="font-size:.5rem;"></i> {{ __('home.video') }}
                                 </div>
                                 <div class="hglry-play-circle">
                                     <i class="fas fa-play" style="margin-left:3px;"></i>
@@ -1179,10 +1133,10 @@
                                 alt="More Gallery" loading="lazy">
                             <div class="hglry-more-content">
                                 <div class="hglry-more-num">{{ $galleryTotal - 4 }}+</div>
-                                <div class="hglry-more-txt">More Photos<br>&amp; Videos</div>
+                                <div class="hglry-more-txt">{!! __('home.more_photos_videos') !!}</div>
                                 <div class="mt-2">
                                     <span style="font-size:.75rem; color:#D8202A; font-weight:600;">
-                                        View Gallery <i class="fas fa-arrow-right"></i>
+                                        {{ __('home.view_gallery') }} <i class="fas fa-arrow-right"></i>
                                     </span>
                                 </div>
                             </div>
@@ -1194,7 +1148,7 @@
                 <!-- Mobile CTA -->
                 <div class="text-center d-md-none mt-4">
                     <a href="{{ route('gallery') }}" class="btn btn-outline-dark rounded-pill px-4">
-                        View Full Gallery <i class="fas fa-arrow-right ms-2"></i>
+                        {{ __('home.view_full_gallery') }} <i class="fas fa-arrow-right ms-2"></i>
                     </a>
                 </div>
 
