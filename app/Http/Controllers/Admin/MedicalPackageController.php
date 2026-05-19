@@ -164,14 +164,15 @@ class MedicalPackageController extends Controller
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'og_image'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'canonical_url'=> 'nullable|url|max:500',
-            'features'     => 'nullable|array',
-            'features.*'   => 'nullable|string|max:255',
+            // ❌ REMOVED: 'features' and 'features.*' from here
         ];
 
         foreach (config('translatable.locales') as $locale) {
             $rules["$locale.title"] = 'required|string|max:255';
             $rules["$locale.subtitle"] = 'nullable|string|max:255';
             $rules["$locale.description"] = 'nullable|string|max:1000';
+            $rules["$locale.features"] = 'nullable|array';           // ← ADD
+            $rules["$locale.features.*"] = 'nullable|string|max:255'; // ← ADD
             $rules["$locale.meta_title"] = 'nullable|string|max:255';
             $rules["$locale.meta_description"] = 'nullable|string|max:500';
             $rules["$locale.meta_keywords"] = 'nullable|string|max:500';
@@ -190,7 +191,7 @@ class MedicalPackageController extends Controller
             'is_popular'   => $request->has('is_popular'),
             'is_featured'  => $request->has('is_featured'),
             'status'       => $request->has('status'),
-            'features'     => array_filter($request->features ?? []),
+            // ❌ REMOVED: 'features' => array_filter($request->features ?? []),
             'canonical_url'=> $request->canonical_url,
         ];
 
@@ -217,9 +218,10 @@ class MedicalPackageController extends Controller
         foreach (config('translatable.locales') as $locale) {
             if ($request->has($locale)) {
                 $data[$locale] = [
-                    'title'           => $request->input("$locale.title"),
-                    'subtitle'        => $request->input("$locale.subtitle"),
-                    'description'     => $request->input("$locale.description"),
+                    'title'            => $request->input("$locale.title"),
+                    'subtitle'         => $request->input("$locale.subtitle"),
+                    'description'      => $request->input("$locale.description"),
+                    'features'         => array_filter($request->input("$locale.features", [])), // ← ADD
                     'meta_title'       => $request->input("$locale.meta_title"),
                     'meta_description' => $request->input("$locale.meta_description"),
                     'meta_keywords'    => $request->input("$locale.meta_keywords"),

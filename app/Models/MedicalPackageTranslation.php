@@ -22,5 +22,10 @@ class MedicalPackageTranslation extends Model
         'meta_title',
         'meta_description',
         'meta_keywords',
+        'features', 
+    ];
+
+    protected $casts = [
+        'features' => 'array', // ← ADD THIS
     ];
 }

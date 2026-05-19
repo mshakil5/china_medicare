@@ -61,6 +61,13 @@
     .tab-content {
         min-height: 200px;
     }
+    .features-section {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
 </style>
 @endsection
 
@@ -148,24 +155,8 @@
                     </div>
                 </div>
 
-                <!-- Features Section -->
-                <hr>
-                <h5 class="text-primary mb-3">
-                    <i class="ri-list-check-2 me-1"></i> Package Features
-                </h5>
-                <div class="row mb-3">
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            <input type="text" id="featureInput" class="form-control" 
-                                   placeholder="Type a feature and press Enter or click Add">
-                            <button type="button" class="btn btn-success" id="addFeatureBtn">
-                                <i class="ri-add-line"></i> Add
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="featureTags" class="mb-3"></div>
-                <input type="hidden" name="features" id="featuresInput">
+                <!-- ❌ REMOVED: The standalone Features Section is gone -->
+                <!-- Features are now INSIDE each locale tab below -->
 
                 <!-- Translatable Fields -->
                 <hr>
@@ -203,6 +194,28 @@
                                     <textarea name="{{ $locale }}[description]" id="{{ $locale }}_description" 
                                               class="form-control" rows="3"></textarea>
                                 </div>
+                            </div>
+
+                            <!-- ✅ NEW: Features Section PER LOCALE -->
+                            <div class="features-section">
+                                <h6 class="text-success mb-3">
+                                    <i class="ri-list-check-2 me-1"></i> Package Features ({{ strtoupper($locale) }})
+                                </h6>
+                                <div class="row mb-3">
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <input type="text" id="featureInput_{{ $locale }}" class="form-control" 
+                                                   placeholder="Type a feature in {{ strtoupper($locale) }} and press Enter">
+                                            <button type="button" class="btn btn-success addFeatureBtn" data-locale="{{ $locale }}">
+                                                <i class="ri-add-line"></i> Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="featureTags_{{ $locale }}" class="mb-3">
+                                    <span class="text-muted">No features added yet</span>
+                                </div>
+                                <!-- Hidden inputs will be dynamically generated -->
                             </div>
 
                             <!-- SEO Fields -->
@@ -322,23 +335,25 @@
             order: [[0, 'desc']]
         });
 
-        // Features Management
-        let features = [];
-        
-        function renderFeatures() {
+        // ✅ Features Management — PER LOCALE
+        const locales = @json(config('translatable.locales'));
+        let featuresMap = {};
+        locales.forEach(function(locale) {
+            featuresMap[locale] = [];
+        });
+
+        function renderFeatures(locale) {
             let html = '';
-            features.forEach(function(feature, index) {
+            featuresMap[locale].forEach(function(feature, index) {
                 html += `<span class="feature-tag">
                     ${escapeHtml(feature)}
-                    <span class="remove-feature" data-index="${index}">&times;</span>
+                    <span class="remove-feature" data-locale="${locale}" data-index="${index}">&times;</span>
                 </span>`;
             });
-            if (features.length === 0) {
+            if (featuresMap[locale].length === 0) {
                 html = '<span class="text-muted">No features added yet</span>';
             }
-            $('#featureTags').html(html);
-            // REMOVED: $('#featuresInput').val(JSON.stringify(features));
-            // We'll append features directly to FormData instead
+            $(`#featureTags_${locale}`).html(html);
         }
 
         function escapeHtml(text) {
@@ -352,30 +367,36 @@
             return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
-        function addFeature(text) {
+        function addFeature(locale, text) {
             text = text.trim();
-            if (text && !features.includes(text)) {
-                features.push(text);
-                renderFeatures();
+            if (text && !featuresMap[locale].includes(text)) {
+                featuresMap[locale].push(text);
+                renderFeatures(locale);
             }
-            $('#featureInput').val('').focus();
+            $(`#featureInput_${locale}`).val('').focus();
         }
 
-        $('#addFeatureBtn').click(function() {
-            addFeature($('#featureInput').val());
+        // Add feature via button click
+        $(document).on('click', '.addFeatureBtn', function() {
+            let locale = $(this).data('locale');
+            addFeature(locale, $(`#featureInput_${locale}`).val());
         });
 
-        $('#featureInput').keypress(function(e) {
+        // Add feature via Enter key
+        $(document).on('keypress', '[id^="featureInput_"]', function(e) {
             if (e.which === 13) {
                 e.preventDefault();
-                addFeature($(this).val());
+                let locale = $(this).attr('id').replace('featureInput_', '');
+                addFeature(locale, $(this).val());
             }
         });
 
+        // Remove feature
         $(document).on('click', '.remove-feature', function() {
+            let locale = $(this).data('locale');
             let index = $(this).data('index');
-            features.splice(index, 1);
-            renderFeatures();
+            featuresMap[locale].splice(index, 1);
+            renderFeatures(locale);
         });
 
         // Image Preview
@@ -429,17 +450,23 @@
             
             let form_data = new FormData($('#createThisForm')[0]);
             
-            // ✅ FIX: Remove the hidden features input (it's a JSON string)
+            // ✅ Remove any existing features inputs from form
             form_data.delete('features');
-            
-            // ✅ FIX: Append each feature as an array element
-            features.forEach(function(feature) {
-                form_data.append('features[]', feature);
+            // Also remove any previously appended locale features
+            locales.forEach(function(locale) {
+                form_data.delete(`${locale}[features]`);
             });
 
-            // Debug: Log FormData contents
-            console.log('Duration value:', form_data.get('duration'));
-            console.log('Features array:', features);
+            // ✅ Append features per locale as array elements
+            locales.forEach(function(locale) {
+                featuresMap[locale].forEach(function(feature) {
+                    form_data.append(`${locale}[features][]`, feature);
+                });
+                // If no features, send empty marker so Laravel knows to clear them
+                if (featuresMap[locale].length === 0) {
+                    form_data.append(`${locale}[features][]`, '');
+                }
+            });
 
             showSpinner();
 
@@ -480,7 +507,6 @@
                 type: 'GET',
                 success: function(response) {
                     if (response.success) {
-                        console.log('Edit response data:', response.data); // Debug
                         populateEditForm(response.data);
                     }
                 },
@@ -491,10 +517,13 @@
         });
 
         function populateEditForm(data) {
-            // Reset features array first
-            features = [];
+            // Reset features map first
+            locales.forEach(function(locale) {
+                featuresMap[locale] = [];
+                renderFeatures(locale);
+            });
             
-            // Reset form WITHOUT using .reset() to avoid issues
+            // Reset form fields
             $("#codeid").val('');
             $("#category").val('');
             $("#duration").val('');
@@ -518,10 +547,10 @@
                 $("#{{ $locale }}_meta_keywords").val('');
             @endforeach
 
-            // ✅ FIX: Set basic fields with null checks
+            // Set basic fields
             $("#codeid").val(data.id || '');
             $("#category").val(data.category || '');
-            $("#duration").val(data.duration || '');  // ✅ Ensure this is set
+            $("#duration").val(data.duration || '');
             $("#price_range").val(data.price_range || '');
             $("#cities_count").val(data.cities_count || 1);
             $("#is_popular").prop('checked', data.is_popular == 1 || data.is_popular === true);
@@ -546,21 +575,7 @@
                 `);
             }
 
-            // ✅ FIX: Populate Features - handle both array and JSON string
-            if (data.features) {
-                if (typeof data.features === 'string') {
-                    try {
-                        features = JSON.parse(data.features);
-                    } catch(e) {
-                        features = [];
-                    }
-                } else if (Array.isArray(data.features)) {
-                    features = [...data.features];
-                }
-            }
-            renderFeatures();
-
-            // Populate Translations including SEO
+            // ✅ Populate Translations including Features
             if (data.translations && Array.isArray(data.translations)) {
                 data.translations.forEach(function(t) {
                     if (t.locale) {
@@ -570,6 +585,24 @@
                         $(`#${t.locale}_meta_title`).val(t.meta_title || '');
                         $(`#${t.locale}_meta_description`).val(t.meta_description || '');
                         $(`#${t.locale}_meta_keywords`).val(t.meta_keywords || '');
+                        
+                        // ✅ Populate Features per locale
+                        if (t.features) {
+                            let parsedFeatures = [];
+                            if (typeof t.features === 'string') {
+                                try {
+                                    parsedFeatures = JSON.parse(t.features);
+                                } catch(e) {
+                                    parsedFeatures = [];
+                                }
+                            } else if (Array.isArray(t.features)) {
+                                parsedFeatures = [...t.features];
+                            }
+                            // Filter out empty strings
+                            parsedFeatures = parsedFeatures.filter(f => f && f.trim() !== '');
+                            featuresMap[t.locale] = parsedFeatures;
+                            renderFeatures(t.locale);
+                        }
                     }
                 });
             }
@@ -579,7 +612,6 @@
             $("#newBtnSection").hide();
             $("#cardTitle").text('Edit Medical Package');
             
-            // Scroll to form
             $('html, body').animate({
                 scrollTop: $("#addThisFormContainer").offset().top - 100
             }, 500);
@@ -617,8 +649,12 @@
             $('input[type="file"]').val('');
             $('#imagePreview').html('');
             $('#ogImagePreview').html('');
-            features = [];
-            renderFeatures();
+            
+            // ✅ Reset features map for all locales
+            locales.forEach(function(locale) {
+                featuresMap[locale] = [];
+                renderFeatures(locale);
+            });
             
             // Reset translation fields
             @foreach(config('translatable.locales') as $locale)
@@ -655,8 +691,10 @@
             }, 5000);
         }
 
-        // Initial render
-        renderFeatures();
+        // Initial render for all locales
+        locales.forEach(function(locale) {
+            renderFeatures(locale);
+        });
     });
 </script>
 @endsection
