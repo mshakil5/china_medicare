@@ -2,13 +2,12 @@
 
 @section('content')
 
-
 <nav class="py-3 bg-light border-bottom">
     <div class="container">
         <ol class="breadcrumb mb-0 small">
             <li class="breadcrumb-item"><a href="/" class="text-teal text-decoration-none">Home</a></li>
             <li class="breadcrumb-item"><a href="#" class="text-teal text-decoration-none">Packages</a></li>
-            <li class="breadcrumb-item active">{{ $translation->title }}</li>
+            <li class="breadcrumb-item active">{{ $translation->title ?? 'Package Details' }}</li>
         </ol>
     </div>
 </nav>
@@ -24,14 +23,14 @@
                     @endif
                 </div>
                 
-                <h1 class="fw-bold display-6 mb-2">{{ $translation->title }}</h1>
+                <h1 class="fw-bold display-6 mb-2">{{ $translation->title ?? '' }}</h1>
                 <p class="text-muted mb-4 d-none">
                     <i class="fas fa-map-marker-alt me-2 text-teal"></i>
                     Available in {{ $package->cities_count }} Locations
                 </p>
 
                 <div class="rounded-4 overflow-hidden mb-5 shadow-sm">
-                    <img src="{{ asset($package->image) }}" class="img-fluid w-100" alt="{{ $translation->title }}" style="max-height: 450px; object-fit: cover;">
+                    <img src="{{ $package->image ? asset($package->image) : 'https://via.placeholder.com/800x450' }}" class="img-fluid w-100" alt="{{ $translation->title ?? '' }}" style="max-height: 450px; object-fit: cover;">
                 </div>
 
                 <div class="mb-5">
@@ -42,7 +41,7 @@
                         </span>
                     </div>
                     <div class="text-muted lead-sm">
-                        {{ $translation->description }}
+                        {{ $translation->description ?? '' }}
                     </div>
                 </div>
 
@@ -90,10 +89,7 @@
     </div>
 </section>
 
-
 @endsection
 
 @section('script')
-
-
 @endsection

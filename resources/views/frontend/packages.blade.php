@@ -121,13 +121,26 @@
                         @foreach($categoryPackages as $package)
 
                             @php
+                                // 1. Get current locale translation
                                 $translation = $package->translations
                                     ->where('locale', app()->getLocale())
                                     ->first();
+                                
+                                // 2. Fallback to English if translation doesn't exist
+                                if (!$translation) {
+                                    $translation = $package->translations
+                                        ->where('locale', 'en')
+                                        ->first();
+                                }
 
-                                $features = is_array($package->features)
-                                    ? $package->features
-                                    : json_decode($package->features, true);
+                                // 3. Get features from the TRANSLATION model
+                                // No json_decode needed because of $casts = ['features' => 'array'] in Translation model
+                                $features = $translation->features ?? [];
+                                
+                                // 4. Filter out empty values just in case
+                                $features = array_filter($features, function($f) {
+                                    return !empty($f) && trim($f) !== '';
+                                });
                             @endphp
 
                             <div class="col-lg-4 col-md-6">

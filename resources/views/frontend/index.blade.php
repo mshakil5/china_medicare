@@ -174,8 +174,18 @@
             <div class="row g-4">
                 @foreach($packages as $package)
                     @php
+                        // 1. Get the current locale's translation
                         $translation = $package->translations->where('locale', app()->getLocale())->first();
-                        $features = is_array($package->features) ? $package->features : json_decode($package->features, true);
+                        
+                        // 2. Fallback to English if the current locale translation doesn't exist
+                        if (!$translation) {
+                            $translation = $package->translations->where('locale', 'en')->first();
+                        }
+
+                        // 3. ✅ FIX: Get features from the TRANSLATION model, not the main model
+                        // Because we used $casts = ['features' => 'array'] in the Translation model,
+                        // $translation->features is already a PHP array. No json_decode needed!
+                        $features = $translation->features ?? [];
                     @endphp
 
                     <div class="col-lg-4 col-md-6 {{ $loop->last ? 'mx-auto' : '' }}">

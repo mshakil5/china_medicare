@@ -142,8 +142,19 @@ class FrontendController extends Controller
         // Get translation for current locale
         $translation = $package->translate(app()->getLocale());
         
-        // Decode features (handled by $casts in your model, but we ensure it's an array)
-        $features = $package->features ?? [];
+        // ✅ Fallback to English if current locale translation doesn't exist
+        if (!$translation) {
+            $translation = $package->translate('en');
+        }
+
+        // ✅ Get features from the TRANSLATION model, not the main model
+        // Because of $casts = ['features' => 'array'] in Translation model, no json_decode is needed
+        $features = $translation->features ?? [];
+        
+        // ✅ Filter out empty values just in case
+        $features = array_filter($features, function($f) {
+            return !empty($f) && trim($f) !== '';
+        });
 
         return view('frontend.package_details', compact('package', 'translation', 'features'));
     }
