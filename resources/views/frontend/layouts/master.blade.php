@@ -13,11 +13,19 @@
             'google_tag_manager_id', 'robots_index', 'robots_follow'
         )->first();
 
-        // Fallback chain: page-specific → company default → hardcoded
+        // Fallback chain: page-specific → company OG image → hardcoded default
+        if (isset($pageImage) && $pageImage) {
+            // Page-specific image already set (e.g., package details)
+        } elseif ($company->og_image) {
+            $pageImage = asset('uploads/company/' . $company->og_image);
+        } else {
+            // ✅ Hardcoded default OG image - upload this file once
+            $pageImage = asset('images/og-default.jpg');
+        }
+
         $pageTitle       = $pageTitle       ?? $company->meta_title       ?? 'China Medicare | Trusted Healthcare Services';
         $pageDescription = $pageDescription ?? $company->meta_description ?? 'China Medicare offers comprehensive health check-up packages, specialist consultations, advanced cancer treatment, and cardiac procedures.';
         $pageKeywords    = $pageKeywords    ?? $company->meta_keywords    ?? 'China Medicare, healthcare, medical check-up';
-        $pageImage       = $pageImage       ?? ($company->og_image ? asset('uploads/company/' . $company->og_image) : asset('uploads/company/' . $company->company_logo));
         $canonicalUrl    = $canonicalUrl    ?? ($company->canonical_url  ?? url()->current());
         $robotsIndex     = $robotsIndex     ?? $company->robots_index     ?? 'index';
         $robotsFollow    = $robotsFollow    ?? $company->robots_follow    ?? 'follow';
