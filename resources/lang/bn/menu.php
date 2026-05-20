@@ -7,4 +7,5 @@ return [
     'services' => 'প্রিমিয়াম চিকিৎসা',
     'consultation' => 'ফ্রি কনসালটেশন',
     'contact' => 'যোগাযোগ',
+    'blog' => 'ব্লগ',
 ];

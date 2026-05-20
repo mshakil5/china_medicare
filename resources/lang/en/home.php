@@ -130,4 +130,7 @@ return [
     'faq_visa_a' => 'Medical visas typically take 3-5 business days with our expedited service.',
     'faq_interpreter_q' => 'Is there interpreter service?',
     'faq_interpreter_a' => 'Yes, we provide 24/7 professional medical interpreters in multiple languages.',
+    'tags' => 'TAGS:',
+    'trending_now' => 'Trending Now',
+
 ];

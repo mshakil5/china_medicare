@@ -2,13 +2,11 @@
 
 @section('content')
 
-
-
     <section class="py-5 bg-light med-blog-section">
         <div class="container py-lg-4">
             <div class="row align-items-end mb-5 text-center text-md-start">
                 <div class="col-md-8">
-                    <h2 class="fw-bold display-6">Latest <span class="text-teal">Medical News</span></h2>
+                    <h2 class="fw-bold display-6">{!! __('home.latest_medical_news') !!}</h2>
                 </div>
             </div>
 
@@ -33,7 +31,7 @@
                                 </h5>
                                 <p class="text-muted small mb-4">{{ Str::limit($info->summary, 120) }}</p>
                                 <a href="{{ route('front.blog.details', $blog->slug) }}" class="text-teal fw-bold text-decoration-none small">
-                                    Read Full Article <i class="fas fa-arrow-right ms-1"></i>
+                                    {{ __('home.read_full_article') }} <i class="fas fa-arrow-right ms-1"></i>
                                 </a>
                             </div>
                         </article>
@@ -42,9 +40,6 @@
             </div>
         </div>
     </section>
-
-
-
 
 @endsection
 

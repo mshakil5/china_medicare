@@ -7,4 +7,5 @@ return [
     'services' => 'Premium Treatments',
     'consultation' => 'Free Consultation',
     'contact' => 'Contact',
+    'blog' => 'Blog',
 ];
