@@ -242,19 +242,19 @@
                                 <a href="{{ route('admin.mail-body') }}" 
                                   class="nav-link {{ Route::is('admin.mail-body') ? 'active' : '' }}">Mail Body</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('admin.home-footer') }}" 
                                   class="nav-link {{ Route::is('admin.home-footer') ? 'active' : '' }}">Home Footer</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('admin.copyright') }}" 
                                   class="nav-link {{ Route::is('admin.copyright') ? 'active' : '' }}">Copyright</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('sections.index') }}" 
                                   class="nav-link {{ Route::is('sections.index') ? 'active' : '' }}">Section Settings</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('faq.index') }}" 
                                   class="nav-link {{ Route::is('faq.index') ? 'active' : '' }}">FAQ</a>
                             </li>

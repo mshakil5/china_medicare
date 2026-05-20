@@ -57,20 +57,20 @@
             @endif
             
             <h1 class="display-5 fw-bold text-white mb-3">
-                {!! $banner->long_title ?? 'Medical <span class="text-teal">Packages</span>' !!}
+                {!! $banner->long_title ?? __('home.packages_page_title') !!}
             </h1>
             
             @if($banner->short_description)
                 <p class="text-light-gray mx-auto max-w-600">{{ $banner->short_description }}</p>
             @else
-                <p class="text-light-gray mx-auto max-w-600">Start your medical journey today. Our team is ready to help you find the best healthcare solution in China.</p>
+                <p class="text-light-gray mx-auto max-w-600">{{ __('home.packages_page_subtitle') }}</p>
             @endif
         @else
             <span class="badge rounded-pill bg-dark-teal mb-3 py-2 px-3 border-teal-thin">
-                <i class="far fa-comment-dots text-teal me-2"></i> Free Consultation
+                <i class="far fa-comment-dots text-teal me-2"></i> {{ __('home.free_consultation') }}
             </span>
-            <h1 class="display-5 fw-bold text-white mb-3">Medical <span class="text-teal">Packages</span></h1>
-            <p class="text-light-gray mx-auto max-w-600">Start your medical journey today. Our team is ready to help you find the best healthcare solution in China.</p>
+            <h1 class="display-5 fw-bold text-white mb-3">{!! __('home.packages_page_title') !!}</h1>
+            <p class="text-light-gray mx-auto max-w-600">{{ __('home.packages_page_subtitle') }}</p>
         @endif
     </div>
 </section>
@@ -81,9 +81,9 @@
     <div class="container py-lg-4">
         <div class="row align-items-end mb-5">
             <div class="col-md-8 text-center text-md-start">
-                <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">All-Inclusive Packages</h6>
-                <h2 class="display-6 fw-bold mb-3">Popular <span class="text-teal">Medical Packages</span></h2>
-                <p class="text-muted max-w-600">Comprehensive treatment packages with transparent pricing and full support throughout your medical journey.</p>
+                <h6 class="text-teal text-uppercase fw-bold small mb-2 letter-spacing-1">{{ __('home.all_inclusive_packages') }}</h6>
+                <h2 class="display-6 fw-bold mb-3">{!! __('home.popular_packages_short') !!}</h2>
+                <p class="text-muted max-w-600">{{ __('home.packages_description') }}</p>
             </div>
             <div class="col-md-4 text-md-end d-none d-md-block">
             </div>
@@ -92,8 +92,8 @@
         @if(empty($activeCategories))
             <div class="alert alert-info text-center py-5">
                 <i class="fas fa-info-circle fa-2x mb-3 d-block"></i>
-                <h5>No Packages Available</h5>
-                <p class="text-muted">Please check back later for available medical packages.</p>
+                <h5>{{ __('home.no_packages_available') }}</h5>
+                <p class="text-muted">{{ __('home.no_packages_text') }}</p>
             </div>
         @else
 
@@ -111,7 +111,12 @@
                         </div>
                         <div>
                             <h4 class="fw-bold mb-0">{{ $categoryLabel }}</h4>
-                            <small class="text-muted">{{ count($categoryPackages) }} {{ count($categoryPackages) > 1 ? 'Packages' : 'Package' }} Available</small>
+                            <small class="text-muted">
+                                {{ count($categoryPackages) > 1 
+                                    ? __('home.packages_available', ['count' => count($categoryPackages)]) 
+                                    : __('home.package_available', ['count' => count($categoryPackages)]) 
+                                }}
+                            </small>
                         </div>
                         <hr class="flex-grow-1 ms-4">
                     </div>
@@ -121,23 +126,18 @@
                         @foreach($categoryPackages as $package)
 
                             @php
-                                // 1. Get current locale translation
                                 $translation = $package->translations
                                     ->where('locale', app()->getLocale())
                                     ->first();
                                 
-                                // 2. Fallback to English if translation doesn't exist
                                 if (!$translation) {
                                     $translation = $package->translations
                                         ->where('locale', 'en')
                                         ->first();
                                 }
 
-                                // 3. Get features from the TRANSLATION model
-                                // No json_decode needed because of $casts = ['features' => 'array'] in Translation model
                                 $features = $translation->features ?? [];
                                 
-                                // 4. Filter out empty values just in case
                                 $features = array_filter($features, function($f) {
                                     return !empty($f) && trim($f) !== '';
                                 });
@@ -156,13 +156,13 @@
                                         <div class="card-badges p-3 position-absolute top-0 start-0 w-100 d-flex gap-2">
                                             @if($package->is_featured)
                                                 <span class="badge bg-warning-soft text-warning">
-                                                    <i class="fas fa-star me-1"></i> Featured
+                                                    <i class="fas fa-star me-1"></i> {{ __('home.featured') }}
                                                 </span>
                                             @endif
 
                                             @if($package->is_popular)
                                                 <span class="badge bg-teal-soft text-teal">
-                                                    <i class="fas fa-chart-line me-1"></i> Popular
+                                                    <i class="fas fa-chart-line me-1"></i> {{ __('home.popular') }}
                                                 </span>
                                             @endif
                                         </div>
@@ -197,7 +197,7 @@
 
                                                 @if(count($features) > 3)
                                                     <li class="text-muted ps-4 small">
-                                                        +{{ count($features) - 3 }} more services
+                                                        {{ __('home.more_services', ['count' => count($features) - 3]) }}
                                                     </li>
                                                 @endif
                                             @endif
@@ -206,7 +206,7 @@
 
                                         <a href="{{ route('package.details', $package->id) }}" 
                                            class="btn btn-teal-solid w-100 py-2">
-                                            View Details
+                                            {{ __('home.view_details') }}
                                         </a>
 
                                     </div>
@@ -229,7 +229,7 @@
         @endif
 
         <div class="text-center d-md-none mt-4">
-            <button class="btn btn-outline-dark rounded-pill px-4">View All Packages</button>
+            <button class="btn btn-outline-dark rounded-pill px-4">{{ __('home.view_all_packages') }}</button>
         </div>
     </div>
 </section>

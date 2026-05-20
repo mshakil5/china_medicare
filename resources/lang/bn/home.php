@@ -26,13 +26,13 @@ return [
     // Services Section
     'comprehensive_care' => 'সমন্বিত সেবা',
     'one_stop_services' => 'ওয়ান-স্টপ মেডিকেল ট্যুরিজম <span class="text-teal">সেবা</span>',
-    'services_description' => 'প্রথম অনুসন্ধান থেকে চিকিৎসা পরবর্তী পুনরুদ্ধার পর্যন্ত, আমরা চীনে আপনার চিকিৎসা যাত্রার প্রতিটি বিবরণ পরিচালনা করি।',
+    'services_description' => 'আপনার প্রথম যোগাযোগ থেকে শুরু করে চিকিৎসা-পরবর্তী পুনরুদ্ধার পর্যন্ত, চীনে আপনার সম্পূর্ণ চিকিৎসা যাত্রার প্রতিটি ধাপ আমরা যত্নসহকারে পরিচালনা করি।',
     'more_count' => '+:count টি আরও',
     'show_less' => 'কম দেখুন',
     
     // Why Choose Us
     'why_choose_us' => 'কেন আমাদের বেছে নেবেন',
-    'your_trusted_partner' => 'আপনার বিশ্বস্ত সঙ্গী',
+    'your_trusted_partner' => 'মেডিকেল ট্যুরিজমে আপনার বিশ্বস্ত সহযোগী',
     'medical_tourism' => 'মেডিকেল ট্যুরিজমে',
     
     // Blog Section
@@ -50,7 +50,7 @@ return [
     'explore_hospitals' => 'হাসপাতাল অন্বেষণ করুন',
     
     // Partners Section
-    'our_partners' => 'আমাদের পার্টনার',
+    'our_partners' => 'অফিসিয়াল কান্ট্রি পার্টনার',
     
     // Gallery Section
     'our_gallery' => 'আমাদের <span class="text-teal">গ্যালারি</span>',
@@ -59,4 +59,23 @@ return [
     'video' => 'ভিডিও',
     'more_photos_videos' => 'আরও ছবি<br>& ভিডিও',
     'view_gallery' => 'গ্যালারি দেখুন',
+
+    
+    // Footer Section
+    'footer_text' => 'চীনে মেডিকেল ট্যুরিজমের জন্য আপনার বিশ্বস্ত সঙ্গী। আমরা আন্তর্জাতিক রোগীদের সাথে শীর্ষস্থানীয় হাসপাতাল, বিশেষজ্ঞ চিকিৎসক এবং ব্যাপক যত্ন প্যাকেজ সংযুক্ত করি।',
+    'quick_links' => 'দ্রুত লিংক',
+    'contact_us' => 'যোগাযোগ করুন',
+    'copyright' => '© ২০২৬ চায়না মেডিকেয়ার। সর্বস্বত্ব সংরক্ষিত।',
+    'privacy_policy' => 'গোপনীয়তা নীতি',
+    'terms_of_service' => 'সেবার শর্তাবলী',
+
+        // Packages Page (New)
+    'packages_page_title' => 'মেডিকেল <span class="text-teal">প্যাকেজ</span>',
+    'packages_page_subtitle' => 'আজই আপনার মেডিকেল যাত্রা শুরু করুন। চীনে সেরা স্বাস্থ্যসেবা খুঁজে পেতে আমাদের টিম প্রস্তুত।',
+    'popular_packages_short' => 'জনপ্রিয় <span class="text-teal">মেডিকেল প্যাকেজ</span>',
+    'no_packages_available' => 'কোনো প্যাকেজ নেই',
+    'no_packages_text' => 'উপলব্ধ মেডিকেল প্যাকেজের জন্য পরে আবার দেখুন।',
+    'packages_available' => ':count টি প্যাকেজ উপলব্ধ',
+    'package_available' => ':count টি প্যাকেজ উপলব্ধ',
+    'view_all_packages' => 'সকল প্যাকেজ দেখুন',
 ];

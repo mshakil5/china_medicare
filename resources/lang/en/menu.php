@@ -6,4 +6,5 @@ return [
     'packages' => 'Packages',
     'services' => 'Premium Treatments',
     'consultation' => 'Free Consultation',
+    'contact' => 'Contact',
 ];

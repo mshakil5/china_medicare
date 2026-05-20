@@ -59,4 +59,23 @@ return [
     'video' => 'Video',
     'more_photos_videos' => 'More Photos<br>& Videos',
     'view_gallery' => 'View Gallery',
+
+    
+    // Footer Section
+    'footer_text' => 'Your trusted partner for medical tourism in China. We connect international patients with top-tier hospitals, expert specialists, and comprehensive care packages.',
+    'quick_links' => 'Quick Links',
+    'contact_us' => 'Contact Us',
+    'copyright' => '© 2026 China Medicare. All rights reserved.',
+    'privacy_policy' => 'Privacy Policy',
+    'terms_of_service' => 'Terms of Service',
+
+        // Packages Page (New)
+    'packages_page_title' => 'Medical <span class="text-teal">Packages</span>',
+    'packages_page_subtitle' => 'Start your medical journey today. Our team is ready to help you find the best healthcare solution in China.',
+    'popular_packages_short' => 'Popular <span class="text-teal">Medical Packages</span>',
+    'no_packages_available' => 'No Packages Available',
+    'no_packages_text' => 'Please check back later for available medical packages.',
+    'packages_available' => ':count Packages Available',
+    'package_available' => ':count Package Available',
+    'view_all_packages' => 'View All Packages',
 ];
