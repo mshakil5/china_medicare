@@ -230,15 +230,15 @@
                                 <a href="{{ route('admin.aboutUs') }}" 
                                   class="nav-link {{ Route::is('admin.aboutUs') ? 'active' : '' }}">About Us</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('admin.privacy-policy') }}" 
                                   class="nav-link {{ Route::is('admin.privacy-policy') ? 'active' : '' }}">Privacy Policy</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('admin.terms-and-conditions') }}" 
                                   class="nav-link {{ Route::is('admin.terms-and-conditions') ? 'active' : '' }}">Terms & Conditions</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-none">
                                 <a href="{{ route('admin.mail-body') }}" 
                                   class="nav-link {{ Route::is('admin.mail-body') ? 'active' : '' }}">Mail Body</a>
                             </li>

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Gallery - China Medicare')
+@section('title', __('home.gallery_page_title'))
 
 @section('styles')
 
@@ -10,7 +10,6 @@
 <style>
     :root { --glry-teal: #D8202A; --glry-navy: #0f172a; --glry-radius: 16px; --glry-t: 0.32s cubic-bezier(.4,0,.2,1); }
 
-    /* ✅ Dynamic background with overlay */
     .glry-hero { 
         background-size: cover; 
         background-position: center; 
@@ -49,7 +48,6 @@
     .glry-item:hover .glry-play-btn { transform:translate(-50%,-50%) scale(1.1); }
     .glry-item.glry-hidden { display:none; }
 
-    /* Lightbox */
     .glry-lightbox { display:none; position:fixed; inset:0; background:rgba(7,10,22,.97); z-index:9999; align-items:center; justify-content:center; flex-direction:column; padding:20px; }
     .glry-lightbox.glry-open { display:flex; animation:glryFadeIn .25s ease; }
     @keyframes glryFadeIn { from{opacity:0} to{opacity:1} }
@@ -79,14 +77,14 @@
             @endif
 
             <h1 class="display-5 fw-bold text-white mb-3">
-                {!! $banner->long_title ?? 'Our <span class="text-teal">Gallery</span>' !!}
+                {!! $banner->long_title ?? __('home.our_gallery') !!}
             </h1>
 
             @if($banner->short_description)
                 <p class="text-light-gray mx-auto max-w-700">{{ $banner->short_description }}</p>
             @endif
         @else
-            <h1 class="display-5 fw-bold text-white mb-3">Our <span class="text-teal">Gallery</span></h1>
+            <h1 class="display-5 fw-bold text-white mb-3">{!! __('home.our_gallery') !!}</h1>
         @endif
     </div>
 </section>
@@ -97,20 +95,19 @@
         <div class="row text-center g-3">
             <div class="col-6 col-md-3">
                 <div class="glry-stat-num">{{ $items->where('type','image')->count() }}</div>
-                <div class="text-light-gray" style="font-size:.82rem;">Photos</div>
+                <div class="text-light-gray" style="font-size:.82rem;">{{ __('home.photos') }}</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="glry-stat-num">{{ $items->where('type','video')->count() }}</div>
-                <div class="text-light-gray" style="font-size:.82rem;">Videos</div>
+                <div class="text-light-gray" style="font-size:.82rem;">{{ __('home.videos') }}</div>
             </div>
-            {{-- ✅ YouTube Stat --}}
             <div class="col-6 col-md-3">
                 <div class="glry-stat-num">{{ $items->where('type','youtube')->count() }}</div>
-                <div class="text-light-gray" style="font-size:.82rem;">YouTube</div>
+                <div class="text-light-gray" style="font-size:.82rem;">{{ __('home.youtube') }}</div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="glry-stat-num">{{ $items->count() }}</div>
-                <div class="text-light-gray" style="font-size:.82rem;">Total Media</div>
+                <div class="text-light-gray" style="font-size:.82rem;">{{ __('home.total_media') }}</div>
             </div>
         </div>
     </div>
@@ -120,26 +117,26 @@
 <section class="py-5 bg-light">
     <div class="container py-lg-3">
 
-        {{-- ✅ Filter Tabs (Added YouTube) --}}
+        {{-- ✅ Filter Tabs --}}
         <div class="glry-filter-wrap mb-5">
             <button class="glry-filter-btn glry-active" data-filter="all">
-                <i class="fas fa-th me-2"></i>All ({{ $items->count() }})
+                <i class="fas fa-th me-2"></i>{{ __('home.all_media') }} ({{ $items->count() }})
             </button>
             <button class="glry-filter-btn" data-filter="image">
-                <i class="fas fa-image me-2"></i>Photos ({{ $items->where('type','image')->count() }})
+                <i class="fas fa-image me-2"></i>{{ __('home.photos') }} ({{ $items->where('type','image')->count() }})
             </button>
             <button class="glry-filter-btn" data-filter="video">
-                <i class="fas fa-video me-2"></i>Videos ({{ $items->where('type','video')->count() }})
+                <i class="fas fa-video me-2"></i>{{ __('home.videos') }} ({{ $items->where('type','video')->count() }})
             </button>
             <button class="glry-filter-btn" data-filter="youtube">
-                <i class="fab fa-youtube me-2"></i>YouTube ({{ $items->where('type','youtube')->count() }})
+                <i class="fab fa-youtube me-2"></i>{{ __('home.youtube') }} ({{ $items->where('type','youtube')->count() }})
             </button>
         </div>
 
         @if($items->isEmpty())
             <div class="text-center py-5 text-muted">
                 <i class="fas fa-images fa-3x mb-3 d-block opacity-25"></i>
-                No gallery items found.
+                {{ __('home.no_gallery_items') }}
             </div>
         @else
         {{-- Masonry Grid --}}
@@ -169,7 +166,7 @@
                          data-src="{{ asset($item->file_path) }}"
                          data-poster="{{ $item->thumbnail ? asset($item->thumbnail) : '' }}">
                         <div class="glry-video-badge">
-                            <i class="fas fa-play" style="font-size:.55rem;"></i> Video
+                            <i class="fas fa-play" style="font-size:.55rem;"></i> {{ __('home.video') }}
                         </div>
                         <img src="{{ $item->thumbnail ? asset($item->thumbnail) : asset($item->file_path) }}"
                              alt="{{ $item->title }}" loading="lazy">
@@ -186,14 +183,13 @@
                     </div>
 
                 @elseif($item->type === 'youtube')
-                    {{-- ✅ YouTube Grid Item --}}
                     <div class="glry-item"
                          data-type="youtube"
                          data-title="{{ $item->title }}"
                          data-sub="{{ $item->subtitle ?? '' }}"
                          data-src="{{ $item->embed_url }}">
                         <div class="glry-video-badge" style="background:#FF0000;">
-                            <i class="fab fa-youtube" style="font-size:.65rem;"></i> YouTube
+                            <i class="fab fa-youtube" style="font-size:.65rem;"></i> {{ __('home.youtube') }}
                         </div>
                         <img src="{{ asset($item->preview_image) }}" alt="{{ $item->title }}" loading="lazy">
                         <div class="glry-play-btn" style="background:#FF0000; color:white;">
@@ -275,13 +271,12 @@
         lb.classList.remove('glry-open');
         document.body.style.overflow = '';
         
-        // ✅ Cleanup media safely
         if (activeMedia) {
             if (typeof activeMedia.pause === 'function') {
                 activeMedia.pause();
                 activeMedia.src = '';
             } else if (activeMedia.tagName === 'IFRAME') {
-                activeMedia.src = ''; // Stops YouTube audio
+                activeMedia.src = '';
             }
             activeMedia = null;
         }
@@ -291,7 +286,6 @@
     }
 
     function renderMedia(idx) {
-        // Cleanup previous
         if (activeMedia) {
             if (typeof activeMedia.pause === 'function') {
                 activeMedia.pause();
@@ -312,7 +306,6 @@
         var title = item.dataset.title || '';
         var sub   = item.dataset.sub || '';
 
-        // ✅ Handle YouTube Iframe
         if (type === 'youtube') {
             var iframe = document.createElement('iframe');
             iframe.src = src;
@@ -321,7 +314,6 @@
             content.appendChild(iframe);
             activeMedia = iframe;
         } 
-        // Handle Uploaded Video
         else if (type === 'video') {
             var v = document.createElement('video');
             v.src = src;
@@ -331,7 +323,6 @@
             content.appendChild(v);
             activeMedia = v;
         } 
-        // Handle Standard Image
         else {
             var img = document.createElement('img');
             img.src = src;
@@ -339,7 +330,6 @@
             content.appendChild(img);
         }
 
-        // Build caption safely
         var titleNode = document.createTextNode(title);
         caption.appendChild(titleNode);
         if (sub) {
@@ -358,7 +348,6 @@
         renderMedia(currentIndex);
     }
 
-    // Attach click to each gallery item
     items.forEach(function (item) {
         item.addEventListener('click', function () {
             visible = getVisible();
@@ -367,7 +356,6 @@
         });
     });
 
-    // Controls
     document.getElementById('glryClose').addEventListener('click', closeLightbox);
     document.getElementById('glryPrev').addEventListener('click', function () { navigate(-1); });
     document.getElementById('glryNext').addEventListener('click', function () { navigate(1); });

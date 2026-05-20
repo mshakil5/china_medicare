@@ -29,33 +29,27 @@
 <section class="services-header-bg py-5" 
          style="background-image: url('{{ $banner->image_url ?? asset('assets/images/default-banner.jpg') }}');">
     <div class="container py-lg-4 text-center">
-        <nav aria-label="breadcrumb" class="d-flex justify-content-center mb-3">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-teal text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">Services</li>
-            </ol>
-        </nav>
         
         @if($banner)
             @if($banner->short_title)
                 <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">{{ $banner->short_title }}</h6>
             @else
-                <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">Comprehensive Support</h6>
+                <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">{{ __('home.services_banner_subtitle') }}</h6>
             @endif
 
             <h1 class="display-5 fw-bold text-white mb-3">
-                {!! $banner->long_title ?? 'One-Stop <span class="text-teal">5th generation premium Medical Treatments</span>' !!}
+                {!! $banner->long_title ?? __('home.services_banner_title') !!}
             </h1>
 
             @if($banner->short_description)
                 <p class="text-light-gray mx-auto max-w-700">{{ $banner->short_description }}</p>
             @else
-                <p class="text-light-gray mx-auto max-w-700">From consultation to recovery, we handle every aspect of your medical journey to China with care and precision.</p>
+                <p class="text-light-gray mx-auto max-w-700">{{ __('home.services_banner_description') }}</p>
             @endif
         @else
-            <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">Comprehensive Support</h6>
-            <h1 class="display-5 fw-bold text-white mb-3">One-Stop <span class="text-teal">5th generation premium Medical Treatments</span></h1>
-            <p class="text-light-gray mx-auto max-w-700">From consultation to recovery, we handle every aspect of your medical journey to China with care and precision.</p>
+            <h6 class="text-teal text-uppercase fw-bold small letter-spacing-1">{{ __('home.services_banner_subtitle') }}</h6>
+            <h1 class="display-5 fw-bold text-white mb-3">{!! __('home.services_banner_title') !!}</h1>
+            <p class="text-light-gray mx-auto max-w-700">{{ __('home.services_banner_description') }}</p>
         @endif
     </div>
 </section>
@@ -107,7 +101,7 @@
                             {{-- Right Side --}}
                             <div class="col-md-7 col-xl-8 p-4 p-lg-5 bg-white-50">
                                 <h6 class="fw-bold small text-uppercase text-muted mb-4">
-                                    What's Included
+                                    {{ __('home.whats_included') }}
                                 </h6>
 
                                 <div class="row g-3">
