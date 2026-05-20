@@ -133,4 +133,16 @@ return [
         'tags' => 'ট্যাগসমূহ:',
     'trending_now' => 'ট্রেন্ডিং',
 
+        // Package Details Page (New)
+    'package_details' => 'প্যাকেজের বিবরণ',
+    'most_booked' => 'সর্বাধিক বুক কৃত',
+    'available_in_locations' => ':count টি লোকেশনে উপলব্ধ',
+    'package_overview' => 'প্যাকেজ সামগ্রিক বিবরণ',
+    'contact_for_features' => 'সম্পূর্ণ ফিচার বিবরণের জন্য আমাদের সাথে যোগাযোগ করুন।',
+    'estimated_price' => 'আনুমানিক প্যাকেজ মূল্য',
+    'price_on_request' => 'অনুরোধে মূল্য',
+    'book_this_package' => 'এই প্যাকেজ বুক করুন',
+    'need_custom_quote' => 'কাস্টম কোটেশন প্রয়োজন?',
+    'talk_to_specialist' => 'বিশেষজ্ঞের সাথে কথা বলুন',
+
 ];

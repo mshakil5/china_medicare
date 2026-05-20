@@ -147,8 +147,7 @@ class FrontendController extends Controller
             $translation = $package->translate('en');
         }
 
-        // ✅ Get features from the TRANSLATION model, not the main model
-        // Because of $casts = ['features' => 'array'] in Translation model, no json_decode is needed
+        // ✅ Get features from the TRANSLATION model
         $features = $translation->features ?? [];
         
         // ✅ Filter out empty values just in case
@@ -158,7 +157,6 @@ class FrontendController extends Controller
 
         return view('frontend.package_details', compact('package', 'translation', 'features'));
     }
-
 
     public function contactStore(Request $request)
     {

@@ -133,4 +133,16 @@ return [
     'tags' => 'TAGS:',
     'trending_now' => 'Trending Now',
 
+        // Package Details Page (New)
+    'package_details' => 'Package Details',
+    'most_booked' => 'Most Booked',
+    'available_in_locations' => 'Available in :count Locations',
+    'package_overview' => 'Package Overview',
+    'contact_for_features' => 'Contact us for full feature details.',
+    'estimated_price' => 'Estimated Package Price',
+    'price_on_request' => 'Price on Request',
+    'book_this_package' => 'Book This Package',
+    'need_custom_quote' => 'Need a custom quote?',
+    'talk_to_specialist' => 'Talk to a Specialist',
+
 ];
