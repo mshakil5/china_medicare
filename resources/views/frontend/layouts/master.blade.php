@@ -17,7 +17,7 @@
         $pageTitle       = $pageTitle       ?? $company->meta_title       ?? 'China Medicare | Trusted Healthcare Services';
         $pageDescription = $pageDescription ?? $company->meta_description ?? 'China Medicare offers comprehensive health check-up packages, specialist consultations, advanced cancer treatment, and cardiac procedures.';
         $pageKeywords    = $pageKeywords    ?? $company->meta_keywords    ?? 'China Medicare, healthcare, medical check-up';
-        $pageImage       = $pageImage       ?? ($company->og_image ? asset('images/company/' . $company->og_image) : asset('images/company/' . $company->company_logo));
+        $pageImage       = $pageImage       ?? ($company->og_image ? asset('uploads/company/' . $company->og_image) : asset('uploads/company/' . $company->company_logo));
         $canonicalUrl    = $canonicalUrl    ?? ($company->canonical_url  ?? url()->current());
         $robotsIndex     = $robotsIndex     ?? $company->robots_index     ?? 'index';
         $robotsFollow    = $robotsFollow    ?? $company->robots_follow    ?? 'follow';
