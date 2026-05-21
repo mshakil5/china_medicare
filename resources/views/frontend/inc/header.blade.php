@@ -1,3 +1,4 @@
+
 <style>
     /* --- Navbar Adjustments --- */
     .btn-teal-solid {
@@ -9,6 +10,29 @@
     .btn-teal-solid:hover { 
         background: #24B24B; 
         color: white; 
+    }
+
+    /* Nav link hover effect */
+    #mainNav .navbar-nav .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+    }
+    #mainNav .navbar-nav .nav-link:hover {
+        color: #D7202A;
+    }
+    #mainNav .navbar-nav .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: #D7202A;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+    #mainNav .navbar-nav .nav-link:hover::after {
+        width: 70%;
     }
     
     /* Optional: Reduce spacing for stacked phone numbers */
