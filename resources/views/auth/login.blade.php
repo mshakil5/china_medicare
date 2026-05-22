@@ -29,7 +29,7 @@
 
                         <div class="mb-3">
                             <div class="float-end">
-                                <a href="{{ route('password.request') }}" class="text-muted">Forgot password?</a>
+                                {{-- <a href="{{ route('password.request') }}" class="text-muted">Forgot password?</a> --}}
                             </div>
                             <label for="password" class="form-label">Password</label>
                             <div class="position-relative auth-pass-inputgroup mb-3">
@@ -54,11 +54,11 @@
             </div>
         </div>
 
-        <div class="mt-4 text-center">
+        {{-- <div class="mt-4 text-center">
             <p class="mb-0">Don't have an account?
                 <a href="{{ route('register') }}" class="fw-semibold text-primary text-decoration-underline">Sign Up</a>
             </p>
-        </div>
+        </div> --}}
     </div>
 </div>
 @endsection
