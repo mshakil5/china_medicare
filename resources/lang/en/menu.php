@@ -2,6 +2,7 @@
 // en folder
 return [
     'home' => 'Home',
+    'about' => 'About Us',
     'hospitals' => 'Hospitals',
     'packages' => 'Packages',
     'services' => 'Premium Treatments',

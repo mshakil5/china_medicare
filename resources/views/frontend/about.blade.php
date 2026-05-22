@@ -2,324 +2,114 @@
 
 @section('content')
 
+@php
+    // Detect current language
+    $locale = app()->getLocale();
+    
+    // Set variables based on language
+    if ($locale == 'bn') {
+        $image = $companyDetails->about_image2;
+        $text = $companyDetails->about_us_bn;
+        $badgeText = 'আমাদের সম্পর্কে';
+        $heroTitle = 'চায়না মেডিকেয়ার সম্পর্কে';
+        $heroSubtitle = 'সীমানা পেরিয়ে স্বাস্থ্যসেবা';
+    } else {
+        $image = $companyDetails->about_image1;
+        $text = $companyDetails->about_us_en;
+        $badgeText = 'Who We Are';
+        $heroTitle = 'About China Medicare';
+        $heroSubtitle = 'Healthcare Beyond Borders';
+    }
+
+    // Fallbacks: If the specific language image/text is missing, use the other one
+    if (!$image) {
+        $image = ($locale == 'bn') ? $companyDetails->about_image1 : $companyDetails->about_image2;
+    }
+    if (!$text) {
+        $text = ($locale == 'bn') ? $companyDetails->about_us_en : $companyDetails->about_us_bn;
+    }
+@endphp
 
 <style>
-    /* --- About PFC Agri Solutions Header --- */
-    .pfc-about-header {
-        background-color: var(--pfc-green);
-        color: white;
-        padding: 80px 0;
-        text-align: center;
-    }
-
-    /* --- Our Story Section --- */
-    .our-story-section {
-        padding: 100px 0;
-        background-color: #fff;
-    }
-
-    .story-image-wrapper {
+    .about-hero {
+        background-size: cover;
+        background-position: center;
         position: relative;
     }
-
-    .story-image-wrapper img {
-        width: 100%;
-        border-radius: 15px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    }
-
-    .years-badge {
+    .about-hero::before {
+        content: '';
         position: absolute;
-        bottom: 20px;
-        left: -30px;
-        background-color: var(--pfc-green);
-        color: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 166, 81, 0.3);
-        z-index: 2;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+        z-index: 1;
     }
-
-    @media (max-width: 991px) {
-        .years-badge { left: 20px; }
+    .about-hero .container { position: relative; z-index: 2; }
+    
+    .about-img-card {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.15);
+        position: relative;
     }
-
-    /* --- Core Values Section --- */
-    .values-section {
-        padding: 80px 0 120px;
-        background-color: #f9fbf9;
+    .about-img-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; width: 100%; height: 30%;
+        background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
     }
-
-    .value-card {
-        background: white;
-        border: none;
-        border-radius: 20px;
-        padding: 40px 30px;
-        text-align: left;
-        height: 100%;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    }
-
-    .value-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0, 166, 81, 0.1);
-    }
-
-    .value-icon-box {
-        width: 60px;
-        height: 60px;
-        background: #f0fdf4;
-        color: var(--pfc-green);
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        margin-bottom: 25px;
-    }
-
 </style>
 
-
-@if($data)
-<section class="pfc-about-header">
-    <div class="container">
-        <h1 class="fw-bold mb-3">{{ $data->getTranslation(app()->getLocale(), 'header_title') }}</h1>
-        <p class="lead opacity-90 mx-auto" style="max-width: 750px;">
-            {{ $data->getTranslation(app()->getLocale(), 'header_subtitle') }}
-        </p>
+{{-- Hero Section --}}
+<section class="about-hero py-5" style="background-image: url('{{ asset('assets/images/about-hero-bg.jpg') }}');">
+    <div class="container py-lg-4 text-center">
+        <span class="badge rounded-pill bg-dark-teal mb-3 py-2 px-3 border-teal-thin">
+            <i class="fas fa-heartbeat text-teal me-2"></i> {{ $badgeText }}
+        </span>
+        <h1 class="display-5 fw-bold text-white mb-3">{{ $heroTitle }}</h1>
+        <p class="text-light-gray mx-auto max-w-600">{{ $heroSubtitle }}</p>
     </div>
 </section>
 
-<section class="our-story-section">
+{{-- Main Content Section --}}
+<section class="py-5 bg-light">
     <div class="container">
         <div class="row align-items-center g-5">
+            
+            {{-- Left Column: Dynamic Image --}}
             <div class="col-lg-6">
-                <p class="section-tag mb-1">{{ $data->getTranslation(app()->getLocale(), 'sub_title') }}</p>
-                <h2 class="fw-bold mb-4" style="color: var(--pfc-green);">{{ $data->getTranslation(app()->getLocale(), 'title') }}</h2>
-                <p class="text-muted">
-                    {!! $data->getTranslation(app()->getLocale(), 'long_description') !!}
-                </p>
+                @if($image)
+                    <div class="about-img-card">
+                        <img src="{{ asset($image) }}" class="img-fluid w-100" alt="{{ $heroTitle }}">
+                    </div>
+                @else
+                    <div class="bg-white p-5 rounded-4 text-center shadow-sm">
+                        <i class="fas fa-images text-muted fs-1"></i>
+                        <p class="mt-3 text-muted">
+                            {{ $locale == 'bn' ? 'ছবি যোগ করা হয়নি' : 'No image uploaded yet' }}
+                        </p>
+                    </div>
+                @endif
             </div>
+
+            {{-- Right Column: Dynamic Text --}}
             <div class="col-lg-6">
-                <div class="story-image-wrapper">
-                    <img src="{{ asset('images/about/' . $data->image) }}" alt="{{ $data->getTranslation(app()->getLocale(), 'title') }}">
-                    <div class="years-badge">
-                        <h3 class="fw-bold mb-0">{{ $data->year }}+</h3>
-                        <p class="small mb-0">{{ __('about.years_of_excellence') }}</p>
-                    </div>
+                <span class="badge rounded-pill bg-teal-light text-teal mb-3 py-2 px-3 border-teal-thin">
+                    {{ $badgeText }}
+                </span>
+                
+                <div class="text-dark">
+                    @if($text)
+                        {!! $text !!}
+                    @else
+                        <p class="text-muted">
+                            {{ $locale == 'bn' ? 'বিষয়বস্তু শীঘ্রই আসছে...' : 'Content coming soon...' }}
+                        </p>
+                    @endif
                 </div>
             </div>
+
         </div>
     </div>
 </section>
-
-<section class="values-section text-center">
-    <div class="container">
-        <p class="section-tag mb-1">{{ __('about.what_drives_us') }}</p>
-        <h2 class="fw-bold mb-5" style="color: var(--pfc-green);">{{ __('about.our_core_values') }}</h2>
-
-        <div class="row g-4">
-            @php
-                $locale    = app()->getLocale();
-                $trans     = $data->translations[$locale] ?? [];
-                $amenities = !empty($trans['amenities'])
-                    ? $trans['amenities']
-                    : (is_array($data->amenities) ? $data->amenities : (json_decode($data->amenities, true) ?? []));
-            @endphp
-
-            @foreach($amenities as $item)
-                <div class="col-lg-3 col-md-6">
-                    <div class="value-card">
-                        <div class="value-icon-box"><i class="{{ $item['icon'] ?? '' }}"></i></div>
-                        <h5 class="fw-bold">{{ $item['title'] ?? '' }}</h5>
-                        <p class="small text-muted mb-0">{{ $item['subtitle'] ?? '' }}</p>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
-
-<style>
-    /* --- Meet Our Team Section --- */
-    .team-section {
-        padding: 80px 0;
-        background-color: #fff;
-    }
-
-    .team-card {
-        background: #f9fbf9;
-        border: none;
-        border-radius: 20px;
-        padding: 40px 25px;
-        text-align: center;
-        transition: all 0.3s ease;
-        height: 100%;
-    }
-
-    .team-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 35px rgba(0, 166, 81, 0.1);
-    }
-
-    .team-img-wrapper {
-        width: 130px;
-        height: 130px;
-        margin: 0 auto 25px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 5px solid white;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .team-img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .team-role {
-        color: var(--pfc-green);
-        font-size: 0.85rem;
-        font-weight: 700;
-        text-uppercase;
-        margin-bottom: 15px;
-    }
-
-    .team-contact-link {
-        color: #555;
-        text-decoration: none;
-        font-size: 0.85rem;
-        display: block;
-        margin-top: 8px;
-        transition: 0.2s;
-    }
-
-    .team-contact-link:hover {
-        color: var(--pfc-green);
-    }
-
-    /* --- Get In Touch Section (Green Background) --- */
-    .get-in-touch-section {
-        padding: 100px 0;
-        background-color: #00a651;
-        color: white;
-    }
-
-    .contact-method-card {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 15px;
-        padding: 40px 20px;
-        text-align: center;
-        height: 100%;
-        transition: 0.3s;
-    }
-
-    .contact-method-card:hover {
-        background: rgba(255, 255, 255, 0.15);
-    }
-
-    .contact-icon-circle {
-        width: 60px;
-        height: 60px;
-        background: #76ce81;
-        color: #00a651;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px;
-        font-size: 1.5rem;
-    }
-</style>
-
-<section class="team-section">
-    <div class="container text-center">
-        <p class="section-tag mb-1">{{ __('THE PEOPLE BEHIND PFC') }}</p>
-        <h2 class="fw-bold mb-3" style="color: var(--pfc-green);">{{ __('Meet Our Team') }}</h2>
-        <p class="text-muted mx-auto mb-5" style="max-width: 600px;">{{ __('Our dedicated team combines farming experience with technical expertise to serve you better.') }}</p>
-        
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <div class="team-card">
-                    <div class="team-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80" alt="James Fletcher">
-                    </div>
-                    <h5 class="fw-bold mb-1">James Fletcher</h5>
-                    <div class="team-role">Managing Director</div>
-                    <p class="small text-muted mb-4">Third generation farmer with 30 years of industry experience. James leads our strategic direction and customer relationships.</p>
-                    <a href="tel:+441234567890" class="team-contact-link"><i class="fas fa-phone me-2 text-success"></i> +44 1234 567890</a>
-                    <a href="mailto:james@pfcagri.co.uk" class="team-contact-link"><i class="fas fa-envelope me-2 text-success"></i> james@pfcagri.co.uk</a>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="team-card">
-                    <div class="team-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80" alt="Sarah Fletcher">
-                    </div>
-                    <h5 class="fw-bold mb-1">Sarah Fletcher</h5>
-                    <div class="team-role">Operations Director</div>
-                    <p class="small text-muted mb-4">With a background in agricultural engineering, Sarah ensures smooth operations and product quality across all departments.</p>
-                    <a href="tel:+441234567891" class="team-contact-link"><i class="fas fa-phone me-2 text-success"></i> +44 1234 567891</a>
-                    <a href="mailto:sarah@pfcagri.co.uk" class="team-contact-link"><i class="fas fa-envelope me-2 text-success"></i> sarah@pfcagri.co.uk</a>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="team-card">
-                    <div class="team-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80" alt="Tom Williams">
-                    </div>
-                    <h5 class="fw-bold mb-1">Tom Williams</h5>
-                    <div class="team-role">Technical Sales Manager</div>
-                    <p class="small text-muted mb-4">Tom brings extensive knowledge of agricultural machinery and is dedicated to finding the right solutions for our customers.</p>
-                    <a href="tel:+441234567892" class="team-contact-link"><i class="fas fa-phone me-2 text-success"></i> +44 1234 567892</a>
-                    <a href="mailto:tom@pfcagri.co.uk" class="team-contact-link"><i class="fas fa-envelope me-2 text-success"></i> tom@pfcagri.co.uk</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="get-in-touch-section">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-3">{{ __('Get In Touch') }}</h2>
-        <p class="opacity-75 mx-auto mb-5" style="max-width: 600px;">{{ __("We'd love to hear from you. Reach out to discuss your agricultural needs.") }}</p>
-        
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <div class="contact-method-card">
-                    <div class="contact-icon-circle"><i class="fas fa-phone"></i></div>
-                    <h5 class="fw-bold mb-2">{{ __('Call Us') }}</h5>
-                    <p class="mb-0 opacity-90">{{ $company->phone1 }}</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="contact-method-card">
-                    <div class="contact-icon-circle"><i class="fas fa-envelope"></i></div>
-                    <h5 class="fw-bold mb-2">{{ __('Email Us') }}</h5>
-                    <p class="mb-0 opacity-90">{{ $company->email1 }}</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="contact-method-card">
-                    <div class="contact-icon-circle"><i class="fas fa-map-marker-alt"></i></div>
-                    <h5 class="fw-bold mb-2">{{ __('Visit Us') }}</h5>
-                    <p class="small mb-0 opacity-90 text-light">{!! $company->address1 !!}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-@endsection
-
-@section('script')
-
 
 @endsection

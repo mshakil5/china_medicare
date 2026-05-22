@@ -225,7 +225,7 @@
                                 <a href="{{ route('admin.company.seo-meta') }}" 
                                   class="nav-link {{ Route::is('admin.company.seo-meta') ? 'active' : '' }}">SEO</a>
                             </li>
-                            <li class="nav-item d-none">
+                            <li class="nav-item">
                                 <a href="{{ route('admin.aboutUs') }}" 
                                   class="nav-link {{ Route::is('admin.aboutUs') ? 'active' : '' }}">About Us</a>
                             </li>

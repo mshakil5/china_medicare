@@ -31,7 +31,7 @@ class FrontendController extends Controller
     public function index()
     {
         $categories = Category::with('products')->where('status', 1)->get();
-        $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map')->first();
+        $company = CompanyDetails::select('company_name', 'fav_icon', 'google_site_verification', 'footer_content', 'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1', 'address1','address2','company_logo','copyright','google_map', 'about_us_bn', 'about_us_en')->first();
         $hero = HeroSection::with('translations')->latest()->first();
         $packages = MedicalPackage::with('translations')->get();
         $services = MedicalService::with('translations')->where('status',1)->orderBy('order')->get();
@@ -296,5 +296,11 @@ class FrontendController extends Controller
         return view('frontend.gallery', compact('company','data','banner','items'));
     }
 
+    
+    public function aboutUs()
+    {
+        $companyDetails = CompanyDetails::first();
+        return view('frontend.about', compact('companyDetails'));
+    }
 
 }

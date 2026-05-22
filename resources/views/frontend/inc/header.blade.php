@@ -56,6 +56,7 @@
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link px-3" href="{{ route('home')}}">{{ __('menu.home') }}</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="{{ route('aboutUs')}}">{{ __('menu.about') }}</a></li>
                 <li class="nav-item d-none"><a class="nav-link px-3" href="{{ route('home')}}">{{ __('menu.hospitals') }}</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="{{ route('packages')}}">{{ __('menu.packages') }}</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="{{ route('services')}}">{{ __('menu.services') }}</a></li>

@@ -68,6 +68,52 @@
     @endif
 
 
+    {{-- About Us Brief Section --}}
+    @php
+        $locale = app()->getLocale();
+        
+        // Get the correct text based on language
+        $aboutText = $locale == 'bn' ? ($company->about_us_bn ?? '') : ($company->about_us_en ?? '');
+        
+        // Fallback if the specific language text is empty
+        if (!$aboutText) {
+            $aboutText = $locale == 'bn' ? ($company->about_us_en ?? '') : ($company->about_us_bn ?? '');
+        }
+
+        // Strip HTML tags and limit words for a clean homepage preview (50 words)
+        $aboutExcerpt = \Illuminate\Support\Str::words(strip_tags($aboutText), 50, '...');
+
+        // Set language-specific labels
+        $badgeText = $locale == 'bn' ? 'আমাদের সম্পর্কে' : 'Who We Are';
+        $btnText = $locale == 'bn' ? 'আরও দেখুন' : 'See More';
+    @endphp
+
+    @if($aboutExcerpt)
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <span class="badge rounded-pill bg-teal-light text-teal mb-3 py-2 px-3 border-teal-thin">
+                        <i class="fas fa-heartbeat me-2"></i> {{ $badgeText }}
+                    </span>
+                    
+                    <p class="fs-5 text-muted mb-4">
+                        {{ $aboutExcerpt }}
+                    </p>
+
+                    {{-- Update the route name to match your about us page route --}}
+                    <a href="{{ route('aboutUs') }}" class="btn btn-teal-solid px-4 py-2 fw-bold">
+                        {{ $btnText }} <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+
+
+
+
 
     @if ($hospitals->count() > 0)
     <section class="py-5 bg-white">

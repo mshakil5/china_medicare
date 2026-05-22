@@ -118,21 +118,49 @@ class CompanyDetailsController extends Controller
 
     public function aboutUs()
     {       
-        $companyDetails = CompanyDetails::select('about_us')->first();
+        $companyDetails = CompanyDetails::first();
         return view('admin.company.about_us', compact('companyDetails'));
     }
 
     public function aboutUsUpdate(Request $request)
     {
         $request->validate([
-            'about_us' => 'required|string',
+            'about_us_en'  => 'nullable|string',
+            'about_us_bn'  => 'nullable|string',
+            'about_image1' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'about_image2' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $companyDetails = CompanyDetails::first();
-        $companyDetails->about_us = $request->about_us;
+        $companyDetails = CompanyDetails::firstOrFail();
+
+        $companyDetails->about_us_en = $request->about_us_en;
+        $companyDetails->about_us_bn = $request->about_us_bn;
+
+        // Handle Image 1 Upload
+        if ($request->hasFile('about_image1')) {
+            if ($companyDetails->about_image1 && file_exists(public_path($companyDetails->about_image1))) {
+                unlink(public_path($companyDetails->about_image1));
+            }
+            $file = $request->file('about_image1');
+            $filename = time() . '_img1.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/about'), $filename);
+            $companyDetails->about_image1 = 'uploads/about/' . $filename;
+        }
+
+        // Handle Image 2 Upload
+        if ($request->hasFile('about_image2')) {
+            if ($companyDetails->about_image2 && file_exists(public_path($companyDetails->about_image2))) {
+                unlink(public_path($companyDetails->about_image2));
+            }
+            $file = $request->file('about_image2');
+            $filename = time() . '_img2.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/about'), $filename);
+            $companyDetails->about_image2 = 'uploads/about/' . $filename;
+        }
+
         $companyDetails->save();
 
-        return redirect()->back()->with('success', 'About us updated successfully.');
+        return redirect()->back()->with('success', 'About Us updated successfully.');
     }
 
     public function privacyPolicy()
