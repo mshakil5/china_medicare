@@ -14,7 +14,7 @@ class UserController extends Controller
   public function index(Request $request)
   {
     if ($request->ajax()) {
-      $users = User::select(['id', 'name', 'email', 'phone', 'status', 'created_at'])->where('user_type', 0)->orderByDesc('id');
+      $users = User::select(['id', 'name', 'email', 'phone', 'status', 'created_at'])->where('user_type', 1)->orderByDesc('id');
       return DataTables::of($users)
         ->addIndexColumn()
         ->addColumn('status', function ($row) {
@@ -55,7 +55,7 @@ class UserController extends Controller
       'email' => $request->email,
       'phone' => $request->phone,
       'password' => Hash::make($request->password),
-      'user_type' => 0,
+      'user_type' => 1,
       'status' => 1,
     ]);
 

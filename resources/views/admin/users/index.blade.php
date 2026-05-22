@@ -1,11 +1,11 @@
 @extends('admin.pages.master')
-@section('title', 'Customer')
+@section('title', 'Admin')
 @section('content')
 
     <div class="container-fluid" id="newBtnSection">
         <div class="row mb-3">
             <div class="col-auto">
-                <button class="btn btn-primary" id="newBtn">Add New Customer</button>
+                <button class="btn btn-primary" id="newBtn">Add New Admin</button>
             </div>
         </div>
     </div>
@@ -15,7 +15,7 @@
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4 id="cardTitle">Add New Customer</h4>
+                        <h4 id="cardTitle">Add New Admin</h4>
                     </div>
                     <div class="card-body">
                         <form id="createThisForm">
@@ -56,7 +56,7 @@
     <div class="container-fluid" id="contentContainer">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Customers</h4>
+                <h4 class="card-title mb-0">Admins</h4>
             </div>
             <div class="card-body">
                 <table id="userTable" class="table table-bordered table-striped">
@@ -126,7 +126,7 @@
             $('#newBtn').click(function() {
                 $('#createThisForm')[0].reset();
                 $('#codeid').val('');
-                $('#cardTitle').text('Add New Customer');
+                $('#cardTitle').text('Add New Admin');
                 $('#addBtn').val('Create').text('Create');
                 $('#addThisFormContainer').show(300);
                 $('#newBtn').hide();
@@ -175,7 +175,7 @@
                     $('#email').val(res.email);
                     $('#phone').val(res.phone);
                     $('#password, #password_confirmation').prop('required', false);
-                    $('#cardTitle').text('Update Customer');
+                    $('#cardTitle').text('Update Admin');
                     $('#addBtn').val('Update').text('Update');
                     $('#addThisFormContainer').show();
                     $('#newBtn').hide();
