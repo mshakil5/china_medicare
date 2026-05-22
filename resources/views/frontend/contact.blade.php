@@ -22,6 +22,17 @@
         position: relative;
         z-index: 2;
     }
+    /* Honeypot - hidden from humans, bots will fill it */
+    .hp-field {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0;
+        width: 0;
+        z-index: -1;
+        overflow: hidden;
+    }
 </style>
 
 {{-- ✅ 1. Dynamic Banner Section --}}
@@ -162,9 +173,26 @@
                             {{ session('success') }}
                         </div>
                     @endif
+
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     
-                    <form action="{{ route('contact.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('contact.store') }}" method="POST" enctype="multipart/form-data" id="contactForm">
                         @csrf
+
+                        {{-- ===== ANTI-SPAM: Honeypot Field ===== --}}
+                        {{-- Humans won't see this; bots auto-fill all fields --}}
+                        <div class="hp-field">
+                            <label>Leave this empty</label>
+                            <input type="text" name="website_url" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        {{-- ===== ANTI-SPAM: Time-based check ===== --}}
+                        {{-- Records when the page was loaded; if form submitted too fast = bot --}}
+                        <input type="hidden" name="form_loaded_at" value="{{ time() }}">
 
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -173,19 +201,19 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold">{{ __('home.email_address') }}</label>
-                                <input type="email" name="email" class="form-control"  required>
+                                <input type="email" name="email" class="form-control" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold">{{ __('home.phone_number') }}</label>
-                                <input type="tel" name="phone" class="form-control" >
+                                <input type="tel" name="phone" class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold">{{ __('home.your_country') }}</label>
-                                <input type="text" name="country" class="form-control" >
+                                <input type="text" name="country" class="form-control">
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label small fw-bold">{{ __('home.additional_details') }}</label>
-                                <textarea name="message" class="form-control" rows="4" ></textarea>
+                                <textarea name="message" class="form-control" rows="4"></textarea>
                             </div>
 
                             <div class="col-md-12">
@@ -211,6 +239,17 @@
 
                                     <p id="fileName" class="small text-success mt-2"></p>
                                 </div>
+                            </div>
+
+                            {{-- ===== Math CAPTCHA ===== --}}
+                            <div class="col-md-6 mt-3">
+                                <label class="form-label small fw-bold">
+                                    Solve the math: {{ $num1 ?? 1 }} + {{ $num2 ?? 1 }} = ?
+                                </label>
+                                <input type="number" name="captcha_answer" class="form-control @error('captcha_answer') is-invalid @enderror" required autocomplete="off">
+                                @error('captcha_answer')
+                                    <span class="text-danger small">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-12 mt-4">
@@ -255,6 +294,7 @@
 @endsection
 
 @section('script')
+
 <script>
     function showFileName(input) {
         const fileNameSpan = document.getElementById('fileName');

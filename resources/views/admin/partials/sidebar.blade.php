@@ -42,8 +42,7 @@
                             <li class="nav-item">
                                 <a href="#sidebarAccount" class="nav-link" data-bs-toggle="collapse"
                                     role="button" aria-expanded="false" aria-controls="sidebarAccount"
-                                    data-key="t-level-1.2"> Level
-                                    1.2
+                                    data-key="t-level-1.2"> Level 1.2
                                 </a>
                                 <div class="collapse menu-dropdown" id="sidebarAccount">
                                     <ul class="nav nav-sm flex-column">
@@ -113,7 +112,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.medical_package') }}" class="nav-link {{ Route::is('admin.medical_package') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-first-aid-kit-line"></i>
                         <span>Packages</span>
                     </a>
                 </li>
@@ -121,7 +120,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.medical_services') }}" class="nav-link {{ Route::is('admin.medical_services') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-stethoscope-line"></i>
                         <span>Services</span>
                     </a>
                 </li>
@@ -129,7 +128,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.hospitals') }}" class="nav-link {{ Route::is('admin.hospitals') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-hospital-line"></i>
                         <span>Hospital</span>
                     </a>
                 </li>
@@ -138,7 +137,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.partners') }}" class="nav-link {{ Route::is('admin.partners') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-links-line"></i>
                         <span>Our Partners</span>
                     </a>
                 </li>
@@ -146,7 +145,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.blogs') }}" class="nav-link {{ Route::is('admin.blogs') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-article-line"></i>
                         <span>Blog</span>
                     </a>
                 </li>
@@ -155,7 +154,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.team') }}" class="nav-link {{ Route::is('admin.team') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-team-line"></i>
                         <span>Our Team</span>
                     </a>
                 </li>
@@ -164,7 +163,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.why_choose') }}" class="nav-link {{ Route::is('admin.why_choose') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-shield-check-line"></i>
                         <span>Why Choose Us</span>
                     </a>
                 </li>
@@ -178,7 +177,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('user.index') }}" class="nav-link {{ Route::is('user.index') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-admin-line"></i>
                         <span>Admin</span>
                     </a>
                 </li>
@@ -186,7 +185,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('admin.galleries') }}" class="nav-link {{ Route::is('admin.galleries') ? 'active' : '' }}">
-                        <i class="ri-user-3-line"></i>
+                        <i class="ri-image-line"></i>
                         <span>Galleries</span>
                     </a>
                 </li>
