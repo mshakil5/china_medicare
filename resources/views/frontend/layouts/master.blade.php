@@ -6,7 +6,7 @@
         $company = App\Models\CompanyDetails::select(
             'company_name', 'fav_icon', 'google_site_verification',
             'bing_site_verification', 'footer_content', 'facebook',
-            'twitter', 'linkedin', 'website', 'phone1', 'phone2', 'email1',
+            'twitter', 'linkedin', 'instagram', 'youtube', 'website', 'phone1', 'phone2', 'email1',
             'address1', 'company_logo', 'footer_logo', 'copyright',
             'google_map', 'meta_title', 'meta_description', 'meta_keywords',
             'og_image', 'canonical_url', 'google_analytics_id',
